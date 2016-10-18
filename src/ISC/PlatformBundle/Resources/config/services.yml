@@ -5,3 +5,5 @@ services:
     isc_platform.activite:
         class:      ISC\PlatformBundle\Activite\ISCActivite
         arguments:  [@doctrine.orm.entity_manager, @isc_platform.user, @service_container]
+        tags:
+            -  { name: twig.extension }

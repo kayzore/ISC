@@ -1,7 +1,3 @@
-isc_user:
-    resource: "@ISCUserBundle/Resources/config/routing.yml"
-    prefix:   /
-
 isc_platform:
     resource: "@ISCPlatformBundle/Resources/config/routing.yml"
     prefix:   /

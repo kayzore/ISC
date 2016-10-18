@@ -3,29 +3,23 @@
 
 namespace ISC\PlatformBundle\Activite;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
 use ISC\PlatformBundle\Entity\Activite;
 use ISC\PlatformBundle\Entity\ActiviteImage;
 use ISC\PlatformBundle\User\ISCUser;
+use Symfony\Component\HttpFoundation\Request;
 
 class ISCActivite extends \Twig_Extension
 {
     private $em;
     private $userService;
-    private $container;
+    protected $request;
 
-    /**
-     * ISCActivite constructor.
-     * @param EntityManager $em
-     * @param ISCUser $userService
-     * @param ContainerInterface $container
-     */
-    public function __construct(EntityManager $em, ISCUser $userService, ContainerInterface $container)
+    public function __construct(EntityManager $em, ISCUser $userService, Request $request)
     {
         $this->em           = $em;
         $this->userService  = $userService;
-        $this->container    = $container;
+        $this->request = $request;
     }
 
     /**
@@ -63,17 +57,17 @@ class ISCActivite extends \Twig_Extension
             ' :3'
         );
         $smileyImgArray = array(
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque2.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque2-inverse.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/happy1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/bad1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/langue1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/langue1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/big-happy1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/clin-doeil1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/mignon1.png" style="padding-bottom: 5px;">'
+            ' <img src="http://'.$this->request->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque2.png" style="padding-bottom: 5px;">',
+            ' <img src="http://'.$this->request->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque2-inverse.png" style="padding-bottom: 5px;">',
+            ' <img src="http://'.$this->request->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/happy1.png" style="padding-bottom: 5px;">',
+            ' <img src="http://'.$this->request->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/bad1.png" style="padding-bottom: 5px;">',
+            ' <img src="http://'.$this->request->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/langue1.png" style="padding-bottom: 5px;">',
+            ' <img src="http://'.$this->request->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/langue1.png" style="padding-bottom: 5px;">',
+            ' <img src="http://'.$this->request->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/big-happy1.png" style="padding-bottom: 5px;">',
+            ' <img src="http://'.$this->request->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque1.png" style="padding-bottom: 5px;">',
+            ' <img src="http://'.$this->request->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque1.png" style="padding-bottom: 5px;">',
+            ' <img src="http://'.$this->request->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/clin-doeil1.png" style="padding-bottom: 5px;">',
+            ' <img src="http://'.$this->request->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/mignon1.png" style="padding-bottom: 5px;">'
         );
         $texteFormat = str_replace($smileyArray, $smileyImgArray, $texte);
 
@@ -114,7 +108,7 @@ class ISCActivite extends \Twig_Extension
         if($form->handleRequest($request)->isValid()){
             $userInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUser));
             $activite->setUser($userInformations);
-            $webPath = $this->container->get('kernel')->getRootDir().'/../web';
+            $webPath = $this->request->get('kernel')->getRootDir().'/../web';
             $checkImage = false;
             $checkTexte = false;
             $resultSetActivite = array(false);
@@ -125,12 +119,12 @@ class ISCActivite extends \Twig_Extension
                 $image = new ActiviteImage();
                 $image->setImageName($fileName);
                 if($activite->getImage()->getEditFile() === true){
-                    $image->setUrlImage('http://' . $this->container->get('request')->server->get('SERVER_NAME') . '/uploads/imgTmp/'.$fileName);
+                    $image->setUrlImage('http://' . $this->request->get('request')->server->get('SERVER_NAME') . '/uploads/imgTmp/'.$fileName);
                     $file->move($webPath. '/uploads/imgTmp/', $fileName);
                     $resultEditFile = true;
                 }
                 else{
-                    $image->setUrlImage('http://' . $this->container->get('request')->server->get('SERVER_NAME') . '/uploads/img/'.$fileName);
+                    $image->setUrlImage('http://' . $this->request->get('request')->server->get('SERVER_NAME') . '/uploads/img/'.$fileName);
                     $file->move($webPath. '/uploads/img/', $fileName);
                 }
                 $activite->setImage($image);

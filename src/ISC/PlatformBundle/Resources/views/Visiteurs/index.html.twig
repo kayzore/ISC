@@ -1,0 +1,47 @@
+{# src/ISC/PlatformBundle/Resources/views/Visiteurs/index.html.twig #}
+
+{% extends "::baseVisiteurs.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Accueil
+{% endblock %}
+
+{% block bsFile %}
+    {{ parent() }}
+{% endblock %}
+
+{% block contentBody %}
+    {{ parent() }}
+    <div class="container">
+        {{ parent() }}
+        <div class="jumbotron">
+            <h1>Héberger &amp; Partager vos images gratuitement !</h1>
+            <p class="lead">ImageShare Community vous permets de partager vos images via votre navigateur internet. Vous pourrez ensuite les partager grâce à un lien web ou les retrouver à partir de n'importe où !</p>
+            <p><a class="btn btn-lg btn-success" href=""role="button">Nous rejoindre !</a></p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4">
+                  <h2><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Héberger &amp; Organiser vos images</h2>
+                  <p>Hébergez vos images en toute tranquillité, facilité et simplicité grâce à ImageShare Community votre hébergeur d'images en un clic ! Uploadez vos images, partagez les ensuite avec vos amis via les liens qui vous sont fournis. Créez des goupes sécurisé, partagez vos photo sur ce groupe et invitez vos amis ! Vous pourrez ensuite visualiser depuis n'importe où le contenu du groupe. Notez, commenté ou partagez, seul vous choisirez ! Notre service d'hébergement d'images en ligne est 100% gratuit !</p>
+            </div>
+            <div class="col-lg-4">
+                  <h2><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Sécurisé</h2>
+                  <p>Sur ImageShare Community, vos images et données personnelle sont sécurisées et non-accessibles au public. Si vous uploadez une ou plusieurs images, vous seul aurez connaissance de(s) lien(s) pour les visualiser. Vous pourrez donc partager vos images sereinement sans risques de voir vos photos personnelles visibles ou partagées de tous.</p>
+            </div>
+            <div class="col-lg-4">
+                  <h2><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Accessible à tout moment</h2>
+                  <p>Vos photos et images sont accessibles 24h/24, 7J/7, et ce, 365 jours par an. Nous ne limitons actuellement pas la durée de stockage de vos images. Vous disposez cependant d'un droit de retrait de vos images, photos.</p>
+            </div>
+        </div>
+
+        <!-- Site footer -->
+        <footer class="footer">
+            {{ include("ISCPlatformBundle::footer.html.twig") }}
+        </footer>
+    </div> <!-- /container -->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

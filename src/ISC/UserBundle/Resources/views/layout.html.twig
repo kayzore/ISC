@@ -1,0 +1,34 @@
+{# src/ISC/UserBundle/Resources/views/layout.html.twig #}
+
+{# On étend notre layout #}
+{% extends "::baseVisiteurs.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Accueil
+{% endblock %}
+
+{% block bsFile %}
+    {{ parent() }}
+{% endblock %}
+
+{# Dans notre layout, il faut définir le block body #}
+{% block contentBody %}
+    {# On affiche les messages flash que définissent les contrôleurs du bundle #}
+    
+    <div class="container">
+
+	    {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
+	    {% block fos_user_content %}
+	    {% endblock fos_user_content %}
+
+        <!-- Site footer -->
+        <footer class="footer">
+            {{ include("ISCPlatformBundle::footer.html.twig") }}
+        </footer>
+
+    </div> <!-- /container -->
+    
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

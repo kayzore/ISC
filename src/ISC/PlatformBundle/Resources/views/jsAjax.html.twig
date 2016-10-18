@@ -1,0 +1,48 @@
+function AddLike(id){
+    document.getElementById('loadLike' + id).style.display = 'block';
+    $.ajax({
+        type: 'POST',
+        url: '{{ path("isc_platform_homepage_add_like_actu") }}',
+        data: {id: id},
+        success: function(data){
+            document.getElementById("LikeZone" + id).innerHTML = data;
+            $('.my_tooltip').tooltip({placement: "top", html: true});
+        }
+    });
+}
+function DelLike(id){
+    document.getElementById('loadLike' + id).style.display = 'block';
+    $.ajax({
+        type: 'POST',
+        url: '{{ path("isc_platform_homepage_remove_like_actu") }}',
+        data: {id: id},
+        success: function(data){
+            document.getElementById("LikeZone" + id).innerHTML = data;
+            $('.my_tooltip').tooltip({placement: "top", html: true});
+        }
+    });
+}
+function acceptInvitation(id){
+    $.ajax({
+        type: 'POST',
+        url: '{{ path("isc_platform_homepage_accept_invite_of_member") }}',
+        data: {id: id},
+        success: function(retour){
+            if(retour == 'success'){
+                location.reload();
+            }
+        }
+    });
+}
+function refuseInvitation(id){
+    $.ajax({
+        type: 'POST',
+        url: '{{ path("isc_platform_homepage_refuse_invite_of_member") }}',
+        data: {id: id},
+        success: function(retour){
+            if(retour == 'success'){
+                location.reload();
+            }
+        }
+    });
+}

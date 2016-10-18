@@ -1,0 +1,66 @@
+<div class="col-lg-4">
+    {% if profilResult[5] != false %}
+        <div class="row" style="text-align:center;margin-top:125px;padding:10px;">
+            <div class="btn-group btn-group-justified">
+                <a href="#newInvitations" class="btn btn-primary" data-toggle="modal">Invitation(s) (<i class="fa fa-user-plus" aria-hidden="true"></i> {{nbNewInvit}})</a>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="row" style="text-align:center;margin-top:125px;padding:10px;">
+            <div class="btn-group btn-group-justified">
+                <a href="#newInvitations" class="btn btn-primary" data-toggle="modal">Invitation (<i class="fa fa-user-plus" aria-hidden="true"></i> 0)</a>
+            </div>
+        </div>
+    {% endif %}
+    <div id="newInvitations" class="modal fade" role="dialog" style="overflow-y: auto;">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Liste des nouvelles invitations</h4>
+                </div>
+                <div class="modal-body">
+                    {% if profilResult[4] == '' %}
+                        <div class="row">
+                            <div class="alert alert-info"><strong>Information :</strong> Aucune nouvelle invitation</div>
+                        </div>
+                    {% else %}
+                        {{ profilResult[4]|raw|nl2br }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="text-align:center;padding:10px;">
+        <div class="btn-group btn-group-justified">
+            <a href="#showFriends" class="btn btn-primary" data-toggle="modal"><i class="fa fa-users" aria-hidden="true"></i> Amis ({{ profilResult[6] }})</a>
+        </div>
+    </div>
+    <div id="showFriends" class="modal fade" role="dialog" style="overflow-y: auto;">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Liste des amis</h4>
+                </div>
+                <div class="modal-body">
+                    {% if profilResult[2] == '' %}
+                        <div class="row">
+                            <div class="alert alert-info"><strong>Information :</strong> Aucun amis</div>
+                        </div>
+                    {% else %}
+                        {{ profilResult[2]|raw|nl2br }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="text-align:center;padding:10px;">
+        <div class="btn-group btn-group-justified">
+            <a href="{{ path("isc_platform_profil_show_image", { 'username': userInformations[0].username }) }}" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i> Mes Images ({{ profilResult[7] }})</a>
+        </div>
+    </div>
+</div>

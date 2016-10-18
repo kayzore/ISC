@@ -61,7 +61,7 @@
                 <div class="nb_actu">{{ userNbTotalActivites }}</div>
                 <div class="cont_mod_actualites">
                     {% if userActivites|length > 0 %}
-                        {{ include("ISCPlatformBundle::actuFormat.html.twig") }}
+                        {{ include("ISCPlatformBundle:Activites:actuFormat.html.twig") }}
                     {% else %}
                         <div class="row">
                             <div class="alert alert-warning"><strong>Information :</strong> Nous n'avons rien à afficher... Afin de remedier à cela, ajouter une image ou ajouter des amis !</div>

@@ -1,5 +1,5 @@
 {% for activite in userActivites %}
-    <div class="row mod_actu" id="' . $idActivite . '" style="padding:20px;margin-bottom:20px;">
+    <div class="row mod_actu" id="{{ activite.id }}" style="padding:20px;margin-bottom:20px;">
         <div class="col-md-12">
             <p>
                 <img src="{{ activite.user.urlAvatar }}" class="img-rounded img-responsive pull-left" style="max-height:70px;vertical-align:middle;">
@@ -10,7 +10,7 @@
         {% if  activite.textActivity != null %}
         <div class="col-md-12" style="box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.1);display: inline-block;">
             <br />
-            <p>{{ activite.textActivity }}</p>
+            <p>{{ include("ISCPlatformBundle::actuTexteSmiley.html.twig") }}</p>
             <img src="{{ activite.image.urlImage }}" style="max-width: 100%;max-height:300px;display: block;margin-left:auto;margin-right:auto;padding-bottom:10px;">
         </div>
         {% else %}
@@ -34,20 +34,16 @@
                     {% endif %}
                 {% endfor %}
                 {% if liked == true %}
-                    {% set jsLikeActu = 'javascript:DelLike(this.getAttribute(\'id\'));' %}
-                    {% set classLikeActu = 'btn btn-success btn-xs clickable' %}
-                    {% set textLikeActu = '<i class="fa fa-thumbs-up"></i> J<span style="text-transform:lowercase;">\'aime</span> <span id="loadLike' ~ like.activite.id ~ '" style="display:none;"><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span></a>' %}
+                    <a onclick="DelLike(this.getAttribute('id'));" id="{{ activite.id }}" class="btn btn-success btn-xs clickable">
+                        <i class="fa fa-thumbs-up"></i> J<span style="text-transform:lowercase;">'aime</span> <span id="loadLike{{ activite.id }}" style="display:none;">
+                            <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span>
+                    </a> | <a data-toggle="tooltip" title="{{ tooltip_like }}" class="my_tooltip" style="text-transform:lowercase;color:black;text-decoration:none;">{{ activite.likes|length }} <i class="fa fa-heart"></i></a>
                 {% else %}
-                    {% set jsLikeActu = 'javascript:AddLike(this.getAttribute(\'id\'));' %}
-                    {% set classLikeActu = 'btn btn-primary btn-xs clickable' %}
-                    {% set textLikeActu = '' %}
-                    {% set textLikeActu = '<i class="fa fa-thumbs-o-up"></i> J<span style="text-transform:lowercase;">\'aime</span> <span id="loadLike' ~ like.activite.id ~ '" style="display:none;"><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span></a>' %}
+                    <a onclick="AddLike(this.getAttribute('id'));" id="{{ activite.id }}" class="btn btn-primary btn-xs clickable">
+                        <i class="fa fa-thumbs-o-up"></i> J<span style="text-transform:lowercase;">'aime</span> <span id="loadLike{{ activite.id }}" style="display:none;">
+                            <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span>
+                    </a> | <a data-toggle="tooltip" title="{{ tooltip_like }}" class="my_tooltip" style="text-transform:lowercase;color:black;text-decoration:none;">{{ activite.likes|length }} <i class="fa fa-heart"></i></a>
                 {% endif %}
-                <a onclick="{{ jsLikeActu }}" id="{{ activite.id }}" class="{{ classLikeActu }}">{{ textLikeActu }} |
-                    <a data-toggle="tooltip" title="{{ tooltip_like }}" class="my_tooltip" style="text-transform:lowercase;color:black;text-decoration:none;">
-                        {{ activite.likes|length }} <i class="fa fa-heart"></i>
-                    </a>
-                </a>
             </span>
             <span class="pull-right"><i class="fa fa-calendar"></i> {{ activite.datetimeActivity|date('d-m-Y H:i:s') }}</span>
         </div>

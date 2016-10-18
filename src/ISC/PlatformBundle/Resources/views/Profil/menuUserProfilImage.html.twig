@@ -1,0 +1,32 @@
+<div class="col-lg-4">
+    <div class="row" style="text-align:center;margin-top:125px;padding:10px;">
+        <div class="btn-group btn-group-justified">
+            <a href="#showFriends" class="btn btn-primary" data-toggle="modal"><i class="fa fa-users" aria-hidden="true"></i> Amis ({{ numberFriend }})</a>
+        </div>
+    </div>
+    <div id="showFriends" class="modal fade" role="dialog" style="overflow-y: auto;">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Liste des amis</h4>
+                </div>
+                <div class="modal-body">
+                    {% if listFriendFormat == '' %}
+                        <div class="row">
+                            <div class="alert alert-info"><strong>Information :</strong> Aucun amis</div>
+                        </div>
+                    {% else %}
+                        {{ listFriendFormat|raw|nl2br }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="text-align:center;padding:10px;">
+        <div class="btn-group btn-group-justified">
+            <a href="{{ path("isc_platform_profil_membres", { 'username': username }) }}" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i> Retour au profil</a>
+        </div>
+    </div>
+</div>

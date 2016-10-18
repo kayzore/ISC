@@ -1,0 +1,19 @@
+setInterval(getNotif, 60000);
+
+function getNotif() {
+    $.ajax({
+        type: 'GET',
+        url: '{{ path("isc_platform_get_notification") }}',
+        data: 'id='+{{ app.user.id }},
+        dataType: 'json',
+        success: function(data){
+            document.getElementById("divNotifications").innerHTML = data[0].content;
+            if(data[0].number >= 1){
+                document.getElementById("dropdownNotifications").innerHTML = '<i class="glyphicon glyphicon-bell"></i><span class="badge">' + data[0].number + '</span>';
+            }
+            else{
+                document.getElementById("dropdownNotifications").innerHTML = '<i class="glyphicon glyphicon-bell"></i>';
+            }
+        }
+    });
+}

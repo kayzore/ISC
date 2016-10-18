@@ -14,7 +14,6 @@ use \DateTimeZone;
  */
 class ActiviteRepository extends EntityRepository
 {
-
     /**
      * @param $idUser
      * @param $listIdFriend
@@ -48,51 +47,7 @@ class ActiviteRepository extends EntityRepository
      * @param $listIdFriend
      * @return array
      */
-    public function getNbActivite($idUser, $listIdFriend)
-    {
-        $qb = $this->createQueryBuilder('a');
-        $qb
-            ->where('a.user = :idUser')
-            ->setParameter('idUser', $idUser);
-        $nbFriend = (COUNT($listIdFriend));
-        for ($i=0; $i < $nbFriend; $i++) {
-            $qb
-                ->orWhere('a.user = :friendId'.$listIdFriend[$i])
-                ->setParameter('friendId'.$listIdFriend[$i], $listIdFriend[$i]);
-        }
-        $qb
-            ->orderBy('a.datetimeActivity', 'DESC');
-        return $qb
-            ->getQuery()
-            ->getResult();
-    }
-
-    /**
-     * @param $idActu
-     * @return array
-     */
-    public function getActuForEdit($idActu)
-    {
-        $qb = $this->createQueryBuilder('a');
-        $qb
-            ->where('a.id = :idActu')
-            ->setParameter('idActu', $idActu)
-            ->andWhere('a.approved = false')
-            ->leftJoin('a.image', 'image')
-            ->addSelect('image');
-        return $qb
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
-    /**
-     * @param $idUser
-     * @param $listIdFriend
-     * @param $lastIdActu
-     * @return array
-     */
-    public function getActivitesAfterId($idUser, $listIdFriend, $lastIdActu)
+    public function getTotalActivite($idUser, $listIdFriend)
     {
         $qb = $this->createQueryBuilder('a');
         $qb
@@ -105,52 +60,7 @@ class ActiviteRepository extends EntityRepository
                 ->setParameter('friendId'.$listIdFriend[$i], $listIdFriend[$i]);
         }
         $qb
-            ->andWhere('a.id < :lastIdActu')
-            ->setParameter('lastIdActu', $lastIdActu)
-            ->andWhere('a.approved = true')
-            ->leftJoin('a.image', 'image')
-            ->addSelect('image')
-            ->orderBy('a.datetimeActivity', 'DESC')
-            ->setMaxResults(5);
-        return $qb
-            ->getQuery()
-            ->getResult();
-    }
-
-    /**
-     * @param $idUser
-     * @return array
-     */
-    public function getNbActivites($idUser)
-    {
-        $qb = $this->createQueryBuilder('a');
-        $qb
-            ->where('a.user = :idUser')
-            ->setParameter('idUser', $idUser)
             ->orderBy('a.datetimeActivity', 'DESC');
-        return $qb
-            ->getQuery()
-            ->getResult();
-    }
-
-    /**
-     * @param $idUser
-     * @return array
-     */
-    public function getNbImage($idUser)
-    {
-        $qb = $this->createQueryBuilder('a');
-        $qb
-            ->where('a.user = :idUser')
-            ->setParameter('idUser', $idUser)
-            ->andWhere('a.approved = true')
-            ->andWhere('a.image != :imageStt')
-            ->setParameter('imageStt', NULL)
-            ->leftJoin('a.image', 'image')
-            ->addSelect('image')
-            ->orderBy('a.datetimeActivity', 'DESC');
-        return $qb
-            ->getQuery()
-            ->getResult();
+        return $qb->getQuery()->getResult();
     }
 }

@@ -43,9 +43,25 @@ class ISCActivite
         return $arrayFriendIds;
     }
 
-    public function getActivites($idUser){
-        $arrayFriendId = $this->getFriendsList($idUser);
+    /**
+     * @param $idUser
+     * @param $arrayFriendId
+     * @return array
+     */
+    public function getActivites($idUser, $arrayFriendId){
         $listActivites = $this->em->getRepository("ISCPlatformBundle:Activite")->getActivites($idUser, $arrayFriendId);
         return $listActivites;
+    }
+
+    /**
+     * @param $idUser
+     * @param $arrayFriendId
+     * @return int
+     */
+    public function getNbTotalActivites($idUser, $arrayFriendId)
+    {
+        $nbActivite = $this->em->getRepository("ISCPlatformBundle:Activite")->getTotalActivite($idUser, $arrayFriendId);
+
+        return count($nbActivite);
     }
 }

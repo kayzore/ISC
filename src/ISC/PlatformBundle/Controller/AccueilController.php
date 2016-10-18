@@ -30,11 +30,14 @@ class AccueilController extends Controller
                 $form->get('textActivity')->addError(new FormError('Vous devez au minimum ajouter du texte ou une image.'));
             }*/
             $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
-            $userActivites = $activitesService->getActivites($user->getId());
+            $arrayFriendId = $activitesService->getFriendsList($user->getId());
+            $userActivites = $activitesService->getActivites($user->getId(), $arrayFriendId);
+            $userNbTotalActivites = $activitesService->getNbTotalActivites($user->getId(), $arrayFriendId);
             return $this->render('ISCPlatformBundle:Membres:index.html.twig', array(
                 'form' 					=> $form->createView(),
                 'userNotifications'		=> $userNotifications,
                 'userActivites' 	    => $userActivites,
+                'userNbTotalActivites' 	=> $userNbTotalActivites,
             ));
 	    }
     	return $this->render('ISCPlatformBundle:Visiteurs:index.html.twig');

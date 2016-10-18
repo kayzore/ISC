@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+    <head>
+    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	</head>
+	<body>
+		{% block body_text %}
+			<h3>Merci pour votre inscription sur ImageShareCommu</h3>
+			<p>
+				Vous recevez cet email car vous venez de vous inscrire sur ImageShare et nous vous en remercions !
+			</p>
+			<br />
+			<div class="well">
+				Votre email : {{ user.email }} 
+			    Votre username : {{ user.username }} 
+			    Votre mot de passe : {{ user.plainPassword }} 
+			    Lien d'activation du compte : {{confirmationUrl}}
+			</div>
+			<br />
+			<p>
+				A très vite,
+				L'équipe d'ImageShareCommu.
+			</p>
+			<p>
+				ImageShare est une platforme de partage de donnée.
+			</p>
+		{% endblock %}
+	</body>
+</html>

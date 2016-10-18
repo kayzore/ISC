@@ -1,0 +1,42 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% block subject %}
+	{% autoescape false %}
+		{{ 'registration.email.subject'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}) }}
+	{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+	<!DOCTYPE html>
+	<html lang="fr-FR">
+	    <head>
+	    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+		</head>
+		<body>
+	    	<h1 style="text-align:center;">Confirmation d'inscription</h1>
+
+	        <h3>Merci pour votre inscription sur ImageShare</h3>
+	        <p>
+				Vous recevez cet email car vous venez de vous inscrire sur ImageShare et nous vous en remercions !
+	        </p>
+	        <br />
+	        <h4><u>Vos identifiants de connexion :</u></h4>
+            <p>
+            	Votre email : {{ user.email }}<br />
+      			Votre username : {{ user.username }} <br />
+      			Votre mot de passe : {{ user.plainPassword }} <br />
+      			<br />
+      			Afin de valider votre compte, veuillez cliquer sur le lien d'activation suivant : <br />
+  				{{confirmationUrl}}
+  			</p>
+            <br />
+			<p>
+	            A très vite,<br />
+	            L'équipe d'ImageShare.
+            </p>
+            <p>
+            	<em>ImageShare est une platforme de partage de donnée.</em>
+        	</p>
+		</body>
+	</html>
+{% endblock %}

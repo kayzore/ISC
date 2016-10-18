@@ -1,0 +1,3 @@
+isc_platform_homepage:
+    path:     /
+    defaults: { _controller: ISCPlatformBundle:Accueil:index }

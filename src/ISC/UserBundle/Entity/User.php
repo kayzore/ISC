@@ -69,7 +69,7 @@ class User extends BaseUser
     private $friends;
 
     /**
-     * @ORM\OneToMany(targetEntity="ISC\PlatformBundle\Entity\UserNotifs", mappedBy="$userFrom")
+     * @ORM\OneToMany(targetEntity="ISC\PlatformBundle\Entity\UserNotifs", mappedBy="userFrom")
      */
     private $notificationsFrom;
 

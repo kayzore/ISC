@@ -1,0 +1,15 @@
+$("[rel='tooltip']").tooltip();
+$('.dropdown').on('show.bs.dropdown', function(e){
+    $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+});
+$('.dropdown').on('hide.bs.dropdown', function(e){
+    $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+});
+$('#BTAddActu').on('click', function () {
+    if(document.getElementById('BlocAddActu').style.display == 'none'){
+        jQuery("#BlocAddActu").fadeIn("slow");
+    }
+    else{
+        jQuery("#BlocAddActu").fadeOut("slow");
+    }
+});

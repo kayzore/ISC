@@ -1,0 +1,156 @@
+<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+<script src="{{ asset('assets/js/bootstrap-image-gallery.min.js') }}"></script>
+<script type="text/javascript">
+    $('.my_tooltip').tooltip({placement: "top", html: true});
+    $('#infoImage').delay(10000).fadeOut("slow");
+    document.getElementById("isc_platformbundle_activite_idTypeActivite").selectedIndex="0";
+    document.getElementById("isc_platformbundle_activite_textActivity").value = '';
+    jQuery("#inputAddImageActivity").fadeOut("slow");
+    jQuery("#inputAddImageEditActivity").fadeOut("slow");
+    function FormatResult (data) {
+        if (data.loading) return data.username;
+        var state = $(
+                '<span>' + data.username + '</span>'
+        );
+        return state;
+    }
+    function acceptInvitation(id){
+        $.ajax({
+            type: 'POST',
+            url: '{{ path("isc_platform_homepage_accept_invite_of_member") }}',
+            data: {id: id},
+            success: function(retour){
+                if(retour == 'success'){
+                    location.reload();
+                }
+            }
+        });
+    }
+    function refuseInvitation(id){
+        $.ajax({
+            type: 'POST',
+            url: '{{ path("isc_platform_homepage_refuse_invite_of_member") }}',
+            data: {id: id},
+            success: function(retour){
+                if(retour == 'success'){
+                    location.reload();
+                }
+            }
+        });
+    }
+    function AddLike(id){
+        document.getElementById('loadLike' + id).style.display = 'block';
+        $.ajax({
+            type: 'POST',
+            url: '{{ path("isc_platform_homepage_add_like_actu") }}',
+            data: {id: id},
+            success: function(retour){
+                location.reload();
+            }
+        });
+    }
+    function DelLike(id){
+        document.getElementById('loadLike' + id).style.display = 'block';
+        $.ajax({
+            type: 'POST',
+            url: '{{ path("isc_platform_homepage_remove_like_actu") }}',
+            data: {id: id},
+            success: function(retour){
+                location.reload();
+            }
+        });
+    }
+    var $selectSearch = $(".selectSearch");
+    $selectSearch.on("select2:select", function (e) {
+        window.location.href = $(".selectSearch").select2('data')[0].username;
+    });
+    $(document).ready(function(){
+        {{ include("ISCPlatformBundle::jsNotifications.html.twig") }}
+        $("[rel='tooltip']").tooltip();
+        $('.dropdown').on('show.bs.dropdown', function(e){
+            $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+        });
+        $('.dropdown').on('hide.bs.dropdown', function(e){
+            $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+        });
+        $('#BTAddActu').on('click', function () {
+            if(document.getElementById('BlocAddActu').style.display == 'none'){
+                jQuery("#BlocAddActu").fadeIn("slow");
+                console.log($('#isc_platformbundle_activite_textActivity').width());
+            }
+            else{
+                jQuery("#BlocAddActu").fadeOut("slow");
+            }
+        });
+        $(".selectSearch").select2({
+            ajax: {
+                url: "{{ path("isc_platform_search") }}",
+                dataType: "json",
+                type: "POST",
+                data: function (params) {
+                    var queryParameters = {
+                        term: params.term
+                    };
+                    return queryParameters;
+                },
+                processResults: function (data) {
+                    return {
+
+                        results: $.map(data, function (item) {
+                            return {
+                                id: item.id,
+                                username: item.username,
+                            };
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 1,
+            placeholder: "Rechercher un pseudo",
+            allowClear: true,
+            templateResult: FormatResult
+        });
+
+
+    });
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.my_tooltip').tooltip({placement: "top", html: true});
+        // A chaque sélection de fichier
+        $('#formChangeAvatar').find('input[name="image"]').on('change', function (e) {
+            var files = $(this)[0].files;
+
+            if (files.length > 0) {
+                // On part du principe qu'il n'y qu'un seul fichier
+                // étant donné que l'on a pas renseigné l'attribut "multiple"
+                var file = files[0],
+                        $image_preview = $('#image_preview');
+
+                // Ici on injecte les informations recoltées sur le fichier pour l'utilisateur
+                $image_preview.find('.thumbnail').removeClass('hidden');
+                $image_preview.find('img').attr('src', window.URL.createObjectURL(file));
+                $image_preview.find('h4').html(file.name);
+                $image_preview.find('.caption p:first').html(file.size +' bytes');
+            }
+        });
+
+        // Bouton "Annuler" pour vider le champ d'upload
+        $('#image_preview').find('button[type="button"]').on('click', function (e) {
+            e.preventDefault();
+
+            $('#formChangeAvatar').find('input[name="image"]').val('');
+            $('#image_preview').find('.thumbnail').addClass('hidden');
+        });
+    });
+    document.getElementById("isc_platformbundle_activite_image_file").onchange = function () {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("image").src = e.target.result;
+        };
+
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    };
+</script>

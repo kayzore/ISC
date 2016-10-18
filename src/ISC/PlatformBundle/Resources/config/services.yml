@@ -1,0 +1,5 @@
+# src/ISC/PlatformBundle/Resources/config/services.yml
+#    isc_platform.example:
+#        class: ISC\PlatformBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+services:

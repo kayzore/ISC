@@ -1,0 +1,49 @@
+<div class="col-lg-4">
+    {% if notFriend == true %}
+        <div class="row" style="text-align:center;margin-top:125px;padding:10px;">
+            <div id="ErrorSendInvit" style="display:none;">
+                <div class="alert alert-danger"><strong>Error :</strong> Invitation déjà envoyée.</div>
+            </div>
+            <div id="SuccessSendInvit" style="display:none;">
+                <div class="alert alert-success"><strong>Success :</strong> Invitation envoyée.</div>
+            </div>
+            <div class="btn-group btn-group-justified">
+                <a onclick="javascript:sendInviation(this.getAttribute('id'));" id="{{ userId }}" class="btn btn-primary{% if invitSend == true%} disabled {% endif %}">Envoyer une invitation{% if invitSend == true%} (Envoyée <i class="fa fa-check" aria-hidden="true"></i>
+                ){% endif %}</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="row" style="text-align:center;margin-top:125px;padding:10px;">
+            <div class="btn-group btn-group-justified">
+                <a href="#showFriends" class="btn btn-primary" data-toggle="modal"><i class="fa fa-users" aria-hidden="true"></i> Amis ({{ numberFriend }})</a>
+            </div>
+        </div>
+        <div id="showFriends" class="modal fade" role="dialog" style="overflow-y: auto;">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Liste des amis</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% if listFriendFormat == '' %}
+                            <div class="row">
+                                <div class="alert alert-info"><strong>Information :</strong> Aucun amis</div>
+                            </div>
+                        {% else %}
+                            {{ listFriendFormat|raw|nl2br }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="text-align:center;padding:10px;">
+            <div class="btn-group btn-group-justified">
+                <a href="{{ path("isc_platform_profil_show_image", { 'username': username }) }}" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i> Images ({{ nbImage }})</a>
+            </div>
+        </div>
+    {% endif %}
+
+
+</div>

@@ -3,6 +3,10 @@
 #        class: ISC\PlatformBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
 services:
-    isc_platform.accueil:
-        class:      ISC\PlatformBundle\Accueil\ISCAccueil
+    isc_platform.user:
+        class:      ISC\PlatformBundle\User\ISCUser
         arguments:  [@doctrine.orm.entity_manager, @service_container]
+
+    isc_platform.activite:
+        class:      ISC\PlatformBundle\Activite\ISCActivite
+        arguments:  [@doctrine.orm.entity_manager, @isc_platform.user, @service_container]

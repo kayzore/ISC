@@ -49,6 +49,11 @@ class Activite
      */
     private $approved;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ISC\PlatformBundle\Entity\ActiviteLikes", mappedBy="activite")
+     */
+    private $likes;
+
 
 
     public function __construct()
@@ -179,5 +184,38 @@ class Activite
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Add likes
+     *
+     * @param \ISC\PlatformBundle\Entity\ActiviteLikes $likes
+     * @return Activite
+     */
+    public function addLike(ActiviteLikes $likes)
+    {
+        $this->likes[] = $likes;
+
+        return $this;
+    }
+
+    /**
+     * Remove likes
+     *
+     * @param \ISC\PlatformBundle\Entity\ActiviteLikes $likes
+     */
+    public function removeLike(ActiviteLikes $likes)
+    {
+        $this->likes->removeElement($likes);
+    }
+
+    /**
+     * Get likes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLikes()
+    {
+        return $this->likes;
     }
 }

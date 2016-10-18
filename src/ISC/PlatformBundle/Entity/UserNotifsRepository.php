@@ -18,7 +18,7 @@ class UserNotifsRepository extends EntityRepository
 
         $qb
             ->where('a.userTo = :idUser')
-            ->andWhere('a.idUserFrom != :idUser')
+            ->andWhere('a.userFrom != :idUser')
             ->setParameter('idUser', $idUser)
             ->orderBy("a.datetimeNotif", 'DESC')
             ->setMaxResults(5);

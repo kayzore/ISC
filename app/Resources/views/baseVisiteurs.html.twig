@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="ImageShare Community est un site communautaire de partage de photo, uploadez & partagez ! Choisissez de publier ou non vos images !">
+    <meta name="author" content="Kayzore">
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <title>{% block title %}ImageShareCommu{% endblock %}</title>
+    {% block bsFile %}
+        <!-- Bootstrap core CSS -->
+        <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link href="{{ asset('assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
+
+        <!-- Custom styles -->
+        <link href="{{ asset('assets/css/justified-nav.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/perso.css') }}" rel="stylesheet">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ path("isc_platform_homepage") }}">ImageShare<strong>Commu</strong></a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li{% if app.request.get('_route') == 'isc_platform_homepage' %} class="active"{% endif %}><a href="{{ path('isc_platform_homepage') }}"><i class="fa fa-home" aria-hidden="true"></i> Accueil</a></li>
+            <li{% if app.request.get('_route') == 'fos_user_security_login' %} class="active"{% endif %}><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Connexion</a></li>
+            <li{% if app.request.get('_route') == 'fos_user_registration_register' %} class="active"{% endif %}><a href="{{ path('fos_user_registration_register') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Inscription</a></li>
+        </ul>
+    </div>
+</nav>
+
+{% block contentBody %}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>

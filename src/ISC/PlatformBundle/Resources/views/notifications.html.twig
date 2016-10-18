@@ -1,0 +1,23 @@
+{% if userNotifications|length > 0 %}
+    {% set idLastActuArray = [0] %}
+    {% for notification in userNotifications %}
+        {% if notification.activite.id in idLastActuArray %}
+            {% set typeNotif = '' %}
+            {% set urlActuView = path("isc_platform_view_actu", { 'idActu': notification.activite.id }) %}
+            {% set listNotifsFormat = '' %}
+            {% if notification.type == 'Like' %}
+                {% set typeNotif = 'à aimé votre <a href="{{ urlActuView }}">actualité</a>' %}
+            {% endif %}
+            {% if notification.view == false %}
+                {% set listNotifsFormat = '<a class="content"><div class="notification-item"><span class="label label-danger pull-right">New !</span><h4 class="item-title"><a href="{{ path("isc_platform_profil_membres", { "username": notification.user.username }) }}">{{ notification.user.username }}</a>{{ typeNotif }}</h4><p class="item-info">{{ notification.datetimeNotif|date("d-m-Y H:i:s") }}</p></div></a>' %}
+            {% else %}
+                {% set listNotifsFormat = '<a class="content"><div class="notification-item"><h4 class="item-title"><a href="{{ path("isc_platform_profil_membres", { "username": notification.user.username }) }}">{{ notification.user.username }}</a>{{ typeNotif }}</h4><p class="item-info">{{ notification.datetimeNotif|date("d-m-Y H:i:s") }}</p></div></a>' %}
+            {% endif %}
+        {% endif %}
+        {% for t in tab %}
+            {% set tabfruit = tabfruit|merge([t]) %}
+        {% endfor %}
+    {% endfor %}
+{% else %}
+    <div class="alert alert-info">Aucune notification</div>
+{% endif %}

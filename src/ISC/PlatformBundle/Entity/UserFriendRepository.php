@@ -21,18 +21,11 @@ class UserFriendRepository extends EntityRepository
     	$qb = $this->createQueryBuilder('a');
 
 		$qb
-			->select('a.idFriend')
 		    ->where('a.user = :idUser')
 		    ->setParameter('idUser', $idUser)
-		    ->andWhere('a.approvedFriend = 1')
-		;
+		    ->andWhere('a.approvedFriend = 1');
 		$listFriendId = $qb->getQuery()->getResult();
-		$arrayFriendId = [];
-		$nbFriend = (COUNT($listFriendId));
-		for ($i=0; $i < $nbFriend; $i++) {
-			$arrayFriendId[$i] = $listFriendId[$i]['idFriend'];
-		}
-		return $arrayFriendId;
+		return $listFriendId;
     }
 
     /**

@@ -31,7 +31,7 @@ class UserFriend
     /**
      * @ORM\OneToOne(targetEntity="ISC\UserBundle\Entity\User")
      */
-    private $friendId;
+    private $friend;
 
     /**
      * @var boolean
@@ -97,25 +97,25 @@ class UserFriend
     }
 
     /**
-     * Set friendId
+     * Set friend
      *
-     * @param \ISC\UserBundle\Entity\User $friendId
+     * @param \ISC\UserBundle\Entity\User $friend
      * @return UserFriend
      */
-    public function setFriendId(User $friendId = null)
+    public function setFriend(User $friend = null)
     {
-        $this->friendId = $friendId;
+        $this->friend = $friend;
 
         return $this;
     }
 
     /**
-     * Get friendId
+     * Get friend
      *
      * @return \ISC\UserBundle\Entity\User 
      */
-    public function getFriendId()
+    public function getFriend()
     {
-        return $this->friendId;
+        return $this->friend;
     }
 }

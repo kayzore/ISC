@@ -58,9 +58,15 @@
                 {{ include("ISCPlatformBundle::formAddActu.html.twig") }}
             </div>
             <div class="row">
-                <div class="nb_actu">{{ userActivites[1] }}</div>
+                <div class="nb_actu">{{ userActivites|length }}</div>
                 <div class="cont_mod_actualites">
-                    {{ include("ISCPlatformBundle::actuFormat.html.twig") }}
+                    {% if userActivites|length > 0 %}
+                        {{ include("ISCPlatformBundle::actuFormat.html.twig") }}
+                    {% else %}
+                        <div class="row">
+                            <div class="alert alert-warning"><strong>Information :</strong> Nous n\'avons rien à afficher... Afin de remedier à cela, ajouter une image ou ajouter des amis !</div>
+                        </div>
+                    {% endif %}
                     <div class="loadmore" style="text-align:center;">
                         <i class="fa fa-spinner fa-pulse"></i>
                     </div>

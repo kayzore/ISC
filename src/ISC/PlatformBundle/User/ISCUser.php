@@ -29,9 +29,7 @@ class ISCUser
     public function checkAvatar($idUser)
     {
         $userInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUser));
-        var_dump('NULL2');
         if ($userInformations->getUrlAvatar() == NULL) {
-            var_dump('NULL3');
             $userInformations->setNameAvatar('no-avatar.png');
             $userInformations->setUrlAvatar('http://'.$this->container->get('request')->server->get('SERVER_NAME') . '/assets/images/no-avatar.png');
             $userInformations->setExtensionAvatar('.png');

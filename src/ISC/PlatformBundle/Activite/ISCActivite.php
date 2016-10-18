@@ -4,8 +4,9 @@
 namespace ISC\PlatformBundle\Activite;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use ISC\PlatformBundle\Entity\Activite;
 use Doctrine\ORM\EntityManager;
+use ISC\PlatformBundle\Entity\Activite;
+use ISC\PlatformBundle\User\ISCUser;
 
 class ISCActivite
 {
@@ -23,7 +24,7 @@ class ISCActivite
     {
         $this->em           = $em;
         $this->userService  = $userService;
-        $this->container   = $container;
+        $this->container    = $container;
     }
 
     /**
@@ -33,7 +34,13 @@ class ISCActivite
     public function getFriendsList($idUser)
     {
         $arrayFriendId = $this->em->getRepository("ISCPlatformBundle:UserFriend")->getFriendId($idUser);
-        return $arrayFriendId;
+        $i = 0;
+        $arrayFriendIds = [];
+        foreach ($arrayFriendId as $friendId) {
+            $arrayFriendIds[$i] = $friendId->getFriend()->getId();
+            $i++;
+        }
+        return $arrayFriendIds;
     }
 
     public function getActivites($idUser){

@@ -28,7 +28,7 @@
                 {% for like in activite.likes %}
                     {% if like.user.id == app.user.id %}
                         {% set liked = true %}
-                        {% set tooltip_like .= 'Vous<br />' %}
+                        {% set tooltip_like = tooltip_like ~ 'Vous<br />' %}
                     {% else %}
                         {% set tooltip_like = tooltip_like ~ like.user.username ~ '<br />' %}
                     {% endif %}

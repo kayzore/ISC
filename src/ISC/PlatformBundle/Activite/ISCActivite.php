@@ -9,7 +9,7 @@ use ISC\PlatformBundle\Entity\Activite;
 use ISC\PlatformBundle\Entity\ActiviteImage;
 use ISC\PlatformBundle\User\ISCUser;
 
-class ISCActivite
+class ISCActivite extends \Twig_Extension
 {
     private $em;
     private $userService;
@@ -44,7 +44,11 @@ class ISCActivite
         return $arrayFriendIds;
     }
 
-    public function checkSmiley($idSmiley){
+    /**
+     * @param $texte
+     * @return mixed
+     */
+    public function checkSmiley($texte){
         $smileyArray = array(
             ' o_O',
             ' O_o',
@@ -98,6 +102,13 @@ class ISCActivite
         return count($nbActivite);
     }
 
+    /**
+     * @param $form
+     * @param $request
+     * @param $idUser
+     * @param $activite
+     * @return string
+     */
     public function setActivite($form, $request, $idUser, $activite)
     {
         if($form->handleRequest($request)->isValid()){
@@ -155,5 +166,23 @@ class ISCActivite
                 return 'RedirectEditFile';
             }
         }
+    }
+
+    public function getFilters()
+    {
+        return array(
+            'rawPerso' => new \Twig_Filter_Method($this, 'getRawPerso',
+                array('is_safe' => array('html'))
+            ),
+        );
+    }
+    public function getRawPerso($texte)
+    {
+        return nl2br($texte);
+    }
+
+    public function getName()
+    {
+        return 'ISCActivite';
     }
 }

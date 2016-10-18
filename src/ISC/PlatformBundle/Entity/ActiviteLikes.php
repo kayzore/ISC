@@ -24,7 +24,7 @@ class ActiviteLikes
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ISC\PlatformBundle\Entity\Activite")
+     * @ORM\ManyToOne(targetEntity="ISC\PlatformBundle\Entity\Activite", inversedBy="likes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $activite;

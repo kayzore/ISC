@@ -1,3 +1,7 @@
 isc_platform_homepage:
     path:     /
     defaults: { _controller: ISCPlatformBundle:Accueil:index }
+
+isc_platform_profil_membres:
+    path:     /profil/{username}
+    defaults: { _controller: ISCPlatformBundle:Profil:index }

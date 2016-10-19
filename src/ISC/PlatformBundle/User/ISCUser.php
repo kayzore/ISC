@@ -87,4 +87,16 @@ class ISCUser
 
         return $arrayUserNotifications;
     }
+
+    /**
+     * @param $idUser
+     * @param $idActu
+     * @return array|\ISC\PlatformBundle\Entity\Activite[]|\ISC\PlatformBundle\Entity\UserNotifs[]|\ISC\UserBundle\Entity\User[]
+     */
+    public function getOneNotification($idUser, $idActu)
+    {
+        $notification = $this->em->getRepository("ISCPlatformBundle:UserNotifs")->findBy(array('userTo' => $idUser, 'activite' => $idActu));
+
+        return $notification;
+    }
 }

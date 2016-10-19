@@ -30,6 +30,10 @@ isc_platform_search:
     path:     /search
     defaults: { _controller: ISCPlatformBundle:Accueil:search }
 
+isc_platform_profil_membres:
+    path:     /profil/{username}
+    defaults: { _controller: ISCPlatformBundle:Profil:index }
+
 isc_platform_homepage_send_invite_to_membre:
     path:     /send-invite-to-membre/
     defaults: { _controller: ISCPlatformBundle:Profil:sendInvitToMembre } #Anciennement sur le controller accueil

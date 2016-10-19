@@ -151,4 +151,21 @@ class AccueilController extends Controller
         }
         return $this->redirectToRoute('isc_platform_homepage');
     }
+
+    public function searchAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $motcle = $request->request->get('term');
+            $userService = $this->container->get('isc_platform.user');
+            $data = $userService->getUserBySearchTerm($motcle);
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent($data);
+            return $response;
+        }
+        $response = new Response();
+        $response->setContent('success');
+        return $response;
+    }
 }

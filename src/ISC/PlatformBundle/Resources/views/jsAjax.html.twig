@@ -1,8 +1,8 @@
 function AddLike(id){
     document.getElementById('loadLike' + id).style.display = 'block';
     $.ajax({
-        type: 'POST',
-        url: '{{ path("isc_platform_homepage_add_like_actu") }}',
+        type: 'GET',
+        url: "{{ path('isc_platform_homepage_add_like_actu') }}",
         data: {id: id},
         success: function(data){
             document.getElementById("LikeZone" + id).innerHTML = data;
@@ -13,8 +13,8 @@ function AddLike(id){
 function DelLike(id){
     document.getElementById('loadLike' + id).style.display = 'block';
     $.ajax({
-        type: 'POST',
-        url: '{{ path("isc_platform_homepage_remove_like_actu") }}',
+        type: 'GET',
+        url: "{{ path('isc_platform_homepage_remove_like_actu') }}",
         data: {id: id},
         success: function(data){
             document.getElementById("LikeZone" + id).innerHTML = data;

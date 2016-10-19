@@ -104,6 +104,18 @@ class ISCUser
     }
 
     /**
+     * @param $idUser
+     * @param $idActu
+     */
+    public function setViewNotificationToTrue($idUser, $idActu)
+    {
+        $notification = $this->em->getRepository("ISCPlatformBundle:UserNotifs")->findOneBy(array('userTo' => $idUser, 'activite' => $idActu));
+        $notification->setView(true);
+        $this->em->persist($notification);
+        $this->em->flush();
+    }
+
+    /**
      * @param $term
      * @return array|string
      */

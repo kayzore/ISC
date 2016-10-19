@@ -61,15 +61,7 @@
                                       <li class="dropdown">
                                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="dropdownNotifications">
                                               <i class="glyphicon glyphicon-bell"></i>
-                                              {% set userNbNotification = 0 %}
-                                              {% for notification in userNotifications %}
-                                                  {% if notification.view == false %}
-                                                      {% set userNbNotification = userNbNotification + 1 %}
-                                                  {% endif %}
-                                              {% endfor %}
-                                              {% if userNbNotification >= 1 %}
-                                                  <span class="badge">{{ userNbNotification }}</span>
-                                              {% endif %}
+                                              {{ include("ISCPlatformBundle:Notifications:numberOfNotifications.html.twig") }}
                                           </a>
                                           <ul class="dropdown-menu notifications" style="padding-bottom: 0px;">
                                               <div class="notification-heading">

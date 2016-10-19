@@ -7,3 +7,5 @@ services:
         arguments:  [@doctrine.orm.entity_manager, %server_host_perso%, %kernel.root_dir%, @router]
         tags:
             -  { name: twig.extension }
+    twig.extension.actions:
+        class: ISC\PlatformBundle\Twig\NullExtension

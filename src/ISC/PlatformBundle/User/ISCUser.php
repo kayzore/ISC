@@ -13,6 +13,12 @@ class ISCUser
     private $serverUrl;
     private $router;
 
+    /**
+     * ISCUser constructor.
+     * @param EntityManager $em
+     * @param $serverUrl
+     * @param Router $router
+     */
     public function __construct(EntityManager $em, $serverUrl, Router $router)
     {
         $this->em           = $em;

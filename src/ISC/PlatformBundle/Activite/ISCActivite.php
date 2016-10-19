@@ -7,6 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
 use ISC\PlatformBundle\Entity\Activite;
 use ISC\PlatformBundle\Entity\ActiviteImage;
+use ISC\PlatformBundle\Entity\ActiviteLikes;
+use ISC\PlatformBundle\Entity\UserNotifs;
 use ISC\PlatformBundle\User\ISCUser;
 
 class ISCActivite extends \Twig_Extension
@@ -168,6 +170,109 @@ class ISCActivite extends \Twig_Extension
         }
     }
 
+    /**
+     * @param $actualite
+     * @param $idActu
+     * @param $userInformations
+     * @param $idUser
+     * @return string
+     */
+    public function getLikeZone($actualite, $idActu, $userInformations, $idUser)
+    {
+        $listLikesActivite = $this->em->getRepository('ISCPlatformBundle:ActiviteLikes')->findBy(array('activite' => $actualite));
+        $listActivites = $this->em->getRepository('ISCPlatformBundle:Activite')->findOneBy(array('id' => $idActu));
+
+        $dateTimeActivite = $listActivites->getDatetimeActivity()->format('d-m-Y H:i:s');
+
+        $classLikeActuSuccess = 'btn btn-success btn-xs clickable';
+        $classLikeActuPrimary = 'btn btn-primary btn-xs clickable';
+        $tooltip_like = '';
+        $liked = false;
+        foreach ($listLikesActivite as $likeActu) {
+            if($likeActu->getUser()->getId() == $userInformations->getId()){
+                $liked = true;
+                $tooltip_like = $tooltip_like . 'Vous<br />';
+            }
+            else{
+                $userLikeInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $likeActu->getUser()->getId()));
+                $tooltip_like = $tooltip_like . $userLikeInformations->getUsername(). '<br />';
+
+            }
+        }
+        if($liked === true){
+            $jsLikeActu = 'javascript:DelLike(this.getAttribute(\'id\'));';
+            $classLikeActu = $classLikeActuSuccess;
+            $textLikeActu = '<i class="fa fa-thumbs-up"></i> J<span style="text-transform:lowercase;">\'aime</span> <span id="loadLike'.$idActu.'" style="display:none;"><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span></a>';
+
+        }
+        else{
+            $jsLikeActu = 'javascript:AddLike(this.getAttribute(\'id\'));';
+            $classLikeActu = $classLikeActuPrimary;
+            $textLikeActu = '<i class="fa fa-thumbs-o-up"></i> J<span style="text-transform:lowercase;">\'aime</span> <span id="loadLike'.$idActu.'" style="display:none;"><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span></a>';
+
+        }
+        $likeListUser = '<a data-toggle="tooltip" title="'.$tooltip_like.'" class="my_tooltip" style="text-transform:lowercase;color:black;text-decoration:none;">'.count($listLikesActivite).' <i class="fa fa-heart"></i></a>';
+        $likeActuText = '<span class="pull-left"><a onclick="' . $jsLikeActu . '" id="'.$idActu.'" class="'.$classLikeActu.'">'.$textLikeActu.' | '.$likeListUser.'</span>';
+
+        $likeZoneHtml = $likeActuText . ' <span class="pull-right"><i class="fa fa-calendar"></i> ' . $dateTimeActivite;
+        return $likeZoneHtml;
+    }
+
+    /**
+     * @param $idActu
+     * @param $idUser
+     * @return string
+     */
+    public function setLike($idActu, $idUser)
+    {
+        $listLikesNotifActivite = $this->em->getRepository("ISCPlatformBundle:UserNotifs")->findBy(array('activite' => $idActu, 'userFrom' => $idUser));
+        $infoActivites = $this->em->getRepository("ISCPlatformBundle:Activite")->findOneBy(array('id' => $idActu));
+        $userInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUser));
+        $likeActuQuery = new ActiviteLikes();
+        $likeActuQuery->setActivite($infoActivites);
+        $likeActuQuery->setUser($userInformations);
+        $this->em->persist($likeActuQuery);
+        if(count($listLikesNotifActivite) == 0) {
+            if ($infoActivites->getUser()->getId() != $userInformations->getId()) {
+                $likeNotif = new UserNotifs();
+                $likeNotif->setUserFrom($userInformations);
+                $likeNotif->setUserTo($infoActivites->getUser());
+                $likeNotif->setType('Like');
+                $likeNotif->setActivite($infoActivites);
+                $likeNotif->setView(false);
+                $likeNotif->setDatetimeNotif(new \DateTime());
+                $this->em->persist($likeNotif);
+            }
+        }
+        $this->em->flush();
+
+        $likeZoneHtml = $this->getLikeZone($infoActivites, $idActu, $userInformations, $idUser);
+
+        return $likeZoneHtml;
+    }
+
+    /**
+     * @param $idActu
+     * @param $idUser
+     * @return string
+     */
+    public function removeLike($idActu, $idUser)
+    {
+        $infoActivites = $this->em->getRepository("ISCPlatformBundle:Activite")->findOneBy(array('id' => $idActu));
+        $userInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUser));
+        $likeActus = $this->em->getRepository('ISCPlatformBundle:ActiviteLikes')->findBy(array('activite' => $idActu, 'user' => $idUser));
+        foreach ($likeActus as $likeActu) {
+            $this->em->remove($likeActu);
+        }
+        $this->em->flush();
+        $likeZoneHtml = $this->getLikeZone($infoActivites, $idActu, $userInformations, $idUser);
+
+        return $likeZoneHtml;
+    }
+
+    /**
+     * @return array
+     */
     public function getFilters()
     {
         return array(
@@ -176,11 +281,19 @@ class ISCActivite extends \Twig_Extension
             ),
         );
     }
+
+    /**
+     * @param $texte
+     * @return string
+     */
     public function getRawPerso($texte)
     {
         return nl2br($texte);
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'ISCActivite';

@@ -42,4 +42,46 @@ class AccueilController extends Controller
 	    }
     	return $this->render('ISCPlatformBundle:Visiteurs:index.html.twig');
     }
+
+    public function addLikeAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $user = $this->getUser();
+            $idActu = $request->request->get('id');
+
+            $activitesService = $this->container->get('isc_platform.activite');
+            $result = $activitesService->setLike($idActu, $user->getId());
+
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/text');
+            $response->setContent($result);
+            return $response;
+        }
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/text');
+        $response->setContent('error');
+        return $response;
+    }
+
+    public function removeLikeAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $user = $this->getUser();
+            $idActu = $request->request->get('id');
+
+            $activitesService = $this->container->get('isc_platform.activite');
+            $result = $activitesService->removeLike($idActu, $user->getId());
+
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/text');
+            $response->setContent($result);
+            return $response;
+        }
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/text');
+        $response->setContent('success');
+        return $response;
+    }
 }

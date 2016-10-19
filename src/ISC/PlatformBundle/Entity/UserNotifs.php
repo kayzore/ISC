@@ -30,7 +30,7 @@ class UserNotifs
     private $userFrom;
 
     /**
-     * @ORM\OneToOne(targetEntity="ISC\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="ISC\UserBundle\Entity\User", inversedBy="notificationsTo")
      * @ORM\JoinColumn(nullable=false)
      */
     private $userTo;
@@ -60,6 +60,8 @@ class UserNotifs
      * @Assert\DateTime()
      */
     private $datetimeNotif;
+
+
 
     public function __construct()
     {

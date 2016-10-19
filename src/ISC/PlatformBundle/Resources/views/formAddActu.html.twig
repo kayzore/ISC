@@ -1,10 +1,15 @@
-{{ form_start(form, {'attr': {'class': 'form-horizontal ','id': 'Upload_File', 'enctype': 'multipart/form-data'}}) }}
+{{ form_start(form, {'attr': {'class': 'form-horizontal ','id': 'Upload_File', 'enctype': 'multipart/form-data', 'action': path('isc_platform_homepage_create_activite')}}) }}
     {{ form_errors(form) }}
     {{ form_errors(form.textActivity) }}
     {{ form_errors(form.image.file) }}
     {{ form_errors(form.image.editFile) }}
+    {% for message in app.session.flashbag.get('errorAddActivite') %}
+        <div class="row">
+            <div class="alert alert-danger"><strong>Erreur :</strong> {{ message }}</div>
+        </div>
+    {% endfor %}
     <div class="form-group">
-          <input type="button" value="Ajouter une actualité" class="btn btn-primary pull-center" id="BTAddActu">
+        <input type="button" value="Ajouter une actualité" class="btn btn-primary pull-center" id="BTAddActu">
     </div>
     <div id="BlocAddActu" style="display:none;">
         <div class="form-group">

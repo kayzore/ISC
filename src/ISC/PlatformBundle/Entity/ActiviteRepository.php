@@ -3,8 +3,6 @@
 namespace ISC\PlatformBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use \DateTime;
-use \DateTimeZone;
 
 /**
  * ActiviteRepository

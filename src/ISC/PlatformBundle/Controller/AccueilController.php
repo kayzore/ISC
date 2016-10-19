@@ -43,6 +43,28 @@ class AccueilController extends Controller
     	return $this->render('ISCPlatformBundle:Visiteurs:index.html.twig');
     }
 
+    public function loadMoreAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $user = $this->getUser();
+            $activitesService = $this->container->get('isc_platform.activite');
+            $userActivites = $activitesService->getActivitesAfterId($request->query->get('last'), $user->getId());
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/text');
+            if($userActivites === null){
+                $response->setContent("NULL");
+                return $response;
+            }
+            $response->setContent($userActivites);
+            return $response;
+        }
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/text');
+        $response->setContent('success');
+        return $response;
+    }
+
     public function addLikeAction(Request $request)
     {
         if($request->isXmlHttpRequest())

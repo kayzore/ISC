@@ -63,4 +63,39 @@ class ActiviteRepository extends EntityRepository
             ->orderBy('a.datetimeActivity', 'DESC');
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @param $idUser
+     * @param $listIdFriend
+     * @param $lastIdActu
+     * @return array
+     */
+    public function getActivitesAfterId($idUser, $listIdFriend, $lastIdActu)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb
+            ->where('a.user = :idUser')
+            ->setParameter('idUser', $idUser);
+        $nbFriend = (count($listIdFriend));
+        for ($i=0; $i < $nbFriend; $i++) {
+            $qb
+                ->orWhere('a.user = :friendId'.$listIdFriend[$i])
+                ->setParameter('friendId'.$listIdFriend[$i], $listIdFriend[$i]);
+        }
+        $qb
+            ->andWhere('a.id < :lastIdActu')
+            ->setParameter('lastIdActu', $lastIdActu)
+            ->andWhere('a.approved = true')
+            ->leftJoin('a.image', 'image')
+            ->addSelect('image')
+            ->leftJoin('a.user', 'user')
+            ->addSelect('user')
+            ->leftJoin('a.likes', 'likes')
+            ->addSelect('likes')
+            ->orderBy('a.datetimeActivity', 'DESC')
+            ->setMaxResults(5);
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
 }

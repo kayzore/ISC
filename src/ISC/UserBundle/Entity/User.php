@@ -74,6 +74,11 @@ class User extends BaseUser
     private $notificationsFrom;
 
     /**
+     * @ORM\OneToMany(targetEntity="ISC\PlatformBundle\Entity\UserNotifs", mappedBy="userTo")
+     */
+    private $notificationsTo;
+
+    /**
      * @ORM\OneToMany(targetEntity="ISC\PlatformBundle\Entity\ActiviteLikes", mappedBy="user")
      */
     private $likes;
@@ -407,5 +412,38 @@ class User extends BaseUser
     public function getLikes()
     {
         return $this->likes;
+    }
+
+    /**
+     * Add notificationsTo
+     *
+     * @param \ISC\PlatformBundle\Entity\UserNotifs $notificationsTo
+     * @return User
+     */
+    public function addNotificationsTo(UserNotifs $notificationsTo)
+    {
+        $this->notificationsTo[] = $notificationsTo;
+        $notificationsTo->setUser($this);
+        return $this;
+    }
+
+    /**
+     * Remove notificationsTo
+     *
+     * @param \ISC\PlatformBundle\Entity\UserNotifs $notificationsTo
+     */
+    public function removeNotificationsTo(UserNotifs $notificationsTo)
+    {
+        $this->notificationsTo->removeElement($notificationsTo);
+    }
+
+    /**
+     * Get notificationsTo
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNotificationsTo()
+    {
+        return $this->notificationsTo;
     }
 }

@@ -1,37 +1,51 @@
 isc_platform_homepage:
     path:     /
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Accueil:index }
+
+isc_platform_homepage_create_activite:
+    path:     /
+    methods: [ post ]
+    defaults: { _controller: ISCPlatformBundle:Accueil:createActivite }
 
 isc_platform_homepage_add_like_actu:
     path:     /add-like-actu/
+    methods: [ post ]
     defaults: { _controller: ISCPlatformBundle:Accueil:addLike }
 
 isc_platform_homepage_remove_like_actu:
     path:     /remove-like-actu/
+    methods: [ post ]
     defaults: { _controller: ISCPlatformBundle:Accueil:removeLike }
 
 isc_platform_get_notification:
     path:     /notifications
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Accueil:notif }
 
 isc_platform_view_actu:
     path:     /visualisation-d-actualite/{idActu}
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Accueil:viewActu }
 
 isc_platform_homepage_load_more_actu:
     path:     /load-more-actu
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Accueil:loadMore }
 
 isc_platform_search:
     path:     /search
+    methods: [ post ]
     defaults: { _controller: ISCPlatformBundle:Accueil:search }
 
 isc_platform_homepage_pixie_actualite:
     path:     /edition-image-activite/{filename}/{idActu}
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Accueil:editImageActu }
 
 isc_platform_homepage_pixie_actualite_save:
     path:     /profil/save-image-activite/
+    methods: [ post ]
     defaults: { _controller: ISCPlatformBundle:Accueil:saveImageActivite }
 
 isc_platform_profil_membres:

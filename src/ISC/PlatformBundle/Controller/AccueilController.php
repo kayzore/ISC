@@ -13,7 +13,7 @@ use ISC\PlatformBundle\Entity\UserNotifs;
 
 class AccueilController extends Controller
 {
-    public function indexAction(Request $request)
+    public function indexAction()
     {
     	if($this->get('security.authorization_checker')->isGranted('ROLE_USER')){
             $em = $this->getDoctrine()->getManager();
@@ -22,13 +22,6 @@ class AccueilController extends Controller
             $this->container->get('isc_platform.user')->checkAvatar($user->getId());
             $activite = new Activite();
             $form = $this->get('form.factory')->create(new ActiviteType(), $activite);
-            $resultSetNewActivite = $activitesService->setActivite($form, $request, $user->getId(), $activite);
-            if(is_array($resultSetNewActivite) && $resultSetNewActivite[0] == 'RedirectEditFile'){
-                return $this->redirectToRoute('isc_platform_homepage_pixie_actualite', array('filename' => $resultSetNewActivite[1], 'idActu' => $resultSetNewActivite[2]));
-            }
-            elseif($resultSetNewActivite === 'ErrorOneField'){
-                $form->get('textActivity')->addError(new FormError('Vous devez au minimum ajouter du texte ou une image.'));
-            }
             $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
             $arrayFriendId = $activitesService->getFriendsList($user->getId());
             $userActivites = $activitesService->getActivites($user->getId(), $arrayFriendId);
@@ -41,6 +34,25 @@ class AccueilController extends Controller
             ));
 	    }
     	return $this->render('ISCPlatformBundle:Visiteurs:index.html.twig');
+    }
+
+    public function createActiviteAction(Request $request)
+    {
+        if($this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+            $activitesService = $this->container->get('isc_platform.activite');
+            $user = $this->getUser();
+            $activite = new Activite();
+            $form = $this->get('form.factory')->create(new ActiviteType(), $activite);
+            $resultSetNewActivite = $activitesService->setActivite($form, $request, $user->getId(), $activite);
+            if(is_array($resultSetNewActivite) && $resultSetNewActivite[0] == 'RedirectEditFile'){
+                return $this->redirectToRoute('isc_platform_homepage_pixie_actualite', array('filename' => $resultSetNewActivite[1], 'idActu' => $resultSetNewActivite[2]));
+            }
+            elseif($resultSetNewActivite === 'ErrorOneField'){
+                $this->get('session')->getFlashBag()->add('errorAddActivite', 'Vous devez au minimum ajouter du texte ou une image.');
+                return $this->redirect($this->generateUrl('isc_platform_homepage'));
+            }
+        }
+        return $this->redirectToRoute('isc_platform_homepage');
     }
 
     public function loadMoreAction(Request $request)

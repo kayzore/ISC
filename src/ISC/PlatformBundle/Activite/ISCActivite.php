@@ -4,7 +4,6 @@
 namespace ISC\PlatformBundle\Activite;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
 use ISC\PlatformBundle\Entity\Activite;
 use ISC\PlatformBundle\Entity\ActiviteImage;
@@ -20,13 +19,21 @@ class ISCActivite extends \Twig_Extension
     private $kernelRootDir;
     private $router;
 
+    /**
+     * ISCActivite constructor.
+     * @param EntityManager $em
+     * @param ISCUser $userService
+     * @param $serverUrl
+     * @param $kernelRootDir
+     * @param Router $router
+     */
     public function __construct(EntityManager $em, ISCUser $userService, $serverUrl, $kernelRootDir, Router $router)
     {
         $this->em               = $em;
         $this->userService      = $userService;
         $this->serverUrl        = $serverUrl;
         $this->kernelRootDir    = $kernelRootDir;
-        $this->router    = $router;
+        $this->router           = $router;
     }
 
     /**

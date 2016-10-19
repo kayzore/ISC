@@ -1,24 +1,16 @@
-{% set liked = false %}
-{% set tooltip_like = '' %}
-{% set jsLikeActu = '' %}
-{% set classLikeActu = '' %}
-{% set textLikeActu = '' %}
-{% for like in activite.likes %}
-    {% if like.user.id == app.user.id %}
-        {% set liked = true %}
-        {% set tooltip_like = tooltip_like ~ 'Vous<br />' %}
-    {% else %}
-        {% set tooltip_like = tooltip_like ~ like.user.username ~ '<br />' %}
-    {% endif %}
-{% endfor %}
-{% if liked == true %}
-    <a onclick="DelLike(this.getAttribute('id'));" id="{{ activite.id }}" class="btn btn-success btn-xs clickable">
-        <i class="fa fa-thumbs-up"></i> J<span style="text-transform:lowercase;">'aime</span> <span id="loadLike{{ activite.id }}" style="display:none;">
-            <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span>
-    </a> | <a data-toggle="tooltip" title="{{ tooltip_like }}" class="my_tooltip" style="text-transform:lowercase;color:black;text-decoration:none;">{{ activite.likes|length }} <i class="fa fa-heart"></i></a>
-{% else %}
-    <a onclick="AddLike(this.getAttribute('id'));" id="{{ activite.id }}" class="btn btn-primary btn-xs clickable">
-        <i class="fa fa-thumbs-o-up"></i> J<span style="text-transform:lowercase;">'aime</span> <span id="loadLike{{ activite.id }}" style="display:none;">
-            <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span>
-    </a> | <a data-toggle="tooltip" title="{{ tooltip_like }}" class="my_tooltip" style="text-transform:lowercase;color:black;text-decoration:none;">{{ activite.likes|length }} <i class="fa fa-heart"></i></a>
-{% endif %}
+{% extends "ISCPlatformBundle:Activites:actuLikeVariables.html.twig" %}
+
+{% block actuLikeTexte %}
+    {% for like in activite.likes %}
+        {% if like.user.id == app.user.id %}
+            {% set liked = true %}
+            {% set tooltip_like = tooltip_like ~ 'Vous<br />' %}
+        {% else %}
+            {% set tooltip_like = tooltip_like ~ like.user.username ~ '<br />' %}
+        {% endif %}
+    {% endfor %}
+    {% block actuLikeHtml %}
+
+    {% endblock actuLikeHtml %}
+{% endblock actuLikeTexte %}
+

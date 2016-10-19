@@ -1,0 +1,16 @@
+
+{% extends "ISCPlatformBundle:Activites:actuLikeTexte.html.twig" %}
+
+{% block actuLikeHtml %}
+    {% if liked == true %}
+        <a onclick="DelLike(this.getAttribute('id'));" id="{{ activite.id }}" class="btn btn-success btn-xs clickable">
+            <i class="fa fa-thumbs-up"></i> J<span style="text-transform:lowercase;">'aime</span> <span id="loadLike{{ activite.id }}" style="display:none;">
+            <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span>
+        </a> | <a data-toggle="tooltip" title="{{ tooltip_like }}" class="my_tooltip" style="text-transform:lowercase;color:black;text-decoration:none;">{{ activite.likes|length }} <i class="fa fa-heart"></i></a>
+    {% else %}
+        <a onclick="AddLike(this.getAttribute('id'));" id="{{ activite.id }}" class="btn btn-primary btn-xs clickable">
+            <i class="fa fa-thumbs-o-up"></i> J<span style="text-transform:lowercase;">'aime</span> <span id="loadLike{{ activite.id }}" style="display:none;">
+            <i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span>
+        </a> | <a data-toggle="tooltip" title="{{ tooltip_like }}" class="my_tooltip" style="text-transform:lowercase;color:black;text-decoration:none;">{{ activite.likes|length }} <i class="fa fa-heart"></i></a>
+    {% endif %}
+{% endblock actuLikeHtml %}

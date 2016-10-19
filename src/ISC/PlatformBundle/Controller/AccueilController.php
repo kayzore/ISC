@@ -43,6 +43,28 @@ class AccueilController extends Controller
     	return $this->render('ISCPlatformBundle:Visiteurs:index.html.twig');
     }
 
+    public function loadMoreAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $user = $this->getUser();
+            $activitesService = $this->container->get('isc_platform.activite');
+            $userActivites = $activitesService->getActivitesAfterId($request->query->get('last'), $user->getId());
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/text');
+            if($userActivites === null){
+                $response->setContent("NULL");
+                return $response;
+            }
+            $response->setContent($userActivites);
+            return $response;
+        }
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/text');
+        $response->setContent('success');
+        return $response;
+    }
+
     public function addLikeAction(Request $request)
     {
         if($request->isXmlHttpRequest())
@@ -81,6 +103,24 @@ class AccueilController extends Controller
         }
         $response = new Response();
         $response->headers->set('Content-Type', 'application/text');
+        $response->setContent('success');
+        return $response;
+    }
+
+    public function notifAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $userId = $request->query->get('id');
+            $userService = $this->container->get('isc_platform.user');
+            $userNotifications = $userService->getNotifications($userId);
+            $data[] = array('content' => $userNotifications[0], 'number' => $userNotifications[1]);
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($data));
+            return $response;
+        }
+        $response = new Response();
         $response->setContent('success');
         return $response;
     }

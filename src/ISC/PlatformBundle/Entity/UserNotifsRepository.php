@@ -34,9 +34,9 @@ class UserNotifsRepository extends EntityRepository
 
         $qb
             ->where('a.userTo = :idUser')
-            ->andWhere('a.idUserFrom != :idUser')
+            ->andWhere('a.userFrom != :idUser')
             ->setParameter('idUser', $idUser)
-            ->andWhere('a.idActivite = :idActu')
+            ->andWhere('a.activite = :idActu')
             ->setParameter('idActu', $idActu)
             ->orderBy("a.datetimeNotif", 'DESC');
 
@@ -51,7 +51,7 @@ class UserNotifsRepository extends EntityRepository
 
         $qb
             ->where('a.userTo = :idUser')
-            ->andWhere('a.idUserFrom != :idUser')
+            ->andWhere('a.userFrom != :idUser')
             ->andWhere('a.view = 0')
             ->setParameter('idUser', $idUser)
             ->setMaxResults(5);

@@ -56,7 +56,7 @@
         
         // Set max height of dropdown menu to activate auto scrollbar.
         if (this.options.maxHeight) {
-            // TODO: Add a class for this option to move the css declarations.
+            // Add a class for this option to move the css declarations.
             $('.multiselect-container', this.$container).css({
                 'max-height' : this.options.maxHeight + 'px',
                 'overflow-y' : 'auto',

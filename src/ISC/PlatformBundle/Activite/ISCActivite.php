@@ -217,7 +217,6 @@ class ISCActivite extends \Twig_Extension
                 $checkImage = true;
             }
             if($checkImage === true || $checkTexte === true){
-                $resultSetActivite[0] = true;
                 if($resultEditFile === true){
                     $activite->setApproved(false);
                     $wantEditFile = true;

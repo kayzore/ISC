@@ -1,0 +1,30 @@
+{% extends "ISCPlatformBundle:Notifications:notifLogic.html.twig" %}
+
+{% block notifContent %}
+    {% set typeNotif = '' %}
+    {% set urlActuView = path("isc_platform_view_actu", { 'idActu': notification.activite.id }) %}
+    {% set listNotifsFormat = '' %}
+    {% if notification.type == 'Like' %}
+        {% if notification.view == false %}
+            <a class="content">
+                <div class="notification-item">
+                    <span class="label label-danger pull-right">New !</span>
+                    <h4 class="item-title">
+                        <a href="{{ path("isc_platform_profil_membres", { "username": notification.user.username }) }}">{{ notification.user.username }}</a> à aimé votre <a href="{{ urlActuView }}">actualité</a>
+                    </h4>
+                    <p class="item-info">{{ notification.datetimeNotif|date("d-m-Y H:i:s") }}</p>
+                </div>
+            </a>
+        {% else %}
+            <a class="content">
+                <div class="notification-item">
+                    <h4 class="item-title">
+                        <a href="{{ path("isc_platform_profil_membres", { "username": notification.user.username }) }}">{{ notification.user.username }}</a> à aimé votre <a href="{{ urlActuView }}">actualité</a>
+                    </h4>
+                    <p class="item-info">{{ notification.datetimeNotif|date("d-m-Y H:i:s") }}</p>
+                </div>
+            </a>
+        {% endif %}
+    {% endif %}
+{% endblock notifContent %}
+

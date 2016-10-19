@@ -1,0 +1,11 @@
+{% if userNotifications|length > 0 %}
+    {% set idLastActuArray = [0] %}
+    {% for notification in userNotifications %}
+        {% if notification.activite.id in idLastActuArray %}
+            {% block notifContent %}
+            {% endblock notifContent %}
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <div class="alert alert-info">Aucune notification</div>
+{% endif %}

@@ -1,0 +1,9 @@
+{% set userNbNotification = 0 %}
+{% for notification in userNotifications %}
+    {% if notification.view == false %}
+        {% set userNbNotification = userNbNotification + 1 %}
+    {% endif %}
+{% endfor %}
+{% if userNbNotification >= 1 %}
+    <span class="badge">{{ userNbNotification }}</span>
+{% endif %}

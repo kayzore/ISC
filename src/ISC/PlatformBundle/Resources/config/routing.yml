@@ -10,12 +10,12 @@ isc_platform_homepage_create_activite:
 
 isc_platform_homepage_add_like_actu:
     path:     /add-like-actu/
-    methods: [ post ]
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Accueil:addLike }
 
 isc_platform_homepage_remove_like_actu:
     path:     /remove-like-actu/
-    methods: [ post ]
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Accueil:removeLike }
 
 isc_platform_get_notification:
@@ -35,7 +35,7 @@ isc_platform_homepage_load_more_actu:
 
 isc_platform_search:
     path:     /search
-    methods: [ post ]
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Accueil:search }
 
 isc_platform_homepage_pixie_actualite:

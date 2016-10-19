@@ -3,24 +3,27 @@
 
 namespace ISC\PlatformBundle\User;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Doctrine\ORM\EntityManager;
 use ISC\UserBundle\Entity\User;
 
 class ISCUser
 {
     private $em;
-    private $container;
+    private $serverUrl;
+    private $router;
 
     /**
      * ISCUser constructor.
      * @param EntityManager $em
-     * @param ContainerInterface $container
+     * @param $serverUrl
+     * @param Router $router
      */
-    public function __construct(EntityManager $em, ContainerInterface $container)
+    public function __construct(EntityManager $em, $serverUrl, Router $router)
     {
         $this->em           = $em;
-        $this->container    = $container;
+        $this->serverUrl    = $serverUrl;
+        $this->router       = $router;
     }
 
     /**
@@ -31,7 +34,7 @@ class ISCUser
         $userInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUser));
         if ($userInformations->getUrlAvatar() == NULL) {
             $userInformations->setNameAvatar('no-avatar.png');
-            $userInformations->setUrlAvatar('http://'.$this->container->get('request')->server->get('SERVER_NAME') . '/assets/images/no-avatar.png');
+            $userInformations->setUrlAvatar($this->serverUrl . '/assets/images/no-avatar.png');
             $userInformations->setExtensionAvatar('.png');
             $this->em->persist($userInformations);
             $this->em->flush();
@@ -52,7 +55,7 @@ class ISCUser
                 $userMultiNotifs = $this->em->getRepository("ISCPlatformBundle:UserNotifs")->getIfMultiUserNotif($notif->getUserTo(), $notif->getActivite()->getId());
                 if(!in_array($notif->getActivite()->getId(), $idLastActuArray)) {
                     $typeNotif = '';
-                    $urlActuView = $this->container->get('router')->generate('isc_platform_view_actu', array('idActu' => $notif->getActivite()->getId()));
+                    $urlActuView = $this->router->generate('isc_platform_view_actu', array('idActu' => $notif->getActivite()->getId()));
                     if (count($userMultiNotifs) > 1) {
                         if ($notif->getType() == 'Like') {
                             $typeNotif = count($userMultiNotifs) . ' personnes ont aimés votre <a href="' . $urlActuView . '">actualité</a>';

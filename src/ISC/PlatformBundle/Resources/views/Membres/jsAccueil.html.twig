@@ -23,7 +23,7 @@
             ajax: {
                 url: "{{ path("isc_platform_search") }}",
                 dataType: "json",
-                type: "POST",
+                type: "GET",
                 data: function (params) {
                     var queryParameters = {
                         term: params.term

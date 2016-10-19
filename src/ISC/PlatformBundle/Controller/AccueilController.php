@@ -82,7 +82,7 @@ class AccueilController extends Controller
         if($request->isXmlHttpRequest())
         {
             $user = $this->getUser();
-            $idActu = $request->request->get('id');
+            $idActu = $request->query->get('id');
 
             $activitesService = $this->container->get('isc_platform.activite');
             $result = $activitesService->setLike($idActu, $user->getId());
@@ -103,7 +103,7 @@ class AccueilController extends Controller
         if($request->isXmlHttpRequest())
         {
             $user = $this->getUser();
-            $idActu = $request->request->get('id');
+            $idActu = $request->query->get('id');
 
             $activitesService = $this->container->get('isc_platform.activite');
             $result = $activitesService->removeLike($idActu, $user->getId());
@@ -159,7 +159,7 @@ class AccueilController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
-            $motcle = $request->request->get('term');
+            $motcle = $request->query->get('term');
             $userService = $this->container->get('isc_platform.user');
             $data = $userService->getUserBySearchTerm($motcle);
             $response = new Response();

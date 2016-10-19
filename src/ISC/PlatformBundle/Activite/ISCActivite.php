@@ -191,55 +191,82 @@ class ISCActivite extends \Twig_Extension
             $webPath = $this->kernelRootDir.'/../web';
             $checkImage = false;
             $checkTexte = false;
-            $resultSetActivite = array(false);
             $resultEditFile = false;
+            $fileName = '';
+            $wantEditFile = false;
+            if($form["textActivity"]->getData() != ""){
+                $contentActu =	str_replace("<", " < ", $form["textActivity"]->getData());
+                $activite->setTextActivity(nl2br($contentActu));
+                $checkTexte = true;
+            }
             if(is_object($activite->getImage()->getFile())){
                 $fileName = md5(uniqid()).'.'.$activite->getImage()->getFile()->guessExtension();
                 $file = $activite->getImage()->getFile();
                 $image = new ActiviteImage();
                 $image->setImageName($fileName);
                 if($activite->getImage()->getEditFile() === true){
-                    $image->setUrlImage($this->serverUrl . '/uploads/imgTmp/'.$fileName);
+                    $image->setUrlImage($this->serverUrl . 'uploads/imgTmp/'.$fileName);
                     $file->move($webPath. '/uploads/imgTmp/', $fileName);
                     $resultEditFile = true;
                 }
                 else{
-                    $image->setUrlImage($this->serverUrl . '/uploads/img/'.$fileName);
+                    $image->setUrlImage($this->serverUrl . 'uploads/img/'.$fileName);
                     $file->move($webPath. '/uploads/img/', $fileName);
                 }
                 $activite->setImage($image);
-                $checkImage =true;
-            }
-            if($form["textActivity"]->getData() != ""){
-                $contentActu =	str_replace("<", " < ", $form["textActivity"]->getData());
-                $activite->setTextActivity(nl2br($contentActu));
-                $checkTexte = true;
+                $checkImage = true;
             }
             if($checkImage === true || $checkTexte === true){
                 $resultSetActivite[0] = true;
+                if($resultEditFile === true){
+                    $activite->setApproved(false);
+                    $wantEditFile = true;
+                }
+                else{
+                    $activite->setApproved(true);
+                }
+                $activite->setDatetimeActivity(new \DateTime());
+                $this->em->persist($activite);
+                $this->em->flush();
+                if($wantEditFile === true){
+                    $resultNewActivite = array('RedirectEditFile', $fileName, $activite->getId());
+                    return $resultNewActivite;
+                }
             }
             else{
-                $resultSetActivite[0] = false;
-            }
-            if($resultEditFile === true){
-                $activite->setApproved(false);
-                array_push($resultSetActivite, true, $fileName);
-            }
-            else{
-                $activite->setApproved(true);
-                array_push($resultSetActivite, false);
-            }
-            array_push($resultSetActivite, $activite->getId());
-            $activite->setDatetimeActivity(new \DateTime());
-            $this->em->persist($activite);
-            $this->em->flush();
-            if($resultSetActivite[0] === false){
                 return 'ErrorOneField';
             }
-            elseif($resultSetActivite[1] === true){
-                return 'RedirectEditFile';
-            }
         }
+    }
+
+    /**
+     * @param $idActu
+     * @param $file
+     * @return array
+     */
+    public function setEditImage($idActu, $file)
+    {
+        $actualite = $this->em->getRepository("ISCPlatformBundle:Activite")->findOneBy(array('id' => $idActu, 'approved' => false));
+        $actualite->setApproved(true);
+        $fileName = $actualite->getImage()->getImageName();
+        $actualite->getImage()->setUrlImage($this->serverUrl.'uploads/img/'.$fileName);
+        $path = $this->kernelRootDir.'/../web/uploads/img/'.$fileName;
+        $file2 = file_get_contents($file);
+        file_put_contents($path, $file2);
+        $this->em->flush();
+
+        return array('status' => "success","fileUploaded" => true);
+    }
+
+    /**
+     * @param $filename
+     * @return mixed
+     */
+    public function getUrlImage($filename)
+    {
+        $myImage = $this->em->getRepository("ISCPlatformBundle:ActiviteImage")->findOneBy(array('imageName' => $filename));
+        $urlImage = $myImage->getUrlImage();
+        return $urlImage;
     }
 
     /**

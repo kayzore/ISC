@@ -87,12 +87,12 @@
         var myPixie = Pixie.setOptions({
             replaceOriginal: true,
             onSave: function(data, img) {
+                document.getElementById('loadModif').style.display = 'block';
                 $.ajax({
                     type: 'POST',
                     url: '{{ path("isc_platform_homepage_pixie_actualite_save") }}',
                     data: { imgData: data, idActu: idActu },
                 }).success(function(response) {
-                    document.getElementById('loadModif').style.display = 'block';
                     window.location.replace("{{ path("isc_platform_homepage") }}");
                 });
             }

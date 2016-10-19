@@ -23,10 +23,10 @@ class AccueilController extends Controller
             $activite = new Activite();
             $form = $this->get('form.factory')->create(new ActiviteType(), $activite);
             $resultSetNewActivite = $activitesService->setActivite($form, $request, $user->getId(), $activite);
-            if($resultSetNewActivite[0] == 'RedirectEditFile'){
+            if(is_array($resultSetNewActivite) && $resultSetNewActivite[0] == 'RedirectEditFile'){
                 return $this->redirectToRoute('isc_platform_homepage_pixie_actualite', array('filename' => $resultSetNewActivite[1], 'idActu' => $resultSetNewActivite[2]));
             }
-            elseif($resultSetNewActivite == 'ErrorOneField'){
+            elseif($resultSetNewActivite === 'ErrorOneField'){
                 $form->get('textActivity')->addError(new FormError('Vous devez au minimum ajouter du texte ou une image.'));
             }
             $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
@@ -161,6 +161,39 @@ class AccueilController extends Controller
             return $response;
         }
         $response = new Response();
+        $response->setContent('success');
+        return $response;
+    }
+
+    public function editImageActuAction($filename, $idActu)
+    {
+        if($this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $activitesService = $this->container->get('isc_platform.activite');
+            $urlImage = $activitesService->getUrlImage($filename);
+            $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
+            return $this->render('ISCPlatformBundle:Membres:modifImageActu.html.twig', array(
+                'urlImage' 				=> $urlImage,
+                'idActu' 				=> $idActu,
+                'userNotifications'		=> $userNotifications,
+            ));
+        }
+        return $this->redirectToRoute('isc_platform_homepage');
+    }
+
+    public function saveImageActiviteAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $file = $request->request->get('imgData');
+            $idActu = $request->request->get('idActu');
+            $activitesService = $this->container->get('isc_platform.activite');
+            $status = $activitesService->setEditImage($idActu, $file);
+            return new JsonResponse($status);
+        }
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/text');
         $response->setContent('success');
         return $response;
     }

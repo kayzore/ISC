@@ -115,10 +115,7 @@ class ISCActivite extends \Twig_Extension
                         $tooltip_like = $tooltip_like . 'Vous<br />';
                     }
                     else{
-                        $userInformations = $this->userService->getUserInformations($likeActu->getIdUser()->getId());
-                        foreach ($userInformations as $userInformation) {
-                            $tooltip_like = $tooltip_like . $userInformation->getUsername(). '<br />';
-                        }
+                        $tooltip_like = $tooltip_like . $likeActu->getUser()->getUsername(). '<br />';
                     }
                 }
                 if($liked === true){

@@ -153,53 +153,9 @@ class ISCActivite extends \Twig_Extension
      * @param $idActu
      * @return string
      */
-    public function getOneActivites($idUser, $idActu){
-        $listActivites = $this->em->getRepository("ISCPlatformBundle:Activite")->findBy(array('id' => $idActu));
-
-        $activiteHtml = '';
-        foreach ($listActivites as $activite) {
-            if(count($activite->getLikes()) > 0){
-                $classLikeActuSuccess = 'btn btn-success btn-xs clickable';
-                $classLikeActuPrimary = 'btn btn-primary btn-xs clickable';
-                $tooltip_like = '';
-                $liked = false;
-                foreach ($activite->getLikes() as $likeActu) {
-                    if($likeActu->getUser()->getId() == $idUser){
-                        $liked = true;
-                        $tooltip_like = $tooltip_like . 'Vous<br />';
-                    }
-                    else{
-                        $tooltip_like = $tooltip_like . $likeActu->getUser()->getUsername(). '<br />';
-                    }
-                }
-                if($liked === true){
-                    $jsLikeActu = 'javascript:DelLike(this.getAttribute(\'id\'));';
-                    $classLikeActu = $classLikeActuSuccess;
-                    $textLikeActu = '<i class="fa fa-thumbs-up"></i> J<span style="text-transform:lowercase;">\'aime</span> <span id="loadLike'.$activite->getId().'" style="display:none;"><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span></a>';
-
-                }
-                else{
-                    $jsLikeActu = 'javascript:AddLike(this.getAttribute(\'id\'));';
-                    $classLikeActu = $classLikeActuPrimary;
-                    $textLikeActu = '<i class="fa fa-thumbs-o-up"></i> J<span style="text-transform:lowercase;">\'aime</span> <span id="loadLike'.$activite->getId().'" style="display:none;"><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span></a>';
-
-                }
-                $likeListUser = '<a data-toggle="tooltip" title="'.$tooltip_like.'" class="my_tooltip" style="text-transform:lowercase;color:black;text-decoration:none;">'.count($activite->getLikes()).' <i class="fa fa-heart"></i></a>';
-                $likeActuHtml = '<span class="pull-left"><a onclick="' . $jsLikeActu . '" id="'.$activite->getId().'" class="'.$classLikeActu.'">'.$textLikeActu.' | '.$likeListUser.'</span>';
-            }
-            else{
-                $likeActuHtml = '<span class="pull-left"><a onclick="javascript:AddLike(this.getAttribute(\'id\'));" id="'.$activite->getId().'" class="btn btn-primary btn-xs clickable"><i class="fa fa-thumbs-o-up"></i> J<span style="text-transform:lowercase;">\'aime</span> <span id="loadLike'.$activite->getId().'" style="display:none;"><i class="fa fa-spinner fa-pulse fa-fw"></i> Loading</span></a></span>';
-            }
-            if ($activite->getTextActivity() != NULL) {
-                $textActuFormat = $this->checkSmiley($activite->getTextActivity());
-                $contentActu = '<div class="col-md-12" style="box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.1);display: inline-block;"><br /><p>' . $textActuFormat . '</p><img src="' . $activite->getImage()->getUrlImage() . '" style="max-width: 100%;max-height:300px;display: block;margin-left:auto;margin-right:auto;padding-bottom:10px;"></div>';
-            }
-            else {
-                $contentActu = '<div class="col-md-12" style="box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.1);display: inline-block;"><img src="' . $activite->getImage()->getUrlImage() . '" style="max-width: 100%;max-height:300px;display: block;margin-left:auto;margin-right:auto;padding-bottom:10px;"></div>';
-            }
-            $activiteHtml = '<div class="row mod_actu" id="' . $activite->getId() . '" style="padding:20px;margin-bottom:20px;"><div class="col-md-12"><p><img src="' . $activite->getUser()->getUrlAvatar() . '" class="img-rounded img-responsive pull-left" style="max-height:70px;vertical-align:middle;"><strong><a href="' . $this->container->get('router')->generate('isc_platform_profil_membres', array('username' => $activite->getUser()->getUsername())) . '">' . $activite->getUser()->getUsername() . '</a></strong></p></div><hr>' . $contentActu . '<div class="col-md-12 pull-left" style="padding-top:5px;" id="LikeZone' . $activite->getId() . '">' . $likeActuHtml . ' <span class="pull-right"><i class="fa fa-calendar"></i> ' . $activite->getDatetimeActivity()->format('d-m-Y H:i:s') . '</span></div></div>';
-        }
-        return $activiteHtml;
+    public function getOneActivites($idActu){
+        $listActivites = $this->em->getRepository("ISCPlatformBundle:Activite")->findOneBy(array('id' => $idActu));
+        return $listActivites;
     }
 
     /**

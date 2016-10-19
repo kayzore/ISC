@@ -14,7 +14,6 @@ use ISC\PlatformBundle\User\ISCUser;
 class ISCActivite extends \Twig_Extension
 {
     private $em;
-    private $userService;
     private $serverUrl;
     private $kernelRootDir;
     private $router;
@@ -27,10 +26,9 @@ class ISCActivite extends \Twig_Extension
      * @param $kernelRootDir
      * @param Router $router
      */
-    public function __construct(EntityManager $em, ISCUser $userService, $serverUrl, $kernelRootDir, Router $router)
+    public function __construct(EntityManager $em, $serverUrl, $kernelRootDir, Router $router)
     {
         $this->em               = $em;
-        $this->userService      = $userService;
         $this->serverUrl        = $serverUrl;
         $this->kernelRootDir    = $kernelRootDir;
         $this->router           = $router;

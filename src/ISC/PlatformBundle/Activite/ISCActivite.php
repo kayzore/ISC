@@ -177,7 +177,7 @@ class ISCActivite extends \Twig_Extension
      * @param $idUser
      * @return string
      */
-    public function getLikeZone($actualite, $idActu, $userInformations, $idUser)
+    public function getLikeZone($actualite, $idActu, $userInformations)
     {
         $listLikesActivite = $this->em->getRepository('ISCPlatformBundle:ActiviteLikes')->findBy(array('activite' => $actualite));
         $listActivites = $this->em->getRepository('ISCPlatformBundle:Activite')->findOneBy(array('id' => $idActu));
@@ -246,7 +246,7 @@ class ISCActivite extends \Twig_Extension
         }
         $this->em->flush();
 
-        $likeZoneHtml = $this->getLikeZone($infoActivites, $idActu, $userInformations, $idUser);
+        $likeZoneHtml = $this->getLikeZone($infoActivites, $idActu, $userInformations);
 
         return $likeZoneHtml;
     }
@@ -265,7 +265,7 @@ class ISCActivite extends \Twig_Extension
             $this->em->remove($likeActu);
         }
         $this->em->flush();
-        $likeZoneHtml = $this->getLikeZone($infoActivites, $idActu, $userInformations, $idUser);
+        $likeZoneHtml = $this->getLikeZone($infoActivites, $idActu, $userInformations);
 
         return $likeZoneHtml;
     }

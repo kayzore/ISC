@@ -61,8 +61,8 @@
                                       <li class="dropdown">
                                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="dropdownNotifications">
                                               <i class="glyphicon glyphicon-bell"></i>
-                                              {% if userNotifications|length >= 1 %}
-                                                  <span class="badge">{{ userNotifications|length }}</span>
+                                              {% if userNbNotifications >= 1 %}
+                                                  <span class="badge">{{ userNbNotifications }}</span>
                                               {% endif %}
                                           </a>
                                           <ul class="dropdown-menu notifications" style="padding-bottom: 0px;">

@@ -87,4 +87,36 @@ class ISCUser
 
         return $arrayUserNotifications;
     }
+
+    /**
+     * @param $idUser
+     * @param $idActu
+     * @return array|\ISC\PlatformBundle\Entity\Activite[]|\ISC\PlatformBundle\Entity\UserNotifs[]|\ISC\UserBundle\Entity\User[]
+     */
+    public function getOneNotification($idUser, $idActu)
+    {
+        $notification = $this->em->getRepository("ISCPlatformBundle:UserNotifs")->findBy(array('userTo' => $idUser, 'activite' => $idActu));
+
+        return $notification;
+    }
+
+    /**
+     * @param $term
+     * @return array|string
+     */
+    public function getUserBySearchTerm($term)
+    {
+        $userInformations = $this->em->getRepository("ISCUserBundle:User")->getSearchListUser($term);
+        if(count($userInformations) > 0){
+            foreach ($userInformations as $key => $value) {
+                $data[] = array('id' => $value->getId(), 'username' => $value->getUsername());
+            }
+        }
+        else {
+            $data = array('id' => '', 'username' => $term);
+        }
+        $data = json_encode($data);
+
+        return $data;
+    }
 }

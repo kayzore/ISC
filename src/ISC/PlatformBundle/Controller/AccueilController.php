@@ -30,12 +30,14 @@ class AccueilController extends Controller
                 $form->get('textActivity')->addError(new FormError('Vous devez au minimum ajouter du texte ou une image.'));
             }
             $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
+            $userNbNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getNbMyNewNotif($user->getId());
             $arrayFriendId = $activitesService->getFriendsList($user->getId());
             $userActivites = $activitesService->getActivites($user->getId(), $arrayFriendId);
             $userNbTotalActivites = $activitesService->getNbTotalActivites($user->getId(), $arrayFriendId);
             return $this->render('ISCPlatformBundle:Membres:index.html.twig', array(
                 'form' 					=> $form->createView(),
                 'userNotifications'		=> $userNotifications,
+                'userNbNotifications'	=> count($userNbNotifications),
                 'userActivites' 	    => $userActivites,
                 'userNbTotalActivites' 	=> $userNbTotalActivites,
             ));
@@ -118,6 +120,48 @@ class AccueilController extends Controller
             $response = new Response();
             $response->headers->set('Content-Type', 'application/json');
             $response->setContent(json_encode($data));
+            return $response;
+        }
+        $response = new Response();
+        $response->setContent('success');
+        return $response;
+    }
+
+    public function viewActuAction($idActu)
+    {
+        if($this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+            $em = $this->getDoctrine()->getManager();
+            $userService = $this->container->get('isc_platform.user');
+            $activitesService = $this->container->get('isc_platform.activite');
+            $user = $this->getUser();
+            $notifConcernee = $userService->getOneNotification($user->getId(), $idActu);
+            foreach ($notifConcernee as $notif) {
+                $notif->setView(true);
+            }
+            $em->persist($notif);
+            $em->flush();
+            $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
+            $userNbNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getNbMyNewNotif($user->getId());
+            $userActivites = $activitesService->getOneActivites($user->getId(), $idActu);
+            return $this->render('ISCPlatformBundle:Membres:viewActu.html.twig', array(
+                'userNotifications'		=> $userNotifications,
+                'userNbNotifications'	=> count($userNbNotifications),
+                'userActivites' 	    => $userActivites,
+            ));
+        }
+        return $this->redirectToRoute('isc_platform_homepage');
+    }
+
+    public function searchAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $motcle = $request->request->get('term');
+            $userService = $this->container->get('isc_platform.user');
+            $data = $userService->getUserBySearchTerm($motcle);
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent($data);
             return $response;
         }
         $response = new Response();

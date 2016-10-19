@@ -30,14 +30,12 @@ class AccueilController extends Controller
                 $form->get('textActivity')->addError(new FormError('Vous devez au minimum ajouter du texte ou une image.'));
             }
             $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
-            $userNbNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getNbMyNewNotif($user->getId());
             $arrayFriendId = $activitesService->getFriendsList($user->getId());
             $userActivites = $activitesService->getActivites($user->getId(), $arrayFriendId);
             $userNbTotalActivites = $activitesService->getNbTotalActivites($user->getId(), $arrayFriendId);
             return $this->render('ISCPlatformBundle:Membres:index.html.twig', array(
                 'form' 					=> $form->createView(),
                 'userNotifications'		=> $userNotifications,
-                'userNbNotifications'	=> count($userNbNotifications),
                 'userActivites' 	    => $userActivites,
                 'userNbTotalActivites' 	=> $userNbTotalActivites,
             ));
@@ -141,11 +139,9 @@ class AccueilController extends Controller
             $em->persist($notif);
             $em->flush();
             $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
-            $userNbNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getNbMyNewNotif($user->getId());
             $userActivites = $activitesService->getOneActivites($user->getId(), $idActu);
             return $this->render('ISCPlatformBundle:Membres:viewActu.html.twig', array(
                 'userNotifications'		=> $userNotifications,
-                'userNbNotifications'	=> count($userNbNotifications),
                 'userActivites' 	    => $userActivites,
             ));
         }

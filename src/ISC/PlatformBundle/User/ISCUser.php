@@ -5,7 +5,6 @@ namespace ISC\PlatformBundle\User;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Doctrine\ORM\EntityManager;
-use ISC\UserBundle\Entity\User;
 
 class ISCUser
 {

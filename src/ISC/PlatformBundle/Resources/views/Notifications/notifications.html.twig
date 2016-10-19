@@ -10,7 +10,7 @@
                 <div class="notification-item">
                     <span class="label label-danger pull-right">New !</span>
                     <h4 class="item-title">
-                        <a href="{{ path("isc_platform_profil_membres", { "username": notification.user.username }) }}">{{ notification.user.username }}</a> à aimé votre <a href="{{ urlActuView }}">actualité</a>
+                        <a href="{{ path("isc_platform_profil_membres", { "username": notification.userFrom.username }) }}">{{ notification.userFrom.username }}</a> à aimé votre <a href="{{ urlActuView }}">actualité</a>
                     </h4>
                     <p class="item-info">{{ notification.datetimeNotif|date("d-m-Y H:i:s") }}</p>
                 </div>
@@ -19,7 +19,7 @@
             <a class="content">
                 <div class="notification-item">
                     <h4 class="item-title">
-                        <a href="{{ path("isc_platform_profil_membres", { "username": notification.user.username }) }}">{{ notification.user.username }}</a> à aimé votre <a href="{{ urlActuView }}">actualité</a>
+                        <a href="{{ path("isc_platform_profil_membres", { "username": notification.userFrom.username }) }}">{{ notification.userFrom.username }}</a> à aimé votre <a href="{{ urlActuView }}">actualité</a>
                     </h4>
                     <p class="item-info">{{ notification.datetimeNotif|date("d-m-Y H:i:s") }}</p>
                 </div>

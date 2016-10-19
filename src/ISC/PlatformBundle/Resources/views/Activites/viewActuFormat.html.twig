@@ -1,0 +1,26 @@
+<div class="row mod_actu" id="{{ userActivites.id }}" style="padding:20px;margin-bottom:20px;">
+    <div class="col-md-12">
+        <p>
+            <img src="{{ userActivites.user.urlAvatar }}" class="img-rounded img-responsive pull-left" style="max-height:70px;vertical-align:middle;">
+            <strong><a href="{{ path("isc_platform_profil_membres", { 'username': userActivites.user.username }) }}">{{ userActivites.user.username }}</a></strong>
+        </p>
+    </div>
+    <hr>
+    {% if  userActivites.textActivity != null %}
+        <div class="col-md-12" style="box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.1);display: inline-block;">
+            <br />
+            <p>{{ include("ISCPlatformBundle:Activites:viewActuTexteSmiley.html.twig") }}</p>
+            <img src="{{ userActivites.image.urlImage }}" style="max-width: 100%;max-height:300px;display: block;margin-left:auto;margin-right:auto;padding-bottom:10px;">
+        </div>
+    {% else %}
+        <div class="col-md-12" style="box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.1);display: inline-block;">
+            <img src="{{ userActivites.image.urlImage }}" style="max-width: 100%;max-height:300px;display: block;margin-left:auto;margin-right:auto;padding-bottom:10px;">
+        </div>
+    {% endif %}
+    <div class="col-md-12 pull-left" style="padding-top:5px;" id="LikeZone{{ userActivites.id }}">
+        <span class="pull-left">
+            {{ include("ISCPlatformBundle:Activites:viewActuLikeHtml.html.twig") }}
+        </span>
+        <span class="pull-right"><i class="fa fa-calendar"></i> {{ userActivites.datetimeActivity|date('d-m-Y H:i:s') }}</span>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+{% set listeSmiley = {
+'1': ' <img src="'~ app.request.schemeAndHttpHost ~'/assets/images/smileyActu/choque2.png" style="padding-bottom: 5px;">',
+'2': ' <img src="'~ app.request.schemeAndHttpHost ~'/assets/images/smileyActu/choque2-inverse.png" style="padding-bottom: 5px;">',
+'3': ' <img src="'~ app.request.schemeAndHttpHost ~'/assets/images/smileyActu/happy1.png" style="padding-bottom: 5px;">',
+'4': ' <img src="'~ app.request.schemeAndHttpHost ~'/assets/images/smileyActu/bad1.png" style="padding-bottom: 5px;">',
+'5': ' <img src="'~ app.request.schemeAndHttpHost ~'/assets/images/smileyActu/langue1.png" style="padding-bottom: 5px;">',
+'6': ' <img src="'~ app.request.schemeAndHttpHost ~'/assets/images/smileyActu/langue1.png" style="padding-bottom: 5px;">',
+'7': ' <img src="'~ app.request.schemeAndHttpHost ~'/assets/images/smileyActu/big-happy1.png" style="padding-bottom: 5px;">',
+'8': ' <img src="'~ app.request.schemeAndHttpHost ~'/assets/images/smileyActu/choque1.png" style="padding-bottom: 5px;">',
+'9': ' <img src="'~ app.request.schemeAndHttpHost ~'/assets/images/smileyActu/choque1.png" style="padding-bottom: 5px;">',
+'10': ' <img src="'~ app.request.schemeAndHttpHost ~'/assets/images/smileyActu/clin-doeil1.png" style="padding-bottom: 5px;">',
+'11': ' <img src="'~ app.request.schemeAndHttpHost ~'/assets/images/smileyActu/mignon1.png" style="padding-bottom: 5px;">' } %}
+
+{{ userActivites.textActivity|replace({
+    ' o_O': listeSmiley['1'],
+    ' O_o': listeSmiley['2'],
+    ' :)': listeSmiley['3'],
+    ' :(': listeSmiley['4'],
+    ' :P': listeSmiley['5'],
+    ' :p': listeSmiley['6'],
+    ' :D': listeSmiley['7'],
+    ' :O': listeSmiley['8'],
+    ' :o': listeSmiley['9'],
+    ' ;)': listeSmiley['10'],
+    ' :3': listeSmiley['11']})|rawPerso
+}}

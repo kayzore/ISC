@@ -139,7 +139,7 @@ class AccueilController extends Controller
             $em->persist($notif);
             $em->flush();
             $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
-            $userActivites = $activitesService->getOneActivites($user->getId(), $idActu);
+            $userActivites = $activitesService->getOneActivites($idActu);
             return $this->render('ISCPlatformBundle:Membres:viewActu.html.twig', array(
                 'userNotifications'		=> $userNotifications,
                 'userActivites' 	    => $userActivites,

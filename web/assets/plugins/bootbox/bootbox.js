@@ -79,7 +79,7 @@ window.bootbox = window.bootbox || (function init($, undefined) {
   }
 
   function getKeyLength(obj) {
-    // @TODO defer to Object.keys(x).length if available?
+    // defer to Object.keys(x).length if available?
     var k, t = 0;
     for (k in obj) {
       t ++;
@@ -278,7 +278,7 @@ window.bootbox = window.bootbox || (function init($, undefined) {
 
     // we have to create our form first otherwise
     // its value is undefined when gearing up our options
-    // @TODO this could be solved by allowing message to
+    // this could be solved by allowing message to
     // be a function instead...
     form = $(templates.form);
 
@@ -330,7 +330,7 @@ window.bootbox = window.bootbox || (function init($, undefined) {
 
     form.on("submit", function(e) {
       e.preventDefault();
-      // @TODO can we actually click *the* button object instead?
+      // can we actually click *the* button object instead?
       // e.g. buttons.confirm.click() or similar
       dialog.find(".btn-primary").click();
     });
@@ -365,7 +365,7 @@ window.bootbox = window.bootbox || (function init($, undefined) {
 
     each(buttons, function(key, button) {
 
-      // @TODO I don't like this string appending to itself; bit dirty. Needs reworking
+      // I don't like this string appending to itself; bit dirty. Needs reworking
       // can we just build up button elements instead? slower but neater. Then button
       // can just become a template too
       buttonStr += "<button data-bb-handler='" + key + "' type='button' class='btn " + button.className + "'>" + button.label + "</button>";
@@ -490,7 +490,7 @@ window.bootbox = window.bootbox || (function init($, undefined) {
       dialog.modal("show");
     }
 
-    // @TODO should we return the raw element here or should
+    // should we return the raw element here or should
     // we wrap it in an object on which we can expose some neater
     // methods, e.g. var d = bootbox.alert(); d.hide(); instead
     // of d.modal("hide");

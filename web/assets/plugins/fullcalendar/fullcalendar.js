@@ -164,7 +164,7 @@ $.fn.fullCalendar = function(options) {
 	this.each(function(i, _element) {
 		var element = $(_element);
 		var calendar = new Calendar(element, options, eventSources);
-		element.data('fullCalendar', calendar); // TODO: look into memory leak implications
+		element.data('fullCalendar', calendar); // look into memory leak implications
 		calendar.render();
 	});
 	
@@ -476,7 +476,7 @@ function Calendar(element, options, eventSources) {
 	
 	/* Event Fetching/Rendering
 	-----------------------------------------------------------------------------*/
-	// TODO: going forward, most of this stuff should be directly handled by the view
+	// going forward, most of this stuff should be directly handled by the view
 
 
 	function refetchEvents() { // can be called as an API method
@@ -491,9 +491,9 @@ function Calendar(element, options, eventSources) {
 	}
 
 
-	function renderEvents(modifiedEventID) { // TODO: remove modifiedEventID hack
+	function renderEvents(modifiedEventID) { // remove modifiedEventID hack
 		if (elementVisible()) {
-			currentView.setEventData(events); // for View.js, TODO: unify with renderEvents
+			currentView.setEventData(events); // for View.js, unify with renderEvents
 			currentView.renderEvents(events, modifiedEventID); // actually render the DOM elements
 			currentView.trigger('eventAfterAllRender');
 		}
@@ -503,7 +503,7 @@ function Calendar(element, options, eventSources) {
 	function clearEvents() {
 		currentView.triggerEventDestroy(); // trigger 'eventDestroy' for each event
 		currentView.clearEvents(); // actually remove the DOM elements
-		currentView.clearEventData(); // for View.js, TODO: unify with clearEvents
+		currentView.clearEventData(); // for View.js, unify with clearEvents
 	}
 	
 
@@ -963,7 +963,7 @@ function EventManager(options, _sources) {
 					if (source.eventDataTransform) {
 						events = $.map(events, source.eventDataTransform);
 					}
-					// TODO: this technique is not ideal for static array event sources.
+					// this technique is not ideal for static array event sources.
 					//  For arrays, we'll want to process all events right in the beginning, then never again.
 				
 					for (var i=0; i<events.length; i++) {
@@ -1258,7 +1258,7 @@ function EventManager(options, _sources) {
 		}else{
 			event.className = [];
 		}
-		// TODO: if there is no start date, return false to indicate an invalid event
+		// if there is no start date, return false to indicate an invalid event
 	}
 	
 	
@@ -1269,7 +1269,7 @@ function EventManager(options, _sources) {
 	
 	function normalizeSource(source) {
 		if (source.className) {
-			// TODO: repeat code, same code for event classNames
+			// repeat code, same code for event classNames
 			if (typeof source.className == 'string') {
 				source.className = source.className.split(/\s+/);
 			}
@@ -1443,14 +1443,14 @@ function parseDate(s, ignoreTimezone) { // ignoreTimezone defaults to true
 		}
 		return parseISO8601(s, ignoreTimezone) || (s ? new Date(s) : null);
 	}
-	// TODO: never return invalid dates (like from new Date(<string>)), return null instead
+	// never return invalid dates (like from new Date(<string>)), return null instead
 	return null;
 }
 
 
 function parseISO8601(s, ignoreTimezone) { // ignoreTimezone defaults to false
 	// derived from http://delete.me.uk/2005/03/iso8601.html
-	// TODO: for a know glitch/feature, read tests/issue_206_parseDate_dst.html
+	// for a know glitch/feature, read tests/issue_206_parseDate_dst.html
 	var m = s.match(/^([0-9]{4})(-([0-9]{2})(-([0-9]{2})([T ]([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]+))?)?(Z|(([-+])([0-9]{2})(:?([0-9]{2}))?))?)?)?)?$/);
 	if (!m) {
 		return null;
@@ -1526,7 +1526,7 @@ function parseTime(s) { // returns minutes since start of day
 
 /* Date Formatting
 -----------------------------------------------------------------------------*/
-// TODO: use same function formatDate(date, [date2], format, [options])
+// use same function formatDate(date, [date2], format, [options])
 
 
 function formatDate(date, format, options) {
@@ -1794,8 +1794,8 @@ function vborders(element) {
 -----------------------------------------------------------------------------*/
 
 
-//TODO: arraySlice
-//TODO: isFunction, grep ?
+//arraySlice
+//isFunction, grep ?
 
 
 function noop() { }
@@ -1874,7 +1874,7 @@ function markFirstLast(e) {
 function setDayID(cell, date) {
 	cell.each(function(i, _cell) {
 		_cell.className = _cell.className.replace(/^fc-\w*/, 'fc-' + dayIDs[date.getDay()]);
-		// TODO: make a way that doesn't rely on order of classes
+		// make a way that doesn't rely on order of classes
 	});
 }
 
@@ -2211,7 +2211,7 @@ function BasicView(element, calendar, viewName) {
 		tm = opt('theme') ? 'ui' : 'fc';
 		colFormat = opt('columnFormat');
 
-		// week # options. (TODO: bad, logic also in other views)
+		// week # options. (bad, logic also in other views)
 		showWeekNumbers = opt('weekNumbers');
 		weekNumberTitle = opt('weekNumberTitle');
 		if (opt('weekNumberCalculation') != 'iso') {
@@ -2466,7 +2466,7 @@ function BasicView(element, calendar, viewName) {
 	
 	/* Semi-transparent Overlay Helpers
 	------------------------------------------------------*/
-	// TODO: should be consolidated with AgendaView's methods
+	// should be consolidated with AgendaView's methods
 
 
 	function renderDayOverlay(overlayStart, overlayEnd, refreshCoordinateGrid) { // overlayEnd is exclusive
@@ -2648,7 +2648,7 @@ function BasicEventRenderer() {
 	}
 
 
-	// TODO: have this class (and AgendaEventRenderer) be responsible for creating the event container div
+	// have this class (and AgendaEventRenderer) be responsible for creating the event container div
 
 }
 
@@ -2768,8 +2768,8 @@ setDefaults({
 });
 
 
-// TODO: make it work in quirks mode (event corners, all-day height)
-// TODO: test liquid width, especially in IE6
+// make it work in quirks mode (event corners, all-day height)
+// test liquid width, especially in IE6
 
 
 function AgendaView(element, calendar, viewName) {
@@ -2856,7 +2856,7 @@ function AgendaView(element, calendar, viewName) {
 	var axisWidth;
 	var colWidth;
 	var gutterWidth;
-	var slotHeight; // TODO: what if slotHeight changes? (see issue 650)
+	var slotHeight; // what if slotHeight changes? (see issue 650)
 
 	var snapMinutes;
 	var snapRatio; // ratio of number of "selection" slots to normal slots. (ex: 1, 2, 4)
@@ -2908,7 +2908,7 @@ function AgendaView(element, calendar, viewName) {
 		maxMinute = parseTime(opt('maxTime'));
 		colFormat = opt('columnFormat');
 
-		// week # options. (TODO: bad, logic also in other views)
+		// week # options. (bad, logic also in other views)
 		showWeekNumbers = opt('weekNumbers');
 		weekNumberTitle = opt('weekNumberTitle');
 		if (opt('weekNumberCalculation') != 'iso') {
@@ -3045,7 +3045,7 @@ function AgendaView(element, calendar, viewName) {
 		markFirstLast(dayHead.add(dayHead.find('tr')));
 		markFirstLast(dayBody.add(dayBody.find('tr')));
 
-		// TODO: now that we rebuild the cells every time, we should call dayRender
+		// now that we rebuild the cells every time, we should call dayRender
 	}
 
 
@@ -3106,7 +3106,7 @@ function AgendaView(element, calendar, viewName) {
 
 
 	function buildDayTableBodyHTML() {
-		var headerClass = tm + "-widget-header"; // TODO: make these when updateOptions() called
+		var headerClass = tm + "-widget-header"; // make these when updateOptions() called
 		var contentClass = tm + "-widget-content";
 		var date;
 		var today = clearTime(new Date());
@@ -3167,7 +3167,7 @@ function AgendaView(element, calendar, viewName) {
 	}
 
 
-	// TODO: data-date on the cells
+	// data-date on the cells
 
 	
 	
@@ -3294,7 +3294,7 @@ function AgendaView(element, calendar, viewName) {
 		if (!opt('selectable')) { // if selectable, SelectionManager will worry about dayClick
 			var col = Math.min(colCnt-1, Math.floor((ev.pageX - dayTable.offset().left - axisWidth) / colWidth));
 			var date = cellToDate(0, col);
-			var rowMatch = this.parentNode.className.match(/fc-slot(\d+)/); // TODO: maybe use data
+			var rowMatch = this.parentNode.className.match(/fc-slot(\d+)/); // maybe use data
 			if (rowMatch) {
 				var mins = parseInt(rowMatch[1]) * opt('slotMinutes');
 				var hours = Math.floor(mins/60);
@@ -3311,7 +3311,7 @@ function AgendaView(element, calendar, viewName) {
 	
 	/* Semi-transparent Overlay Helpers
 	-----------------------------------------------------*/
-	// TODO: should be consolidated with BasicView's methods
+	// should be consolidated with BasicView's methods
 
 
 	function renderDayOverlay(overlayStart, overlayEnd, refreshCoordinateGrid) { // overlayEnd is exclusive
@@ -3816,8 +3816,8 @@ function AgendaEventRenderer() {
 	
 	
 	// renders events in the 'time slots' at the bottom
-	// TODO: when we refactor this, when user returns `false` eventRender, don't have empty space
-	// TODO: refactor will include using pixels to detect collisions instead of dates (handy for seg cmp)
+	// when we refactor this, when user returns `false` eventRender, don't have empty space
+	// refactor will include using pixels to detect collisions instead of dates (handy for seg cmp)
 	
 	function renderSlotSegs(segs, modifiedEventId) {
 	
@@ -3856,7 +3856,7 @@ function AgendaEventRenderer() {
 			forward = seg.forward || 0;
 			leftmost = colContentLeft(colI);
 			availWidth = colContentRight(colI) - leftmost;
-			availWidth = Math.min(availWidth-6, availWidth*.95); // TODO: move this to CSS
+			availWidth = Math.min(availWidth-6, availWidth*.95); // move this to CSS
 			if (levelI) {
 				// indented and thin
 				outerWidth = availWidth / (levelI + forward + 1);
@@ -3934,7 +3934,7 @@ function AgendaEventRenderer() {
 				eventElement[0].style.height = height + 'px';
 				event = seg.event;
 				if (seg.contentTop !== undefined && height - seg.contentTop < 10) {
-					// not enough room for title, put it in the time (TODO: maybe make both display:inline instead)
+					// not enough room for title, put it in the time (maybe make both display:inline instead)
 					eventElement.find('div.fc-event-time')
 						.text(formatDate(event.start, opt('timeFormat')) + ' - ' + event.title);
 					eventElement.find('div.fc-event-title')
@@ -4323,7 +4323,7 @@ function AgendaEventRenderer() {
 
 /* Agenda Event Segment Utilities
 -----------------------------------------------------------------------------*/
-// TODO: maybe somehow consolidate this with DayEventRenderer's segment system
+// maybe somehow consolidate this with DayEventRenderer's segment system
 
 
 function stackAgendaSegs(segs) {
@@ -4420,7 +4420,7 @@ function View(element, calendar, viewName) {
 	// locals
 	var eventsByID = {}; // eventID mapped to array of events (there can be multiple b/c of repeating events)
 	var eventElementsByID = {}; // eventID mapped to array of jQuery elements
-	var eventElementCouples = []; // array of objects, { event, element } // TODO: unify with segment system
+	var eventElementCouples = []; // array of objects, { event, element } // unify with segment system
 	var options = calendar.options;
 	
 	
@@ -4547,8 +4547,8 @@ function View(element, calendar, viewName) {
 					trigger('eventMouseout', this, event, ev);
 				}
 			);
-		// TODO: don't fire eventMouseover/eventMouseout *while* dragging is occuring (on subject element)
-		// TODO: same for resizing
+		// don't fire eventMouseover/eventMouseout *while* dragging is occuring (on subject element)
+		// same for resizing
 	}
 	
 	
@@ -4592,7 +4592,7 @@ function View(element, calendar, viewName) {
 			minuteDelta,
 			allDay,
 			function() {
-				// TODO: investigate cases where this inverse technique might not work
+				// investigate cases where this inverse technique might not work
 				moveEvents(eventsByID[eventId], -dayDelta, -minuteDelta, oldAllDay);
 				reportEventChange(eventId);
 			},
@@ -4613,7 +4613,7 @@ function View(element, calendar, viewName) {
 			dayDelta,
 			minuteDelta,
 			function() {
-				// TODO: investigate cases where this inverse technique might not work
+				// investigate cases where this inverse technique might not work
 				elongateEvents(eventsByID[eventId], -dayDelta, -minuteDelta);
 				reportEventChange(eventId);
 			},
@@ -4975,7 +4975,7 @@ function DayEventRenderer() {
 	var getRowCnt = t.getRowCnt;
 	var getColCnt = t.getColCnt;
 	var getColWidth = t.getColWidth;
-	var allDayRow = t.allDayRow; // TODO: rename
+	var allDayRow = t.allDayRow; // rename
 	var colLeft = t.colLeft;
 	var colRight = t.colRight;
 	var colContentLeft = t.colContentLeft;
@@ -5245,7 +5245,7 @@ function DayEventRenderer() {
 		}
 		html += "</" + (url ? "a" : "div") + ">";
 
-		// TODO:
+		//
 		// When these elements are initially rendered, they will be briefly visibile on the screen,
 		// even though their widths/heights are not set.
 		// SOLUTION: initially set them as visibility:hidden ?
@@ -5480,7 +5480,7 @@ function DayEventRenderer() {
 
 	/* Mouse Handlers
 	---------------------------------------------------------------------------------------------------*/
-	// TODO: better documentation!
+	// better documentation!
 
 
 	function attachHandlers(segments, modifiedEventId) {
@@ -5562,10 +5562,10 @@ function DayEventRenderer() {
 	function resizableDayEvent(event, element, segment) {
 		var isRTL = opt('isRTL');
 		var direction = isRTL ? 'w' : 'e';
-		var handle = element.find('.ui-resizable-' + direction); // TODO: stop using this class because we aren't using jqui for this
+		var handle = element.find('.ui-resizable-' + direction); // stop using this class because we aren't using jqui for this
 		var isResizing = false;
 		
-		// TODO: look into using jquery-ui mouse widget for this stuff
+		// look into using jquery-ui mouse widget for this stuff
 		disableTextSelection(element); // prevent native <a> selection for IE
 		element
 			.mousedown(function(ev) { // prevent native <a> selection for others
@@ -5635,7 +5635,7 @@ function DayEventRenderer() {
 					renderDayOverlay( // coordinate grid already rebuilt with hoverListener.start()
 						event.start,
 						addDays( exclEndDay(event), dayDelta )
-						// TODO: instead of calling renderDayOverlay() with dates,
+						// instead of calling renderDayOverlay() with dates,
 						// call _renderDayOverlay (or whatever) with cell offsets.
 					);
 				}
@@ -5682,7 +5682,7 @@ function isDaySegmentCollision(segment, otherSegments) {
 }
 
 
-function segmentElementEach(segments, callback) { // TODO: use in AgendaView?
+function segmentElementEach(segments, callback) { // use in AgendaView?
 	for (var i=0; i<segments.length; i++) {
 		var segment = segments[i];
 		var element = segment.element;
@@ -5768,7 +5768,7 @@ function SelectionManager() {
 			unselect(ev);
 			var _mousedownElement = this;
 			var dates;
-			hoverListener.start(function(cell, origCell) { // TODO: maybe put cellToDate/getIsCellAllDay info in cell
+			hoverListener.start(function(cell, origCell) { // maybe put cellToDate/getIsCellAllDay info in cell
 				clearSelection();
 				if (cell && getIsCellAllDay(cell)) {
 					dates = [ cellToDate(origCell), cellToDate(cell) ].sort(dateCompare);

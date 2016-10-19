@@ -44,20 +44,4 @@ class UserNotifsRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
-
-    public function getNbMyNewNotif($idUser)
-    {
-        $qb = $this->createQueryBuilder('a');
-
-        $qb
-            ->where('a.userTo = :idUser')
-            ->andWhere('a.userFrom != :idUser')
-            ->andWhere('a.view = 0')
-            ->setParameter('idUser', $idUser)
-            ->setMaxResults(5);
-
-        return $qb
-            ->getQuery()
-            ->getResult();
-    }
 }

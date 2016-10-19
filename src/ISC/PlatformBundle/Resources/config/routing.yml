@@ -6,14 +6,6 @@ isc_platform_profil_membres:
     path:     /profil/{username}
     defaults: { _controller: ISCPlatformBundle:Profil:index }
 
-isc_platform_view_actu:
-    path:     /visualisation-d-actualite/{idActu}
-    defaults: { _controller: ISCPlatformBundle:Accueil:viewActu }
-
-isc_platform_homepage_load_more_actu:
-    path:     /load-more-actu
-    defaults: { _controller: ISCPlatformBundle:Accueil:loadMore }
-
 isc_platform_homepage_add_like_actu:
     path:     /add-like-actu/
     defaults: { _controller: ISCPlatformBundle:Accueil:addLike }
@@ -21,6 +13,18 @@ isc_platform_homepage_add_like_actu:
 isc_platform_homepage_remove_like_actu:
     path:     /remove-like-actu/
     defaults: { _controller: ISCPlatformBundle:Accueil:removeLike }
+
+isc_platform_get_notification:
+    path:     /notifications
+    defaults: { _controller: ISCPlatformBundle:Accueil:notif }
+
+isc_platform_view_actu:
+    path:     /visualisation-d-actualite/{idActu}
+    defaults: { _controller: ISCPlatformBundle:Accueil:viewActu }
+
+isc_platform_homepage_load_more_actu:
+    path:     /load-more-actu
+    defaults: { _controller: ISCPlatformBundle:Accueil:loadMore }
 
 isc_platform_search:
     path:     /search
@@ -37,10 +41,6 @@ isc_platform_homepage_accept_invite_of_member:
 isc_platform_homepage_refuse_invite_of_member:
     path:     /refuse-invite-of-membre/
     defaults: { _controller: ISCPlatformBundle:Profil:refuseInvitOfMember }
-
-isc_platform_get_notification:
-    path:     /notifications
-    defaults: { _controller: ISCPlatformBundle:Accueil:notif }
 
 isc_platform_homepage_pixie_actualite:
     path:     /edition-image-activite/{filename}/{idActu}

@@ -84,4 +84,22 @@ class AccueilController extends Controller
         $response->setContent('success');
         return $response;
     }
+
+    public function notifAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $userId = $request->query->get('id');
+            $userService = $this->container->get('isc_platform.user');
+            $userNotifications = $userService->getNotifications($userId);
+            $data[] = array('content' => $userNotifications[0], 'number' => $userNotifications[1]);
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($data));
+            return $response;
+        }
+        $response = new Response();
+        $response->setContent('success');
+        return $response;
+    }
 }

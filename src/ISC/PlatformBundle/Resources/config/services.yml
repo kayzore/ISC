@@ -1,9 +1,9 @@
 services:
     isc_platform.user:
         class:      ISC\PlatformBundle\User\ISCUser
-        arguments:  [@doctrine.orm.entity_manager, @service_container]
+        arguments:  [@doctrine.orm.entity_manager, %server_host_perso%, @router]
     isc_platform.activite:
         class:      ISC\PlatformBundle\Activite\ISCActivite
-        arguments:  [@doctrine.orm.entity_manager, @isc_platform.user, @service_container]
+        arguments:  [@doctrine.orm.entity_manager, @isc_platform.user, %server_host_perso%, %kernel.root_dir%, @router]
         tags:
             -  { name: twig.extension }

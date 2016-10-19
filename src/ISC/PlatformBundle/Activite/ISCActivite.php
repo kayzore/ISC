@@ -3,7 +3,7 @@
 
 namespace ISC\PlatformBundle\Activite;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Doctrine\ORM\EntityManager;
 use ISC\PlatformBundle\Entity\Activite;
 use ISC\PlatformBundle\Entity\ActiviteImage;
@@ -15,19 +15,25 @@ class ISCActivite extends \Twig_Extension
 {
     private $em;
     private $userService;
-    private $container;
+    private $serverUrl;
+    private $kernelRootDir;
+    private $router;
 
     /**
      * ISCActivite constructor.
      * @param EntityManager $em
      * @param ISCUser $userService
-     * @param ContainerInterface $container
+     * @param $serverUrl
+     * @param $kernelRootDir
+     * @param Router $router
      */
-    public function __construct(EntityManager $em, ISCUser $userService, ContainerInterface $container)
+    public function __construct(EntityManager $em, ISCUser $userService, $serverUrl, $kernelRootDir, Router $router)
     {
-        $this->em           = $em;
-        $this->userService  = $userService;
-        $this->container    = $container;
+        $this->em               = $em;
+        $this->userService      = $userService;
+        $this->serverUrl        = $serverUrl;
+        $this->kernelRootDir    = $kernelRootDir;
+        $this->router           = $router;
     }
 
     /**
@@ -65,17 +71,17 @@ class ISCActivite extends \Twig_Extension
             ' :3'
         );
         $smileyImgArray = array(
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque2.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque2-inverse.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/happy1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/bad1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/langue1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/langue1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/big-happy1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/choque1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/clin-doeil1.png" style="padding-bottom: 5px;">',
-            ' <img src="http://'.$this->container->get('request')->server->get('SERVER_NAME').'/assets/images/smileyActu/mignon1.png" style="padding-bottom: 5px;">'
+            ' <img src="'.$this->serverUrl.'/assets/images/smileyActu/choque2.png" style="padding-bottom: 5px;">',
+            ' <img src="'.$this->serverUrl.'/assets/images/smileyActu/choque2-inverse.png" style="padding-bottom: 5px;">',
+            ' <img src="'.$this->serverUrl.'/assets/images/smileyActu/happy1.png" style="padding-bottom: 5px;">',
+            ' <img src="'.$this->serverUrl.'/assets/images/smileyActu/bad1.png" style="padding-bottom: 5px;">',
+            ' <img src="'.$this->serverUrl.'/assets/images/smileyActu/langue1.png" style="padding-bottom: 5px;">',
+            ' <img src="'.$this->serverUrl.'/assets/images/smileyActu/langue1.png" style="padding-bottom: 5px;">',
+            ' <img src="'.$this->serverUrl.'/assets/images/smileyActu/big-happy1.png" style="padding-bottom: 5px;">',
+            ' <img src="'.$this->serverUrl.'/assets/images/smileyActu/choque1.png" style="padding-bottom: 5px;">',
+            ' <img src="'.$this->serverUrl.'/assets/images/smileyActu/choque1.png" style="padding-bottom: 5px;">',
+            ' <img src="'.$this->serverUrl.'/assets/images/smileyActu/clin-doeil1.png" style="padding-bottom: 5px;">',
+            ' <img src="'.$this->serverUrl.'/assets/images/smileyActu/mignon1.png" style="padding-bottom: 5px;">'
         );
         $texteFormat = str_replace($smileyArray, $smileyImgArray, $texte);
 
@@ -143,7 +149,7 @@ class ISCActivite extends \Twig_Extension
             else {
                 $contentActu = '<div class="col-md-12" style="box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.1);display: inline-block;"><img src="' . $activite->getImage()->getUrlImage() . '" style="max-width: 100%;max-height:300px;display: block;margin-left:auto;margin-right:auto;padding-bottom:10px;"></div>';
             }
-            $activiteHtml = '<div class="row mod_actu" id="' . $activite->getId() . '" style="padding:20px;margin-bottom:20px;"><div class="col-md-12"><p><img src="' . $activite->getUser()->getUrlAvatar() . '" class="img-rounded img-responsive pull-left" style="max-height:70px;vertical-align:middle;"><strong><a href="' . $this->container->get('router')->generate('isc_platform_profil_membres', array('username' => $activite->getUser()->getUsername())) . '">' . $activite->getUser()->getUsername() . '</a></strong></p></div><hr>' . $contentActu . '<div class="col-md-12 pull-left" style="padding-top:5px;" id="LikeZone' . $activite->getId() . '">' . $likeActuHtml . ' <span class="pull-right"><i class="fa fa-calendar"></i> ' . $activite->getDatetimeActivity()->format('d-m-Y H:i:s') . '</span></div></div>';
+            $activiteHtml .= '<div class="row mod_actu" id="' . $activite->getId() . '" style="padding:20px;margin-bottom:20px;"><div class="col-md-12"><p><img src="' . $activite->getUser()->getUrlAvatar() . '" class="img-rounded img-responsive pull-left" style="max-height:70px;vertical-align:middle;"><strong><a href="' . $this->router->generate('isc_platform_profil_membres', array('username' => $activite->getUser()->getUsername())) . '">' . $activite->getUser()->getUsername() . '</a></strong></p></div><hr>' . $contentActu . '<div class="col-md-12 pull-left" style="padding-top:5px;" id="LikeZone' . $activite->getId() . '">' . $likeActuHtml . ' <span class="pull-right"><i class="fa fa-calendar"></i> ' . $activite->getDatetimeActivity()->format('d-m-Y H:i:s') . '</span></div></div>';
         }
         return $activiteHtml;
     }
@@ -182,7 +188,7 @@ class ISCActivite extends \Twig_Extension
         if($form->handleRequest($request)->isValid()){
             $userInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUser));
             $activite->setUser($userInformations);
-            $webPath = $this->container->get('kernel')->getRootDir().'/../web';
+            $webPath = $this->kernelRootDir.'/../web';
             $checkImage = false;
             $checkTexte = false;
             $resultSetActivite = array(false);
@@ -193,12 +199,12 @@ class ISCActivite extends \Twig_Extension
                 $image = new ActiviteImage();
                 $image->setImageName($fileName);
                 if($activite->getImage()->getEditFile() === true){
-                    $image->setUrlImage('http://' . $this->container->get('request')->server->get('SERVER_NAME') . '/uploads/imgTmp/'.$fileName);
+                    $image->setUrlImage($this->serverUrl . '/uploads/imgTmp/'.$fileName);
                     $file->move($webPath. '/uploads/imgTmp/', $fileName);
                     $resultEditFile = true;
                 }
                 else{
-                    $image->setUrlImage('http://' . $this->container->get('request')->server->get('SERVER_NAME') . '/uploads/img/'.$fileName);
+                    $image->setUrlImage($this->serverUrl . '/uploads/img/'.$fileName);
                     $file->move($webPath. '/uploads/img/', $fileName);
                 }
                 $activite->setImage($image);

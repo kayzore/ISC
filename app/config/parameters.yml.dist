@@ -17,3 +17,4 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: s6d54f1g32f5hg4864t849b32b1n3f2136trsdfj
+    server_host_perso: 'http://127.0.0.1:8080/ISC/web/'

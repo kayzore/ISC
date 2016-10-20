@@ -33,7 +33,7 @@ class ISCUser
         $userInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUser));
         if ($userInformations->getUrlAvatar() == NULL) {
             $userInformations->setNameAvatar('no-avatar.png');
-            $userInformations->setUrlAvatar($this->serverUrl . '/assets/images/no-avatar.png');
+            $userInformations->setUrlAvatar($this->serverUrl . 'assets/images/no-avatar.png');
             $userInformations->setExtensionAvatar('.png');
             $this->em->persist($userInformations);
             $this->em->flush();

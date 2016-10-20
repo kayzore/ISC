@@ -8,26 +8,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use ISC\PlatformBundle\Entity\Activite;
 use ISC\PlatformBundle\Form\Type\ActiviteType;
-use ISC\PlatformBundle\Entity\UserNotifs;
 
 class AccueilController extends Controller
 {
     public function indexAction()
     {
     	if($this->get('security.authorization_checker')->isGranted('ROLE_USER')){
-            $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
             $activitesService = $this->container->get('isc_platform.activite');
             $this->container->get('isc_platform.user')->checkAvatar($user->getId());
-            $activite = new Activite();
-            $form = $this->get('form.factory')->create(new ActiviteType(), $activite);
-            $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
             $arrayFriendId = $activitesService->getFriendsList($user->getId());
             $userActivites = $activitesService->getActivites($user->getId(), $arrayFriendId);
             $userNbTotalActivites = $activitesService->getNbTotalActivites($user->getId(), $arrayFriendId);
             return $this->render('ISCPlatformBundle:Membres:index.html.twig', array(
-                'form' 					=> $form->createView(),
-                'userNotifications'		=> $userNotifications,
                 'userActivites' 	    => $userActivites,
                 'userNbTotalActivites' 	=> $userNbTotalActivites,
             ));
@@ -144,10 +137,8 @@ class AccueilController extends Controller
             $activitesService = $this->container->get('isc_platform.activite');
             $user = $this->getUser();
             $userService->setViewNotificationToTrue($user->getId(), $idActu);
-            $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
             $userActivites = $activitesService->getOneActivites($idActu);
             return $this->render('ISCPlatformBundle:Membres:viewActu.html.twig', array(
-                'userNotifications'		=> $userNotifications,
                 'userActivites' 	    => $userActivites,
             ));
         }
@@ -178,11 +169,9 @@ class AccueilController extends Controller
             $user = $this->getUser();
             $activitesService = $this->container->get('isc_platform.activite');
             $urlImage = $activitesService->getUrlImage($filename);
-            $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
             return $this->render('ISCPlatformBundle:Membres:modifImageActu.html.twig', array(
                 'urlImage' 				=> $urlImage,
                 'idActu' 				=> $idActu,
-                'userNotifications'		=> $userNotifications,
             ));
         }
         return $this->redirectToRoute('isc_platform_homepage');

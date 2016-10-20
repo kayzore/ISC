@@ -101,7 +101,7 @@ class ISCActivite extends \Twig_Extension
      * @return array|\ISC\PlatformBundle\Entity\Activite[]|\ISC\PlatformBundle\Entity\ActiviteLikes[]
      */
     public function getMyActivites($idUser){
-        $listMyActivites = $this->em->getRepository("ISCPlatformBundle:Activite")->findBy(array('user' => $idUser));
+        $listMyActivites = $this->em->getRepository("ISCPlatformBundle:Activite")->findBy(array('user' => $idUser), array('datetimeActivity' => 'DESC'));
         return $listMyActivites;
     }
 

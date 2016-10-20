@@ -24,7 +24,7 @@ class ProfilController extends Controller
             $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
             $userActivites = $activitesService->getMyActivites($user->getId());
             return $this->render('ISCPlatformBundle:Profil:index.html.twig', array(
-                'userActiviteForm' 		=> $userActiviteForm->createView(),
+                'form' 		            => $userActiviteForm->createView(),
                 'userNotifications'		=> $userNotifications,
                 'userActivites'		    => $userActivites,
             ));

@@ -2,44 +2,45 @@ var load = false; // aucun chargement de commentaire n'est en cours
 /* la fonction offset permet de récupérer la valeur X et Y d'un élément dans une page. Ici on récupère la position du dernier div qui  a pour classe : ".mod_actu" */
 var offset = $('.mod_actu:last').offset();
 
-$('.nb_actu').fadeOut(1);
 $('.loadmore').fadeOut(1);
-$(window).scroll(function(){ // On surveille l'évènement scroll
-    /* Si l'élément offset est en bas de scroll, si aucun chargement n'est en cours, si le nombre de commentaire affiché est supérieur à 4 et si tout les commentaires ne sont pas affichés, alors on lance la fonction. */
-    if((offset.top-$(window).height() <= $(window).scrollTop()) && load==false && ($('.mod_actu').size()>=4) && ($('.mod_actu').size()!=$('.nb_actu').text())){
+if($('.nb_actu').text() > 0){
+    $(window).scroll(function(){ // On surveille l'évènement scroll
+        /* Si l'élément offset est en bas de scroll, si aucun chargement n'est en cours, si le nombre de commentaire affiché est supérieur à 4 et si tout les commentaires ne sont pas affichés, alors on lance la fonction. */
+        if((offset.top-$(window).height() <= $(window).scrollTop()) && load==false && ($('.mod_actu').size()>=4) && ($('.mod_actu').size()!=$('.nb_actu').text())){
 
-        // la valeur passe à vrai, on va charger
-        load = true;
+            // la valeur passe à vrai, on va charger
+            load = true;
 
-        //On récupère l'id du dernier commentaire affiché
-        var last_id = $('.mod_actu:last').attr('id');
+            //On récupère l'id du dernier commentaire affiché
+            var last_id = $('.mod_actu:last').attr('id');
 
-        //On affiche un loader
-        $('.loadmore').show();
+            //On affiche un loader
+            $('.loadmore').show();
 
-        //On lance la fonction ajax
-        $.ajax({
-            url: '{{ path("isc_platform_homepage_load_more_actu") }}',
-            type: 'get',
-            data: 'last='+last_id,
+            //On lance la fonction ajax
+            $.ajax({
+                url: '{{ path("isc_platform_homepage_load_more_actu") }}',
+                type: 'get',
+                data: 'last='+last_id,
 
-            //Succès de la requête
-            success: function(data) {
-                //On masque le loader
-                $('.loadmore').fadeOut(500);
-                if(data == "NULL"){
-                    load = true;
+                //Succès de la requête
+                success: function(data) {
+                    //On masque le loader
+                    $('.loadmore').fadeOut(500);
+                    if(data == "NULL"){
+                        load = true;
+                    }
+                    else{
+                        /* On affiche le résultat après le dernier commentaire */
+                        $('.mod_actu:last').after(data);
+                        /* On actualise la valeur offset du dernier commentaire */
+                        offset = $('.mod_actu:last').offset();
+                        //On remet la valeur à faux car c'est fini
+                        load = false;
+                        $('.my_tooltip').tooltip({placement: "top", html: true});
+                    }
                 }
-                else{
-                    /* On affiche le résultat après le dernier commentaire */
-                    $('.mod_actu:last').after(data);
-                    /* On actualise la valeur offset du dernier commentaire */
-                    offset = $('.mod_actu:last').offset();
-                    //On remet la valeur à faux car c'est fini
-                    load = false;
-                    $('.my_tooltip').tooltip({placement: "top", html: true});
-                }
-            }
-        });
-    }
-});
+            });
+        }
+    });
+}

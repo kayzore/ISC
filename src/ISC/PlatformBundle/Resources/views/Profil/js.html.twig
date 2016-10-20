@@ -1,6 +1,21 @@
 <script type="text/javascript">
     $('.my_tooltip').tooltip({placement: "top", html: true});
-    document.getElementById("isc_platformbundle_activite_textActivity").value = '';
+    {% if app.user.username  == app.request.get('username') %}
+        document.getElementById("isc_platformbundle_activite_textActivity").value = '';
+        document.getElementById("isc_platformbundle_activite_image_file").onchange = function () {
+            jQuery("#previewImage").fadeIn("slow");
+            jQuery("#editFile").fadeIn("slow");
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                // get loaded data and render thumbnail.
+                document.getElementById("image").src = e.target.result;
+            };
+
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+        };
+    {% endif %}
     {{ include("ISCPlatformBundle::jsAjax.html.twig") }}
     function FormatResult (data) {
         if (data.loading) return data.username;
@@ -26,17 +41,4 @@
         $('[data-toggle="tooltip"]').tooltip()
         $('.my_tooltip').tooltip({placement: "top", html: true})
     });
-    document.getElementById("isc_platformbundle_activite_image_file").onchange = function () {
-        jQuery("#previewImage").fadeIn("slow");
-        jQuery("#editFile").fadeIn("slow");
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            // get loaded data and render thumbnail.
-            document.getElementById("image").src = e.target.result;
-        };
-
-        // read the image file as a data URL.
-        reader.readAsDataURL(this.files[0]);
-    };
 </script>

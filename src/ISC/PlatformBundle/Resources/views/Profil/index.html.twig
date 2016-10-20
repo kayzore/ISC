@@ -1,12 +1,10 @@
-{# src/ISC/PlatformBundle/Resources/views/Profil/myProfilImage.html.twig #}
+{# src/ISC/PlatformBundle/Resources/views/Profil/myProfil.html.twig #}
 {% extends "::baseMembres.html.twig" %}
 {% block title %}
-    {{ parent() }} - Profil de {{ username }} - Liste des images
+    {{ parent() }} - Profil de {{ app.request.get('username') }}
 {% endblock title %}
 {% block bsFile %}
     {{ parent() }}
-    <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-image-gallery.min.css') }}">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script type="text/javascript" src="{{ asset('assets/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js') }}"></script>
     <!-- Smartphone Touch Events -->
@@ -49,59 +47,13 @@
 {% endblock bsFile %}
 {% block contentBody %}
     <div class="row" style="margin-top:50px;">
-        {{ include("ISCPlatformBundle:Profil:headerUserProfil.html.twig") }}
+        {{ include("ISCPlatformBundle:Profil:header.html.twig") }}
     </div>
-    <div class="row">
-        {{ include("ISCPlatformBundle:Profil:menuUserProfilImage.html.twig") }}
-        <div class="col-lg-8">
-            <div class="row" style="padding-top:25px;">
-                <h3>Liste des images de {{ username }}</h3>
-            </div>
-            <div class="row" id="links">
-                {% for activite in userActivites %}
-                    {% if activite.idTypeActivite == "2" %}
-                        <a href="{{ activite.image.urlImage }}" title="Image de {{ username }}" style="text-decoration:none" data-gallery>
-                            <img src="{{ activite.image.urlImage }}" alt="Image de {{ username }}" style="max-width: 120px;">
-                        </a>
-                    {% endif %}
-                {% endfor %}
-            </div>
-            <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
-            <div id="blueimp-gallery" class="blueimp-gallery">
-                <!-- The container for the modal slides -->
-                <div class="slides"></div>
-                <!-- Controls for the borderless lightbox -->
-                <h3 class="title"></h3>
-                <a class="prev">‹</a>
-                <a class="next">›</a>
-                <a class="close">×</a>
-                <a class="play-pause"></a>
-                <ol class="indicator"></ol>
-                <!-- The modal dialog, which will be used to wrap the lightbox content -->
-                <div class="modal fade" style="overflow-y: auto;">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title"></h4>
-                            </div>
-                            <div class="modal-body next"></div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default pull-left prev">
-                                    <i class="glyphicon glyphicon-chevron-left"></i>
-                                    Previous
-                                </button>
-                                <button type="button" class="btn btn-primary next">
-                                    Next
-                                    <i class="glyphicon glyphicon-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% if app.user.username  == app.request.get('username') %}
+        {{ include("ISCPlatformBundle:Profil:myProfil.html.twig") }}
+    {% else %}
+        {{ include("ISCPlatformBundle:Profil:userProfil.html.twig") }}
+    {% endif %}
     <!-- Site footer -->
     <footer class="footer">
         {{ include("ISCPlatformBundle::footer.html.twig") }}
@@ -109,5 +61,5 @@
 {% endblock contentBody %}
 {% block javascripts %}
     {{ parent() }}
-    {{ include("ISCPlatformBundle:Profil:jsUserProfilImage.html.twig") }}
+    {{ include("ISCPlatformBundle:Profil:js.html.twig") }}
 {% endblock javascripts %}

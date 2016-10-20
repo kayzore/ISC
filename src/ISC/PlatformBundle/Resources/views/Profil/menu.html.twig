@@ -1,0 +1,10 @@
+<div class="col-lg-4">
+    {% set countNbInvite = 0 %}
+    {% for friends in userNewInvitation %}
+        {% if friends.approvedFriend == false %}
+            {% set countNbInvite = countNbInvite + 1 %}
+        {% endif %}
+    {% endfor %}
+    {{ include("ISCPlatformBundle:Profil/Menu:getMyMenu.html.twig") }}
+    {{ include("ISCPlatformBundle:Profil/Menu:friends.html.twig") }}
+</div>

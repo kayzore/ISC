@@ -97,6 +97,15 @@ class ISCActivite extends \Twig_Extension
     }
 
     /**
+     * @param $idUser
+     * @return array|\ISC\PlatformBundle\Entity\Activite[]|\ISC\PlatformBundle\Entity\ActiviteLikes[]
+     */
+    public function getMyActivites($idUser){
+        $listMyActivites = $this->em->getRepository("ISCPlatformBundle:Activite")->findBy(array('user' => $idUser), array('datetimeActivity' => 'DESC'), 5);
+        return $listMyActivites;
+    }
+
+    /**
      * @param $idLastActu
      * @param $idUser
      * @return string
@@ -189,7 +198,16 @@ class ISCActivite extends \Twig_Extension
     public function getNbTotalActivites($idUser, $arrayFriendId)
     {
         $nbActivite = $this->em->getRepository("ISCPlatformBundle:Activite")->getTotalActivite($idUser, $arrayFriendId);
+        return count($nbActivite);
+    }
 
+    /**
+     * @param $idUser
+     * @return int
+     */
+    public function getNbTotalMyActivites($idUser)
+    {
+        $nbActivite = $this->em->getRepository("ISCPlatformBundle:Activite")->getTotalMyActivite($idUser);
         return count($nbActivite);
     }
 

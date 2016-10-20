@@ -29,7 +29,8 @@ class UserFriend
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="ISC\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="ISC\UserBundle\Entity\User", inversedBy="invitations")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $friend;
 
@@ -102,7 +103,7 @@ class UserFriend
      * @param \ISC\UserBundle\Entity\User $friend
      * @return UserFriend
      */
-    public function setFriend(User $friend = null)
+    public function setFriend(User $friend)
     {
         $this->friend = $friend;
 

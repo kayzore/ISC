@@ -55,7 +55,13 @@ isc_platform_view_image_public:
 
 isc_platform_profil_membres:
     path:     /profil/{username}
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Profil:index }
+
+isc_platform_profil_membres_create_activite:
+    path:     /profil/{username}
+    methods: [ post ]
+    defaults: { _controller: ISCPlatformBundle:Profil:createActivite }
 
 isc_platform_homepage_send_invite_to_membre:
     path:     /send-invite-to-membre/

@@ -22,13 +22,15 @@ class ProfilController extends Controller
             $userActiviteForm = $this->get('form.factory')->create(new ActiviteType(), $activite);
             // TODO : Creer le form pour l avatar
             $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
-            $userActivites = $activitesService->getMyActivites($user->getId());
             $userInformation = $em->getRepository("ISCUserBundle:User")->findOneBy(array('username' => $username));
+            $userActivites = $activitesService->getMyActivites($userInformation->getId());
+            $userNewInvitation = $em->getRepository("ISCPlatformBundle:UserFriend")->findBy(array('friend' => $userInformation->getId(), 'approvedFriend' => false));
             return $this->render('ISCPlatformBundle:Profil:index.html.twig', array(
                 'form' 		            => $userActiviteForm->createView(),
                 'userNotifications'		=> $userNotifications,
                 'userActivites'		    => $userActivites,
                 'userInformation'		=> $userInformation,
+                'userNewInvitation'		=> $userNewInvitation,
             ));
         }
         return $this->redirectToRoute('isc_platform_homepage');

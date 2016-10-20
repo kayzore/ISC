@@ -1,0 +1,75 @@
+{# src/ISC/PlatformBundle/Resources/views/Visiteurs/viewActu.html.twig #}
+
+{% extends "::baseVisiteursView.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Accueil
+{% endblock title %}
+
+{% block bsFile %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js') }}"></script>
+    <!-- Smartphone Touch Events -->
+    <script type="text/javascript" src="{{ asset('assets/plugins/touchpunch/jquery.ui.touch-punch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/event.swipe/jquery.event.move.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/event.swipe/jquery.event.swipe.js') }}"></script>
+    <!-- General -->
+    <script type="text/javascript" src="{{ asset('assets/plugins/respond/respond.min.js') }}"></script> <!-- Polyfill for min/max-width CSS3 Media Queries (only for IE8) -->
+    <script type="text/javascript" src="{{ asset('assets/plugins/cookie/jquery.cookie.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/slimscroll/jquery.slimscroll.horizontal.min.js') }}"></script>
+    <!-- Noty -->
+    <script type="text/javascript" src="{{ asset('assets/plugins/noty/jquery.noty.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/noty/layouts/top.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/noty/themes/default.js') }}"></script>
+
+    <!-- Forms -->
+    <script type="text/javascript" src="{{ asset('assets/plugins/uniform/jquery.uniform.min.js') }}"></script> <!-- Styled radio and checkboxes -->
+    <script type="text/javascript" src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script> <!-- Styled select boxes -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
+
+    <!-- DataTables -->
+    <script type="text/javascript" src="{{ asset('assets/plugins/datatables/jquery.dataTables.FR.min.js') }}"></script> <!-- Traduction FR by Kayzore -->
+    <script type="text/javascript" src="{{ asset('assets/plugins/datatables/tabletools/TableTools.min.js') }}"></script> <!-- optional -->
+    <script type="text/javascript" src="{{ asset('assets/plugins/datatables/colvis/ColVis.min.js') }}"></script> <!-- optional -->
+    <script type="text/javascript" src="{{ asset('assets/plugins/datatables/DT_bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/daterangepicker/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/blockui/jquery.blockUI.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('assets/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/typeahead/typeahead.min.js') }}"></script> <!-- AutoComplete -->
+    <script type="text/javascript" src="{{ asset('assets/plugins/autosize/jquery.autosize.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/tagsinput/jquery.tagsinput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/duallistbox/jquery.duallistbox.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/bootstrap-inputmask/jquery.inputmask.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/bootstrap-wysihtml5/wysihtml5.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/bootstrap-multiselect/bootstrap-multiselect.min.js') }}"></script>
+{% endblock bsFile %}
+
+{% block contentBody %}
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="cont_mod_actualites">
+                    {{ include("ISCPlatformBundle:Visiteurs/Activites:actuFormat.html.twig") }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+
+    <!-- Site footer -->
+    <footer class="footer">
+        {{ include("ISCPlatformBundle::footer.html.twig") }}
+    </footer>
+{% endblock contentBody %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock javascripts %}

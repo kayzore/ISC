@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+    <div class="panel-heading" style="text-align: center;">Changer mon avatar</div>
+    <div class="panel-body">
+        {{ form_start(userAvatarForm, {'attr': {'class': 'form-horizontal ','id': 'formChangeAvatar', 'enctype': 'multipart/form-data'}}) }}
+        {{ form_errors(userAvatarForm) }}
+        <div class="form-group">
+            {{ form_label(userAvatarForm.file, "Image : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+
+            <div class="col-sm-9">
+                {{ form_widget(userAvatarForm.file, {'attr': {'class': 'form-control', 'accept': 'image/*'}}) }}
+            </div>
+            {{ form_errors(userAvatarForm.file) }}
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                {{ form_widget(userAvatarForm.editFile, {'attr': {'accept': 'image/*'}}) }}
+                {{ form_label(userAvatarForm.editFile)}}
+                {{ form_errors(userAvatarForm.editFile) }}
+            </div>
+        </div>
+        {{ form_widget(userAvatarForm.save, {'attr': {'class': 'btn btn-primary btn-sm pull-right'}}) }}
+        {{ form_rest(userAvatarForm) }}
+        {{ form_end(userAvatarForm) }}
+    </div>
+</div>

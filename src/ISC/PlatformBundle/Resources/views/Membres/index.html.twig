@@ -55,7 +55,7 @@
         </div>
         <div class="col-md-6">
             <div class="row" style="text-align:center;">
-                {{ include("ISCPlatformBundle::formAddActu.html.twig") }}
+                {{ render(controller("ISCPlatformBundle:Call:getFormAddActu")) }}
             </div>
             <div class="row">
                 <div class="nb_actu" style="display: none;">{{ userNbTotalActivites }}</div>

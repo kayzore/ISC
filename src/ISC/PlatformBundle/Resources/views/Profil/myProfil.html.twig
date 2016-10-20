@@ -2,7 +2,7 @@
     {{ include("ISCPlatformBundle:Profil:menu.html.twig") }}
     <div class="col-lg-8">
         <div class="row" style="text-align:center;margin-top:30px;">
-            {{ include("ISCPlatformBundle::formAddActu.html.twig") }}
+            {{ render(controller("ISCPlatformBundle:Call:getFormAddActu")) }}
         </div>
         <div class="nb_actu" style="display: none;">{{ userNbTotalActivites }}</div>
         <div class="cont_mod_actualites">

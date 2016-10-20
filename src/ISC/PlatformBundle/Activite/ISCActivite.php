@@ -198,7 +198,16 @@ class ISCActivite extends \Twig_Extension
     public function getNbTotalActivites($idUser, $arrayFriendId)
     {
         $nbActivite = $this->em->getRepository("ISCPlatformBundle:Activite")->getTotalActivite($idUser, $arrayFriendId);
+        return count($nbActivite);
+    }
 
+    /**
+     * @param $idUser
+     * @return int
+     */
+    public function getNbTotalMyActivites($idUser)
+    {
+        $nbActivite = $this->em->getRepository("ISCPlatformBundle:Activite")->getTotalMyActivite($idUser);
         return count($nbActivite);
     }
 

@@ -56,7 +56,19 @@
                 <div class="row" style="text-align:center;margin-top:30px;">
                     {{ include("ISCPlatformBundle::formAddActu.html.twig") }}
                 </div>
-                {{ include("ISCPlatformBundle:Activites:actuFormat.html.twig") }}
+                <div class="nb_actu" style="display: none;">{{ userNbTotalActivites }}</div>
+                <div class="cont_mod_actualites">
+                    {% if userActivites|length > 0 %}
+                        {{ include("ISCPlatformBundle:Activites:actuFormat.html.twig") }}
+                    {% else %}
+                        <div class="row" style="margin-top:30px;">
+                            <div class="alert alert-warning"><strong>Information :</strong> Nous n'avons rien à afficher... Afin de remedier à cela, ajouter une actualité !</div>
+                        </div>
+                    {% endif %}
+                    <div class="loadmore" style="text-align:center;">
+                        <i class="fa fa-spinner fa-pulse"></i>
+                    </div>
+                </div>
             </div>
         </div>
     {% else %}
@@ -70,7 +82,19 @@
             {% if isMyFriend == true %}
                 {{ include("ISCPlatformBundle:Profil:menuIsMyFriend.html.twig") }}
                 <div class="col-lg-8">
-                    {{ include("ISCPlatformBundle:Activites:actuFormat.html.twig") }}
+                    <div class="nb_actu" style="display: none;">{{ userNbTotalActivites }}</div>
+                    <div class="cont_mod_actualites" style="margin-top:30px;">
+                        {% if userActivites|length > 0 %}
+                            {{ include("ISCPlatformBundle:Activites:actuFormat.html.twig") }}
+                        {% else %}
+                            <div class="row" style="margin-top:30px;">
+                                <div class="alert alert-warning"><strong>Information :</strong> Cette personne n'à aucune actualité à afficher</div>
+                            </div>
+                        {% endif %}
+                        <div class="loadmore" style="text-align:center;">
+                            <i class="fa fa-spinner fa-pulse"></i>
+                        </div>
+                    </div>
                 </div>
             {% else %}
                 {{ include("ISCPlatformBundle:Profil:menuNotMyFriend.html.twig") }}

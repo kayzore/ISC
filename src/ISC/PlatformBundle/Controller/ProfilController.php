@@ -22,12 +22,12 @@ class ProfilController extends Controller
             $activitesService = $this->container->get('isc_platform.activite');
             $activite = new Activite();
             $userActiviteForm = $this->get('form.factory')->create(new ActiviteType(), $activite);
-            // TODO : Creer le form pour l avatar
             $userEntity = new User();
             $userAvatarForm = $this->get('form.factory')->create(new UserType(), $userEntity);
             $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
             $userInformation = $em->getRepository("ISCUserBundle:User")->findOneBy(array('username' => $username));
             $userActivites = $activitesService->getMyActivites($userInformation->getId());
+            $userNbTotalActivites = $activitesService->getNbTotalMyActivites($userInformation->getId());
             $userNewInvitation = $em->getRepository("ISCPlatformBundle:UserFriend")->findBy(array('friend' => $userInformation->getId(), 'approvedFriend' => false));
             $myInformation = $em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $user->getId()));
             return $this->render('ISCPlatformBundle:Profil:index.html.twig', array(
@@ -38,6 +38,7 @@ class ProfilController extends Controller
                 'userInformation'		=> $userInformation,
                 'userNewInvitation'		=> $userNewInvitation,
                 'myInformation'		    => $myInformation,
+                'userNbTotalActivites' 	=> $userNbTotalActivites,
             ));
         }
         return $this->redirectToRoute('isc_platform_homepage');

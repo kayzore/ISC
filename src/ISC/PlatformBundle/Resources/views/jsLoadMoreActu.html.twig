@@ -2,7 +2,6 @@ var load = false; // aucun chargement de commentaire n'est en cours
 /* la fonction offset permet de récupérer la valeur X et Y d'un élément dans une page. Ici on récupère la position du dernier div qui  a pour classe : ".mod_actu" */
 var offset = $('.mod_actu:last').offset();
 
-$('.nb_actu').fadeOut(1);
 $('.loadmore').fadeOut(1);
 $(window).scroll(function(){ // On surveille l'évènement scroll
     /* Si l'élément offset est en bas de scroll, si aucun chargement n'est en cours, si le nombre de commentaire affiché est supérieur à 4 et si tout les commentaires ne sont pas affichés, alors on lance la fonction. */

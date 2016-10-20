@@ -3,11 +3,10 @@
 namespace ISC\PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use ISC\UserBundle\Entity\User;
 
 class RenderProfilController extends Controller
 {
-    public function NbActuAction($username)
+    public function nbActuAction($username)
     {
         $em = $this->getDoctrine()->getManager();
         $activitesService = $this->container->get('isc_platform.activite');

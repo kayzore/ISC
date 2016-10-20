@@ -17,22 +17,17 @@ class ProfilController extends Controller
         if($this->get('security.authorization_checker')->isGranted('ROLE_USER')){
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
-            if($user->getUsername() == $username){
-                $activitesService = $this->container->get('isc_platform.activite');
-                $activite = new Activite();
-                $userActiviteForm = $this->get('form.factory')->create(new ActiviteType(), $activite);
-                // TODO : Creer le form pour l avatar
-                $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
-                $userActivites = $activitesService->getMyActivites($user->getId());
-                return $this->render('ISCPlatformBundle:Profil/MyProfil:index.html.twig', array(
-                    'userActiviteForm' 		=> $userActiviteForm->createView(),
-                    'userNotifications'		=> $userNotifications,
-                    'userActivites'		    => $userActivites,
-                ));
-            }
-            else{
-
-            }
+            $activitesService = $this->container->get('isc_platform.activite');
+            $activite = new Activite();
+            $userActiviteForm = $this->get('form.factory')->create(new ActiviteType(), $activite);
+            // TODO : Creer le form pour l avatar
+            $userNotifications = $em->getRepository("ISCPlatformBundle:UserNotifs")->getUserNotifications($user->getId());
+            $userActivites = $activitesService->getMyActivites($user->getId());
+            return $this->render('ISCPlatformBundle:Profil:index.html.twig', array(
+                'userActiviteForm' 		=> $userActiviteForm->createView(),
+                'userNotifications'		=> $userNotifications,
+                'userActivites'		    => $userActivites,
+            ));
         }
         return $this->redirectToRoute('isc_platform_homepage');
     }

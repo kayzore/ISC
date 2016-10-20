@@ -132,7 +132,6 @@ class AccueilController extends Controller
     public function viewActuAction($idActu)
     {
         if($this->get('security.authorization_checker')->isGranted('ROLE_USER')){
-            $em = $this->getDoctrine()->getManager();
             $userService = $this->container->get('isc_platform.user');
             $activitesService = $this->container->get('isc_platform.activite');
             $user = $this->getUser();
@@ -165,8 +164,6 @@ class AccueilController extends Controller
     public function editImageActuAction($filename, $idActu)
     {
         if($this->get('security.authorization_checker')->isGranted('ROLE_USER')){
-            $em = $this->getDoctrine()->getManager();
-            $user = $this->getUser();
             $activitesService = $this->container->get('isc_platform.activite');
             $urlImage = $activitesService->getUrlImage($filename);
             return $this->render('ISCPlatformBundle:Membres:modifImageActu.html.twig', array(

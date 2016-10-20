@@ -1,0 +1,32 @@
+<div class="col-lg-4">
+    <div class="row" style="text-align:center;margin-top:125px;padding:10px;">
+        {% if invitationAlreadySend == true %}
+            <div>
+                <div class="alert alert-info"><strong>Information :</strong> Vous avez déjà envoyé une invitation.</div>
+            </div>
+        {% elseif invitationIsSendToMe == true %}
+            <div>
+                <div class="alert alert-info">
+                    <strong>Information :</strong> Cette personne vous à envoyé une invitation.<br />
+                    Vous pouvez choisir d'accepter cette invitation ou la refuser : BT ACCEPT BT REFUSE
+                </div>
+            </div>
+        {% else %}
+            <div id="SuccessSendInvit" style="display:none;">
+                <div class="alert alert-success">
+                    <i class="fa fa-check" aria-hidden="true"></i> <strong>Information :</strong> L'invitation à été envoyé avec succés.
+                </div>
+            </div>
+            <div class="btn-group btn-group-justified">
+                <a onclick="sendInvitation(this.getAttribute('id'));" id="{{ userInformation.id }}" class="btn btn-primary">
+                    Envoyer une invitation
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="col-lg-8">
+    <div class="row" style="margin-top:30px;">
+        <div class="alert alert-warning"><strong>Information :</strong> Vous ne pouvez voir les actualités de ce profil car vous n'êtes pas amis avec cette personne.</div>
+    </div>
+</div>

@@ -47,10 +47,10 @@
 {% endblock bsFile %}
 {% block contentBody %}
     <div class="row" style="margin-top:50px;">
-        {{ include("ISCPlatformBundle:Profil:header.html.twig") }}
+        {{ include("ISCPlatformBundle:Profil:header.html.twig") }} <!-- TODO : A faire -->
     </div>
-    <div class="row">
-        {% if app.user.username  == app.request.get('username') %}
+    {% if app.user.username  == app.request.get('username') %}
+        <div class="row">
             {{ include("ISCPlatformBundle:Profil:menu.html.twig") }}
             <div class="col-lg-8">
                 <div class="row" style="text-align:center;margin-top:30px;">
@@ -58,18 +58,25 @@
                 </div>
                 {{ include("ISCPlatformBundle:Activites:actuFormat.html.twig") }}
             </div>
-        {% else %}
-            {% if userInformation.friends|length > 0 %}
-                {{ include("ISCPlatformBundle:Profil:menuCheckIfMyFriend.html.twig") }}
+        </div>
+    {% else %}
+        <div class="row">
+            {% set isMyFriend = false %}
+            {% for friends in myInformation.friends %}
+                {% if friends.friend.username == app.request.get('username') and friends.approvedFriend == true %}
+                    {% set isMyFriend = true %}
+                {% endif %}
+            {% endfor %}
+            {% if isMyFriend == true %}
+                {{ include("ISCPlatformBundle:Profil:menuIsMyFriend.html.twig") }}
+                <div class="col-lg-8">
+                    {{ include("ISCPlatformBundle:Activites:actuFormat.html.twig") }}
+                </div>
             {% else %}
-                {{ include("ISCPlatformBundle:Profil:menuNotMyFriend.html.twig") }}
-
+                {{ include("ISCPlatformBundle:Profil:menuNotMyFriend.html.twig") }} <!-- TODO : Modifier le rendu des alerts -->
             {% endif %}
-            <div class="col-lg-8">
-                {{ include("ISCPlatformBundle:Activites:actuFormat.html.twig") }}
-            </div>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
     <!-- Site footer -->
     <footer class="footer">
         {{ include("ISCPlatformBundle::footer.html.twig") }}
@@ -77,5 +84,5 @@
 {% endblock contentBody %}
 {% block javascripts %}
     {{ parent() }}
-    {{ include("ISCPlatformBundle:Profil:js.html.twig") }}
+    {{ include("ISCPlatformBundle:Profil:js.html.twig") }} <!-- TODO : A faire -->
 {% endblock javascripts %}

@@ -4,10 +4,4 @@
         {% set invitationAlreadySend = true %}
     {% endif %}
 {% endfor %}
-{% set invitationIsSendToMe = false %}
-{% for friends in userInformation.friends %}
-    {% if friends.friend.username == app.user.username and friends.approvedFriend == false %}
-        {% set invitationIsSendToMe = true %}
-    {% endif %}
-{% endfor %}
 {{ include("ISCPlatformBundle:Profil/Menu:getMenuNotFriend.html.twig") }}

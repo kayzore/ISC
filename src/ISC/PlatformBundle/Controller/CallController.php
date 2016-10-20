@@ -7,7 +7,6 @@ use ISC\PlatformBundle\Entity\Activite;
 use ISC\PlatformBundle\Form\Type\ActiviteType;
 use ISC\UserBundle\Entity\User;
 use ISC\UserBundle\Form\Type\UserType;
-use ISC\PlatformBundle\Entity\UserNotifs;
 
 class CallController extends Controller
 {

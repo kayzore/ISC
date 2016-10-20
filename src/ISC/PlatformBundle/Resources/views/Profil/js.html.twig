@@ -1,0 +1,44 @@
+<script type="text/javascript">
+    $('.my_tooltip').tooltip({placement: "top", html: true});
+    {% if app.user.username  == app.request.get('username') %}
+        document.getElementById("isc_platformbundle_activite_textActivity").value = '';
+        document.getElementById("isc_platformbundle_activite_image_file").onchange = function () {
+            jQuery("#previewImage").fadeIn("slow");
+            jQuery("#editFile").fadeIn("slow");
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                // get loaded data and render thumbnail.
+                document.getElementById("image").src = e.target.result;
+            };
+
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+        };
+    {% endif %}
+    {{ include("ISCPlatformBundle::jsAjax.html.twig") }}
+    function FormatResult (data) {
+        if (data.loading) return data.username;
+        var state = $(
+                '<span>' + data.username + '</span>'
+        );
+        return state;
+    }
+
+    var $selectSearch = $(".selectSearch");
+    $selectSearch.on("select2:select", function (e) {
+        var url_to_remove = Routing.generate('isc_platform_profil_membres');
+        url_to_remove += '/'+$('.selectSearch').select2('data')[0].username;
+        window.location.href = url_to_remove;
+    });
+    $(document).ready(function(){
+        {{ include("ISCPlatformBundle::jsNotifications.html.twig") }}
+        {{ include("ISCPlatformBundle::jsFonctionsGlobal.html.twig") }}
+        {{ include("ISCPlatformBundle::jsLoadMoreActu.html.twig") }}
+        {{ include("ISCPlatformBundle::jsSearch.html.twig") }}
+    });
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+        $('.my_tooltip').tooltip({placement: "top", html: true})
+    });
+</script>

@@ -47,7 +47,7 @@
 {% endblock bsFile %}
 {% block contentBody %}
     <div class="row" style="margin-top:50px;">
-        {{ include("ISCPlatformBundle:Profil:header.html.twig") }} <!-- TODO : A faire -->
+        {{ include("ISCPlatformBundle:Profil:header.html.twig") }}
     </div>
     {% if app.user.username  == app.request.get('username') %}
         <div class="row">
@@ -73,7 +73,7 @@
                     {{ include("ISCPlatformBundle:Activites:actuFormat.html.twig") }}
                 </div>
             {% else %}
-                {{ include("ISCPlatformBundle:Profil:menuNotMyFriend.html.twig") }} <!-- TODO : Modifier le rendu des alerts -->
+                {{ include("ISCPlatformBundle:Profil:menuNotMyFriend.html.twig") }}
             {% endif %}
         </div>
     {% endif %}
@@ -84,5 +84,5 @@
 {% endblock contentBody %}
 {% block javascripts %}
     {{ parent() }}
-    {{ include("ISCPlatformBundle:Profil:js.html.twig") }} <!-- TODO : A faire -->
+    {{ include("ISCPlatformBundle:Profil:js.html.twig") }}
 {% endblock javascripts %}

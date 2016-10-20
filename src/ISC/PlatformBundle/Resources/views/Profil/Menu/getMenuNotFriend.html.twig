@@ -1,3 +1,9 @@
+{% set invitationIsSendToMe = false %}
+{% for friends in userInformation.friends %}
+    {% if friends.friend.username == app.user.username and friends.approvedFriend == false %}
+        {% set invitationIsSendToMe = true %}
+    {% endif %}
+{% endfor %}
 <div class="col-lg-4">
     <div class="row" style="text-align:center;margin-top:125px;padding:10px;">
         {% if invitationAlreadySend == true %}

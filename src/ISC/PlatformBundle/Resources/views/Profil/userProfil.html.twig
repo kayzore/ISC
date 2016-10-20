@@ -1,0 +1,9 @@
+<div class="row">
+    {% set isMyFriend = false %}
+    {% for friends in myInformation.friends %}
+        {% if friends.friend.username == app.request.get('username') and friends.approvedFriend == true %}
+            {% set isMyFriend = true %}
+        {% endif %}
+    {% endfor %}
+    {{ include("ISCPlatformBundle:Profil:userGetActuProfil.html.twig") }}
+</div>

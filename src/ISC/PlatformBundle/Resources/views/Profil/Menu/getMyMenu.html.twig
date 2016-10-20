@@ -1,0 +1,51 @@
+{% if countNbInvite > 0 %}
+    <div class="row" style="text-align:center;margin-top:125px;padding:10px;">
+        <div class="btn-group btn-group-justified">
+            <a href="#newInvitations" class="btn btn-primary" data-toggle="modal">Invitation(s) (<i class="fa fa-user-plus" aria-hidden="true"></i> {{ countNbInvite }})</a>
+        </div>
+    </div>
+    <div id="newInvitations" class="modal fade" role="dialog" style="overflow-y: auto;">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Liste des nouvelles invitations</h4>
+                </div>
+                <div class="modal-body">
+                    {% for friends in userNewInvitation %}
+                        <img style="float:left;max-height:50px;" src="{{ friends.user.urlAvatar }}" class="img-rounded img-responsive"/>
+                        <strong>
+                            <a href="{{ path("isc_platform_profil_membres", { 'username': friends.user.username }) }}">{{ friends.user.username }}</a>
+                        </strong>
+                        <a onclick="acceptInvitation(this.getAttribute('id'));" id="{{ friends.user.id }}" class="btn btn-success btn-xs clickable acceptInvit">Accepter <i class="fa fa-check" aria-hidden="true"></i></a>
+                        <a onclick="refuseInvitation(this.getAttribute('id'));" id="{{ friends.user.id }}" class="btn btn-danger btn-xs clickable refuseInvit">Refuser <i class="fa fa-times" aria-hidden="true"></i></a>
+                        <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="row" style="text-align:center;margin-top:125px;padding:10px;">
+        <div class="btn-group btn-group-justified">
+            <a href="#newInvitations" class="btn btn-primary" data-toggle="modal">Invitation (<i class="fa fa-user-plus" aria-hidden="true"></i> 0)</a>
+        </div>
+    </div>
+    <div id="newInvitations" class="modal fade" role="dialog" style="overflow-y: auto;">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Liste des nouvelles invitations</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="alert alert-info"><strong>Information :</strong> Aucune nouvelle invitation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

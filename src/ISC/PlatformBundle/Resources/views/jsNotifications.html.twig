@@ -4,7 +4,7 @@ function getNotif() {
     $.ajax({
         type: 'GET',
         url: '{{ path("isc_platform_get_notification") }}',
-        data: 'id='+{{ app.user.id }},
+        data: 'id=' + {{ app.user.id }},
         dataType: 'json',
         success: function(data){
             document.getElementById("divNotifications").innerHTML = data[0].content;

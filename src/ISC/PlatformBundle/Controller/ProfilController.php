@@ -3,7 +3,6 @@
 namespace ISC\PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use ISC\UserBundle\Entity\User;
 
 class ProfilController extends Controller
 {

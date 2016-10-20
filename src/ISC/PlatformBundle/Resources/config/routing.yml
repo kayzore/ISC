@@ -78,3 +78,7 @@ isc_platform_homepage_refuse_invite_of_member:
 isc_platform_profil_show_image:
     path:     /profil/{username}/images
     defaults: { _controller: ISCPlatformBundle:Profil:showImage }
+
+isc_platform_profil_pixie_avatar:
+    path:     /profil/edition-avatar/{filename}
+    defaults: { _controller: ISCPlatformBundle:Profil:editAvatar }

@@ -12,40 +12,15 @@
 
     var $selectSearch = $(".selectSearch");
     $selectSearch.on("select2:select", function (e) {
-        window.location.href = "profil/" + $(".selectSearch").select2('data')[0].username;
+        var url_to_remove = Routing.generate('isc_platform_profil_membres');
+        url_to_remove += '/'+$('.selectSearch').select2('data')[0].username;
+        window.location.href = url_to_remove;
     });
     $(document).ready(function(){
         {{ include("ISCPlatformBundle::jsNotifications.html.twig") }}
         {{ include("ISCPlatformBundle::jsFonctionsGlobal.html.twig") }}
         {{ include("ISCPlatformBundle::jsLoadMoreActu.html.twig") }}
-
-        $(".selectSearch").select2({
-            ajax: {
-                url: "{{ path("isc_platform_search") }}",
-                dataType: "json",
-                type: "GET",
-                data: function (params) {
-                    var queryParameters = {
-                        term: params.term
-                    };
-                    return queryParameters;
-                },
-                processResults: function (data) {
-                    return {
-                        results: $.map(data, function (item) {
-                            return {
-                                id: item.id,
-                                username: item.username
-                            };
-                        })
-                    };
-                }
-            },
-            minimumInputLength: 1,
-            placeholder: "Rechercher un pseudo",
-            allowClear: true,
-            templateResult: FormatResult,
-        });
+        {{ include("ISCPlatformBundle::jsSearch.html.twig") }}
     });
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()

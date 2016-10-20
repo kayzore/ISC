@@ -74,3 +74,7 @@ isc_platform_homepage_accept_invite_of_member:
 isc_platform_homepage_refuse_invite_of_member:
     path:     /refuse-invite-of-membre/
     defaults: { _controller: ISCPlatformBundle:Profil:refuseInvitOfMember }
+
+isc_platform_profil_show_image:
+    path:     /profil/{username}/images
+    defaults: { _controller: ISCPlatformBundle:Profil:showImage }

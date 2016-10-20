@@ -51,7 +51,7 @@ isc_platform_homepage_pixie_actualite_save:
 isc_platform_view_image_public:
     path:     /visualisation-image/{username}/{idActu}
     methods: [ get ]
-    defaults: { _controller: ISCPlatformBundle:Accueil:viewImagePublic }
+    defaults: { _controller: ISCPlatformBundle:Visiteurs:viewImagePublic }
 
 isc_platform_profil_membres:
     path:     /profil/{username}

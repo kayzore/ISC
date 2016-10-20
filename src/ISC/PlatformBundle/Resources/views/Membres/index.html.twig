@@ -58,7 +58,7 @@
                 {{ include("ISCPlatformBundle::formAddActu.html.twig") }}
             </div>
             <div class="row">
-                <div class="nb_actu">{{ userNbTotalActivites }}</div>
+                <div class="nb_actu" style="display: none;">{{ userNbTotalActivites }}</div>
                 <div class="cont_mod_actualites">
                     {% if userActivites|length > 0 %}
                         {{ include("ISCPlatformBundle:Activites:actuFormat.html.twig") }}

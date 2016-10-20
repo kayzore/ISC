@@ -1,11 +1,8 @@
-{# src/ISC/PlatformBundle/Resources/views/Profil/modifAvatar.html.twig #}
-
+{# src/ISC/PlatformBundle/Resources/views/Profil/myProfil.html.twig #}
 {% extends "::baseMembres.html.twig" %}
-
 {% block title %}
-    {{ parent() }} - Edition de mon avatar
+    {{ parent() }} - Profil de {{ app.request.get('username') }}
 {% endblock title %}
-
 {% block bsFile %}
     {{ parent() }}
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -48,102 +45,21 @@
     <script type="text/javascript" src="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/plugins/bootstrap-multiselect/bootstrap-multiselect.min.js') }}"></script>
 {% endblock bsFile %}
-
 {% block contentBody %}
-    <div class="row">
-        <div class="col-lg-9 col-md-9 col-sm-9">
-            <div class="row" id="loadModif" style="display:none;">
-                <div class="alert alert-info"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Enregistrement de l'image... Vous allez être redirigé vers votre profil.</div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-md-4 center-block" style="text-align:center;">
-                    <div class="thumbnail">
-                        <p>Cliquez-sûr l'image pour la modifier</p>
-                        <img id="edit-me" class="img-responsive" src="{{ myAvatar[0].urlAvatar }}" style="max-height:400px;"/>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="row" style="margin-top:50px;">
+        {{ include("ISCPlatformBundle:Profil:header.html.twig") }}
     </div>
-
+    {% if app.user.username  == app.request.get('username') %}
+        {{ include("ISCPlatformBundle:Profil:myProfil.html.twig") }}
+    {% else %}
+        {{ include("ISCPlatformBundle:Profil:userProfil.html.twig") }}
+    {% endif %}
     <!-- Site footer -->
     <footer class="footer">
         {{ include("ISCPlatformBundle::footer.html.twig") }}
     </footer>
 {% endblock contentBody %}
-
 {% block javascripts %}
     {{ parent() }}
-    <script data-path="{{ asset('assets/pixie') }}" src="{{ asset('assets/pixie/pixie-integrate.js') }}"></script>
-    <script type="text/javascript">
-    function FormatResult (data) {
-        if (data.loading) return data.username;
-        var state = $(
-            '<span>' + data.username + '</span>'
-        );
-        return state;
-    };
-    var imgid = '{{ myAvatar[0].id }}';
-    var myPixie = Pixie.setOptions({
-        replaceOriginal: true,
-        onSave: function(data, img) {
-            $.ajax({
-                type: 'POST',
-                url: '{{ path("isc_platform_profil_pixie_save") }}',
-                data: { imgData: data, imgid: imgid },
-            }).success(function(response) {
-                document.getElementById('loadModif').style.display = 'block';
-                window.location.replace("{{ path("isc_platform_profil_membres", { 'username': userUsername }) }}");
-            });
-        }
-    });
-    myPixie.enableInteractiveMode();
-
-    $('#edit-me').on('click', function(e) {
-        myPixie.open({
-            url: e.target.src,
-            image: e.target
-        });
-    });
-    var $selectSearch = $(".selectSearch");
-    $selectSearch.on("select2:select", function (e) {
-        window.location.href = $(".selectSearch").select2('data')[0].username;
-    });
-    $(document).ready(function(){
-        $('.dropdown').on('show.bs.dropdown', function(e){
-            $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
-        });
-        $('.dropdown').on('hide.bs.dropdown', function(e){
-            $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
-        });
-        $(".selectSearch").select2({
-            ajax: {
-                url: "{{ path("isc_platform_search") }}",
-                dataType: "json",
-                type: "POST",
-                data: function (params) {
-                    var queryParameters = {
-                        term: params.term
-                    }
-                    return queryParameters;
-                },
-                processResults: function (data) {
-                    return {
-
-                        results: $.map(data, function (item) {
-                            return {
-                                id: item.id,
-                                username: item.username,
-                            };
-                        })
-                    };
-                }
-            },
-            minimumInputLength: 1,
-            placeholder: "Rechercher un pseudo",
-            allowClear: true,
-            templateResult: FormatResult,
-        });
-    });
-    </script>
+    {{ include("ISCPlatformBundle:Profil:js.html.twig") }}
 {% endblock javascripts %}

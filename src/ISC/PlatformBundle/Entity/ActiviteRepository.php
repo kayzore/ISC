@@ -64,6 +64,20 @@ class ActiviteRepository extends EntityRepository
 
     /**
      * @param $idUser
+     * @return array
+     */
+    public function getTotalMyActivite($idUser)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb
+            ->where('a.user = :idUser')
+            ->setParameter('idUser', $idUser)
+            ->orderBy('a.datetimeActivity', 'DESC');
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param $idUser
      * @param $listIdFriend
      * @param $lastIdActu
      * @return array

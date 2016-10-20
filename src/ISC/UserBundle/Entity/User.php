@@ -69,6 +69,11 @@ class User extends BaseUser
     private $friends;
 
     /**
+     * @ORM\OneToMany(targetEntity="ISC\PlatformBundle\Entity\UserFriend", mappedBy="friend")
+     */
+    private $invitations;
+
+    /**
      * @ORM\OneToMany(targetEntity="ISC\PlatformBundle\Entity\UserNotifs", mappedBy="userFrom")
      */
     private $notificationsFrom;
@@ -445,5 +450,38 @@ class User extends BaseUser
     public function getNotificationsTo()
     {
         return $this->notificationsTo;
+    }
+
+    /**
+     * Add invitations
+     *
+     * @param \ISC\PlatformBundle\Entity\UserFriend $invitations
+     * @return User
+     */
+    public function addInvitation(UserFriend $invitations)
+    {
+        $this->invitations[] = $invitations;
+        $invitations->setUser($this);
+        return $this;
+    }
+
+    /**
+     * Remove invitations
+     *
+     * @param \ISC\PlatformBundle\Entity\UserFriend $invitations
+     */
+    public function removeInvitation(UserFriend $invitations)
+    {
+        $this->invitations->removeElement($invitations);
+    }
+
+    /**
+     * Get invitations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInvitations()
+    {
+        return $this->invitations;
     }
 }

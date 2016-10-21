@@ -179,15 +179,6 @@ class ISCActivite extends \Twig_Extension
         $activite = $this->em->getRepository("ISCPlatformBundle:Activite")->findOneBy(array('id' => $idActu));
 
         return $activite;
-        if ($activite->getTextActivity() != NULL) {
-            $textActuFormat = $this->checkSmiley($activite->getTextActivity());
-            $contentActu = '<div class="col-md-12" style="box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.1);display: inline-block;"><br /><p>' . $textActuFormat . '</p><img src="' . $activite->getImage()->getUrlImage() . '" style="max-width: 100%;max-height:300px;display: block;margin-left:auto;margin-right:auto;padding-bottom:10px;"></div>';
-        }
-        else {
-            $contentActu = '<div class="col-md-12" style="box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.1);display: inline-block;"><img src="' . $activite->getImage()->getUrlImage() . '" style="max-width: 100%;max-height:300px;display: block;margin-left:auto;margin-right:auto;padding-bottom:10px;"></div>';
-        }
-        $activiteHtml = '<div class="row mod_actu" id="' . $activite->getId() . '" style="padding:20px;margin-bottom:20px;"><div class="col-md-12"><p><img src="' . $activite->getUser()->getUrlAvatar() . '" class="img-rounded img-responsive pull-left" style="max-height:70px;vertical-align:middle;"><strong><a href="' . $this->router->generate('isc_platform_profil_membres', array('username' => $activite->getUser()->getUsername())) . '">' . $activite->getUser()->getUsername() . '</a></strong></p></div><hr>' . $contentActu . '<div class="col-md-12 pull-left" style="padding-top:5px;" id="LikeZone' . $activite->getId() . '"><span class="pull-right"><i class="fa fa-calendar"></i> ' . $activite->getDatetimeActivity()->format('d-m-Y H:i:s') . '</span></div></div>';
-
     }
 
     /**

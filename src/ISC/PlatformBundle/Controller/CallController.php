@@ -20,12 +20,14 @@ class CallController extends Controller
         ));
     }
 
-    public function getFormAddActuAction()
+    public function getFormAddActuAction($lieuDajout, $username)
     {
         $activite = new Activite();
         $userActiviteForm = $this->get('form.factory')->create(new ActiviteType(), $activite);
         return $this->render('ISCPlatformBundle::formAddActu.html.twig', array(
-            'form' => $userActiviteForm->createView(),
+            'form'              => $userActiviteForm->createView(),
+            'lieuDajout'        => $lieuDajout,
+            'usernameProfil'    => $username
         ));
     }
     public function getFormChangeAvatarAction()

@@ -3,6 +3,9 @@
 namespace ISC\PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use ISC\PlatformBundle\Entity\Activite;
+use ISC\PlatformBundle\Form\Type\ActiviteType;
 
 class ProfilController extends Controller
 {
@@ -26,5 +29,24 @@ class ProfilController extends Controller
             ));
         }
         return $this->redirectToRoute('isc_platform_homepage');
+    }
+
+    public function createActiviteAction(Request $request)
+    {
+        $user = $this->getUser();
+        if($this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+            $activitesService = $this->container->get('isc_platform.activite');
+            $activite = new Activite();
+            $form = $this->get('form.factory')->create(new ActiviteType(), $activite);
+            $resultSetNewActivite = $activitesService->setActivite($form, $request, $user->getId(), $activite);
+            if(is_array($resultSetNewActivite) && $resultSetNewActivite[0] == 'RedirectEditFile'){
+                return $this->redirectToRoute('isc_platform_homepage_pixie_actualite', array('filename' => $resultSetNewActivite[1], 'idActu' => $resultSetNewActivite[2]));
+            }
+            elseif($resultSetNewActivite === 'ErrorOneField'){
+                $this->get('session')->getFlashBag()->add('errorAddActivite', 'Vous devez au minimum ajouter du texte ou une image.');
+                return $this->redirect($this->generateUrl('isc_platform_profil_membres', array('username' => $user->getUsername())));
+            }
+        }
+        return $this->redirectToRoute('isc_platform_profil_membres', array('username' => $user->getUsername()));
     }
 }

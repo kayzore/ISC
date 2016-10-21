@@ -1,7 +1,7 @@
-{% if app.request.get('_route') == 'isc_platform_homepage' %}
+{% if lieuDajout == 'Index' %}
     {{ form_start(form, {'attr': {'class': 'form-horizontal ','id': 'Upload_File', 'enctype': 'multipart/form-data', 'action': path('isc_platform_homepage_create_activite')}}) }}
-{% elseif app.request.get('_route') == 'isc_platform_profil_membres' %}
-    {{ form_start(form, {'attr': {'class': 'form-horizontal ','id': 'Upload_File', 'enctype': 'multipart/form-data', 'action': path('isc_platform_profil_membres_create_activite', { 'username': app.request.get('username') }) }}) }}
+{% elseif lieuDajout == 'Profil' %}
+    {{ form_start(form, {'attr': {'class': 'form-horizontal ','id': 'Upload_File', 'enctype': 'multipart/form-data', 'action': path('isc_platform_profil_membres_create_activite', { 'username': usernameProfil }) }}) }}
 {% endif %}
     {{ form_errors(form) }}
     {{ form_errors(form.textActivity) }}

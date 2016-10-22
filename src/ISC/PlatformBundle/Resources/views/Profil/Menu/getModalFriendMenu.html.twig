@@ -1,0 +1,15 @@
+{% set countCurrentFriend = 0 %}
+{% for friends in userInformation.friends %}
+    {% set countCurrentFriend = countCurrentFriend + 1 %}
+    <div>
+        <img style="vertical-align:middle;max-height:50px;" src="{{ friends.friend.urlAvatar }}">
+        <span style="">
+            <strong>
+                <a href="{{ path("isc_platform_profil_membres", { 'username': friends.friend.username }) }}">{{ friends.friend.username }}</a>
+            </strong>
+        </span>
+    </div>
+    {% if countCurrentFriend != countNbFriends %}
+        <hr>
+    {% endif %}
+{% endfor %}

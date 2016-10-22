@@ -3,7 +3,7 @@
 {% extends "::baseMembres.html.twig" %}
 
 {% block title %}
-    {{ parent() }} - Edition de mon image
+    {{ parent() }} - Edition de mon avatar
 {% endblock title %}
 
 {% block bsFile %}
@@ -53,13 +53,13 @@
     <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-9">
             <div class="row" id="loadModif" style="display:none;">
-                <div class="alert alert-info"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Enregistrement de l'image... Vous allez être redirigé vers l'accueil.</div>
+                <div class="alert alert-info"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Enregistrement de l'image... Vous allez être redirigé vers votre profil.</div>
             </div>
             <div class="row">
                 <div class="col-sm-6 col-md-4 center-block" style="text-align:center;">
                     <div class="thumbnail">
                         <p>Cliquez-sûr l'image pour la modifier</p>
-                        <img id="edit-me" class="img-responsive" src="{{ urlImage }}" style="max-height:400px;"/>
+                        <img id="edit-me" class="img-responsive" src="{{ myInformation.urlAvatar }}" style="max-height:400px;"/>
                     </div>
                 </div>
             </div>
@@ -83,17 +83,17 @@
             );
             return state;
         };
-        var idActu = '{{ idActu }}';
+        var imgid = '{{ myInformation.id }}';
         var myPixie = Pixie.setOptions({
             replaceOriginal: true,
             onSave: function(data, img) {
                 document.getElementById('loadModif').style.display = 'block';
                 $.ajax({
                     type: 'POST',
-                    url: '{{ path("isc_platform_homepage_pixie_actualite_save") }}',
-                    data: { imgData: data, idActu: idActu },
+                    url: '{{ path("isc_platform_profil_pixie_avatar_save") }}',
+                    data: { imgData: data, imgid: imgid },
                 }).success(function(response) {
-                    window.location.replace("{{ path("isc_platform_homepage") }}");
+                    window.location.replace("{{ path("isc_platform_profil_membres", { 'username': myInformation.username }) }}");
                 });
             }
         });

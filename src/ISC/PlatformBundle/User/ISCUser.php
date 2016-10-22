@@ -11,19 +11,42 @@ class ISCUser
 {
     private $em;
     private $serverUrl;
+    private $kernelRootDir;
     private $router;
 
     /**
      * ISCUser constructor.
      * @param EntityManager $em
      * @param $serverUrl
+     * @param $kernelRootDir
      * @param Router $router
      */
-    public function __construct(EntityManager $em, $serverUrl, Router $router)
+    public function __construct(EntityManager $em, $serverUrl, $kernelRootDir, Router $router)
     {
-        $this->em           = $em;
-        $this->serverUrl    = $serverUrl;
-        $this->router       = $router;
+        $this->em               = $em;
+        $this->serverUrl        = $serverUrl;
+        $this->kernelRootDir    = $kernelRootDir;
+        $this->router           = $router;
+    }
+
+    /**
+     * @param $idUser
+     * @param $file
+     * @return array
+     */
+    public function setEditAvatar($idUser, $file)
+    {
+        $myInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUser));
+        $extAvatar = $myInformations->getExtensionAvatar();
+        $fileName = md5(uniqid()).'.'.$extAvatar;
+        $myInformations->setExtensionAvatar($extAvatar);
+        $myInformations->setNameAvatar($fileName);
+        $myInformations->setUrlAvatar($this->serverUrl.'uploads/Avatar/'.$fileName);
+        $this->em->flush();
+        $path = $this->kernelRootDir.'/../web/uploads/Avatar/'.$fileName;
+        $file2 = file_get_contents($file);
+        file_put_contents($path, $file2);
+        return array('status' => "success","fileUploaded" => true);
     }
 
     /**

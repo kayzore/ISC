@@ -4,6 +4,7 @@ namespace ISC\PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use ISC\PlatformBundle\Entity\Activite;
 use ISC\PlatformBundle\Form\Type\ActiviteType;
 use Symfony\Component\HttpFoundation\Response;
@@ -103,6 +104,35 @@ class ProfilController extends Controller
             $response->headers->set('Content-Type', 'application/text');
             $response->setContent('success');
             return $response;
+        }
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/text');
+        $response->setContent('error');
+        return $response;
+    }
+
+    public function editAvatarAction()
+    {
+        if($this->get('security.authorization_checker')->isGranted('ROLE_USER')){
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $myInformation = $em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $user->getId()));
+            return $this->render('ISCPlatformBundle:Profil:modifAvatar.html.twig', array(
+                'myInformation' => $myInformation
+            ));
+        }
+        return $this->redirectToRoute('isc_platform_homepage');
+    }
+
+    public function saveAvatarAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $userService = $this->container->get('isc_platform.user');
+            $user = $this->getUser();
+            $file = $request->request->get('imgData');
+            $status = $userService->setEditAvatar($user->getId(), $file);
+            return new JsonResponse($status);
         }
         $response = new Response();
         $response->headers->set('Content-Type', 'application/text');

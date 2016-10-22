@@ -1,7 +1,7 @@
 services:
     isc_platform.user:
         class:      ISC\PlatformBundle\User\ISCUser
-        arguments:  [@doctrine.orm.entity_manager, %server_host_perso%, @router]
+        arguments:  [@doctrine.orm.entity_manager, %server_host_perso%, %kernel.root_dir%, @router]
     isc_platform.activite:
         class:      ISC\PlatformBundle\Activite\ISCActivite
         arguments:  [@doctrine.orm.entity_manager, %server_host_perso%, %kernel.root_dir%, @router]

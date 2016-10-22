@@ -5,7 +5,7 @@
     <div class="row" style="text-align:center;padding:10px;">
         {% endif %}
         <div class="btn-group btn-group-justified">
-            <a href="#showFriends" class="btn btn-primary" data-toggle="modal"><i class="fa fa-users" aria-hidden="true"></i> Amis ({{ countNbFriends }})</a>
+            <a href="#showFriends" class="btn btn-primary" data-toggle="modal" id="btShowMyFriends"><i class="fa fa-users" aria-hidden="true"></i> Amis ({{ countNbFriends }})</a>
         </div>
     </div>
     <div id="showFriends" class="modal fade" role="dialog" style="overflow-y: auto;">
@@ -16,11 +16,21 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Liste des amis</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="modalMyFriend">
+                    {% set countCurrentFriend = 0 %}
                     {% for friends in userInformation.friends %}
-                        <img style="float:left;max-height:50px;" src="{{ friends.friend.urlAvatar }}" class="img-rounded img-responsive"/>
-                        <strong><a href="{{ path("isc_platform_profil_membres", { 'username': friends.friend.username }) }}">{{ friends.friend.username }}</a></strong>
-                        <hr>
+                        {% set countCurrentFriend = countCurrentFriend + 1 %}
+                        <div>
+                            <img style="vertical-align:middle;max-height:50px;" src="{{ friends.friend.urlAvatar }}">
+                            <span style="">
+                                <strong>
+                                    <a href="{{ path("isc_platform_profil_membres", { 'username': friends.friend.username }) }}">{{ friends.friend.username }}</a>
+                                </strong>
+                            </span>
+                        </div>
+                        {% if countCurrentFriend != countNbFriends %}
+                            <hr>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -40,7 +50,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Liste des amis</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="modalMyFriend">
                         <div class="row">
                             <div class="alert alert-info"><strong>Information :</strong> Aucun amis</div>
                         </div>

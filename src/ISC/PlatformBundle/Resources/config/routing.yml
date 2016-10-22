@@ -62,18 +62,22 @@ isc_platform_profil_membres:
 
 isc_platform_profil_membres_create_activite:
     path:     /profil/{username}
+    methods: [ post ]
     defaults: { _controller: ISCPlatformBundle:Profil:createActivite }
 
 isc_platform_homepage_send_invite_to_membre:
     path:     /send-invite-to-membre/
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Profil:sendInvitToMembre } #Anciennement sur le controller accueil
 
 isc_platform_homepage_accept_invite_of_member:
     path:     /accept-invite-of-membre/
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Profil:acceptInvitOfMember }
 
 isc_platform_homepage_refuse_invite_of_member:
     path:     /refuse-invite-of-membre/
+    methods: [ get ]
     defaults: { _controller: ISCPlatformBundle:Profil:refuseInvitOfMember }
 
 isc_platform_profil_show_image:

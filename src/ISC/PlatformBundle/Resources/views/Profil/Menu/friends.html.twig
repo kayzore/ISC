@@ -1,7 +1,7 @@
 {% set countNbFriends = 0 %}
-    {% for friends in userInformation.friends %}
-        {% if friends.approvedFriend == true %}
-            {% set countNbFriends = countNbFriends + 1 %}
-        {% endif %}
-    {% endfor %}
-    {{ include("ISCPlatformBundle:Profil/Menu:getFriendMenu.html.twig") }}
+{% for friends in userInformation.friends %}
+    {% if friends.approvedFriend == true %}
+        {% set countNbFriends = countNbFriends + 1 %}
+    {% endif %}
+{% endfor %}
+{{ include("ISCPlatformBundle:Profil/Menu:getFriendMenu.html.twig") }}

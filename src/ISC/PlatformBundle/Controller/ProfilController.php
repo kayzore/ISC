@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use ISC\PlatformBundle\Entity\Activite;
 use ISC\PlatformBundle\Form\Type\ActiviteType;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProfilController extends Controller
 {
@@ -48,5 +49,64 @@ class ProfilController extends Controller
             }
         }
         return $this->redirectToRoute('isc_platform_profil_membres', array('username' => $user->getUsername()));
+    }
+
+    public function sendInvitToMembreAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $userService = $this->container->get('isc_platform.user');
+            $user = $this->getUser();
+            $idUserToSend = $request->query->get('id');
+            $userService->sendInvitation($user->getId(), $idUserToSend);
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/text');
+            $response->setContent('success');
+            return $response;
+        }
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/text');
+        $response->setContent('error');
+        return $response;
+    }
+
+    public function acceptInvitOfMemberAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $userService = $this->container->get('isc_platform.user');
+            $user = $this->getUser();
+            $idUserToSend = $request->query->get('id');
+            $userService->setAcceptInvitation($user->getId(), $idUserToSend);
+            $listOfMyFriend = $userService->getListOfMyFriendHtml($user->getId());
+
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/text');
+            $response->setContent($listOfMyFriend);
+            return $response;
+        }
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/text');
+        $response->setContent('error');
+        return $response;
+    }
+
+    public function refuseInvitOfMemberAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $userService = $this->container->get('isc_platform.user');
+            $user = $this->getUser();
+            $idUserToSend = $request->query->get('id');
+            $userService->setRefuseInvitation($user->getId(), $idUserToSend);
+            $response = new Response();
+            $response->headers->set('Content-Type', 'application/text');
+            $response->setContent('success');
+            return $response;
+        }
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/text');
+        $response->setContent('error');
+        return $response;
     }
 }

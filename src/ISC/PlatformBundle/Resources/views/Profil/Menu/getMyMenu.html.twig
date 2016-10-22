@@ -1,7 +1,7 @@
 {% if countNbInvite > 0 %}
     <div class="row" style="text-align:center;margin-top:125px;padding:10px;">
         <div class="btn-group btn-group-justified">
-            <a href="#newInvitations" class="btn btn-primary" data-toggle="modal">Invitation(s) (<i class="fa fa-user-plus" aria-hidden="true"></i> {{ countNbInvite }})</a>
+            <a href="#newInvitations" class="btn btn-primary" data-toggle="modal" id="btShowMyInvitations"><i class="fa fa-user-plus" aria-hidden="true"></i> Invitations ({{ countNbInvite }})</a>
         </div>
     </div>
     <div id="newInvitations" class="modal fade" role="dialog" style="overflow-y: auto;">
@@ -13,14 +13,24 @@
                     <h4 class="modal-title">Liste des nouvelles invitations</h4>
                 </div>
                 <div class="modal-body">
+                    {% set countCurrentInvite = 0 %}
                     {% for friends in userNewInvitation %}
-                        <img style="float:left;max-height:50px;" src="{{ friends.user.urlAvatar }}" class="img-rounded img-responsive"/>
-                        <strong>
-                            <a href="{{ path("isc_platform_profil_membres", { 'username': friends.user.username }) }}">{{ friends.user.username }}</a>
-                        </strong>
-                        <a onclick="acceptInvitation(this.getAttribute('id'));" id="{{ friends.user.id }}" class="btn btn-success btn-xs clickable acceptInvit">Accepter <i class="fa fa-check" aria-hidden="true"></i></a>
-                        <a onclick="refuseInvitation(this.getAttribute('id'));" id="{{ friends.user.id }}" class="btn btn-danger btn-xs clickable refuseInvit">Refuser <i class="fa fa-times" aria-hidden="true"></i></a>
-                        <hr>
+                        {% set countCurrentInvite = countCurrentInvite + 1 %}
+                        <div>
+                            <img style="vertical-align:middle;max-height:50px;" src="{{ friends.user.urlAvatar }}">
+                            <span style="">
+                                <strong>
+                                    <a href="{{ path("isc_platform_profil_membres", { 'username': friends.user.username }) }}">{{ friends.user.username }}</a>
+                                    <span id="btNewInvitation{{ friends.user.id }}">
+                                        <a onclick="acceptInvitation({{ friends.user.id }});" id="btAcceptInvit{{ friends.user.id }}" class="btn btn-success btn-xs clickable acceptInvit">Accepter <i class="fa fa-check" aria-hidden="true"></i></a>
+                                        <a onclick="refuseInvitation({{ friends.user.id }});" id="btRefuseInvit{{ friends.user.id }}" class="btn btn-danger btn-xs clickable refuseInvit">Refuser <i class="fa fa-times" aria-hidden="true"></i></a>
+                                    </span>
+                                </strong>
+                            </span>
+                        </div>
+                        {% if countCurrentInvite != countNbInvite %}
+                            <hr>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>

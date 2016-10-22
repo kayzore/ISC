@@ -23,26 +23,66 @@ function DelLike(id){
     });
 }
 function acceptInvitation(id){
+    document.getElementById("btAcceptInvit"+id).innerHTML = "Accepter <i class='fa fa-spinner fa-pulse fa-fw'></i>";
+    document.getElementById("btAcceptInvit"+id).className += "btn btn-success btn-xs clickable acceptInvit disabled";
+    document.getElementById("btRefuseInvit"+id).className += "btn btn-danger btn-xs clickable refuseInvit disabled";
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: '{{ path("isc_platform_homepage_accept_invite_of_member") }}',
         data: {id: id},
-        success: function(retour){
-            if(retour == 'success'){
-                location.reload();
+        success: function(data){
+            if(document.getElementById("modalMyFriend") !== null){
+                var r = /\d+/;
+                var textBtShowMyInvitations = document.getElementById("btShowMyInvitations").innerHTML;
+                var resultNbInvitations = parseInt(textBtShowMyInvitations.match(r));
+                var newInvitationsNb = resultNbInvitations - 1;
+                document.getElementById("btShowMyInvitations").innerHTML = '<i class="fa fa-user-plus" aria-hidden="true"></i> Invitations ('+newInvitationsNb+')';
+                document.getElementById("btNewInvitation"+id).innerHTML = "<i class='fa fa-check' aria-hidden='true'></i> Vous avez accepté l'invitation.";
+                var textBtShowMyFriends = document.getElementById("btShowMyFriends").innerHTML;
+                var resultNbFriends = parseInt(textBtShowMyFriends.match(r));
+                var newFriendsNb = resultNbFriends + 1;
+                document.getElementById("btShowMyFriends").innerHTML = '<i class="fa fa-users" aria-hidden="true"></i> Amis ('+newFriendsNb+')';
+                document.getElementById("modalMyFriend").innerHTML = data;
+            }
+            else{
+                document.getElementById("btNewInvitation"+id).innerHTML = "<strong><i class='fa fa-check' aria-hidden='true'></i> Vous avez accepté l'invitation.</strong>";
             }
         }
     });
 }
 function refuseInvitation(id){
+    document.getElementById("btRefuseInvit"+id).innerHTML = "Refuser <i class='fa fa-spinner fa-pulse fa-fw'></i>";
+    document.getElementById("btAcceptInvit"+id).className += "btn btn-success btn-xs clickable acceptInvit disabled";
+    document.getElementById("btRefuseInvit"+id).className += "btn btn-danger btn-xs clickable refuseInvit disabled";
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: '{{ path("isc_platform_homepage_refuse_invite_of_member") }}',
         data: {id: id},
         success: function(retour){
-            if(retour == 'success'){
-                location.reload();
+            if( document.getElementById("modalMyFriend") !== null){
+                var r = /\d+/;
+                var textBtShowMyInvitations = document.getElementById("btShowMyInvitations").innerHTML;
+                var resultNbInvitations = parseInt(textBtShowMyInvitations.match(r));
+                var newInvitationsNb = resultNbInvitations - 1;
+                document.getElementById("btShowMyInvitations").innerHTML = '<i class="fa fa-user-plus" aria-hidden="true"></i> Invitations ('+newInvitationsNb+')';
+                document.getElementById("btNewInvitation"+id).innerHTML = "<i class='fa fa-times' aria-hidden='true'></i> Vous avez refusé l'invitation.";
             }
+            else{
+                document.getElementById("btNewInvitation"+id).innerHTML = "<strong><i class='fa fa-times' aria-hidden='true'></i> Vous avez refusé l'invitation.</strong>";
+            }
+        }
+    });
+}
+function sendInvitation(id){
+    document.getElementById("loadSendInvit").style.display = 'block';
+    $.ajax({
+        type: 'GET',
+        url: '{{ path("isc_platform_homepage_send_invite_to_membre") }}',
+        data: {id: id},
+        success: function(data){
+            document.getElementById("loadSendInvit").style.display = 'none';
+            document.getElementById("btSendInvitation").className += "btn btn-primary disabled";
+            document.getElementById("successSendInvit").style.display = 'block';
         }
     });
 }

@@ -5,6 +5,7 @@ namespace ISC\PlatformBundle\User;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Doctrine\ORM\EntityManager;
+use ISC\PlatformBundle\Entity\UserFriend;
 
 class ISCUser
 {
@@ -132,5 +133,67 @@ class ISCUser
         $data = json_encode($data);
 
         return $data;
+    }
+
+    public function getListOfMyFriendHtml($idUser)
+    {
+        $myInformation = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUser));
+        $listOfMyFriendHtml = '';
+        $countCurrentInvite = 0;
+        foreach ($myInformation->getFriends() as $friends) {
+            $urlProfilFriend = $this->router->generate('isc_platform_profil_membres', array('username' => $friends->getFriend()->getUsername()));
+            $countCurrentInvite++;
+            $listOfMyFriendHtml .= '<div><img style="vertical-align:middle;max-height:50px;" src="'.$friends->getFriend()->getUrlAvatar().'"><span style=""><strong><a href="'.$urlProfilFriend.'">'.$friends->getFriend()->getUsername().'</a></strong></span></div>';
+            if(count($myInformation->getFriends()) != $countCurrentInvite){
+                $listOfMyFriendHtml .= '<hr>';
+            }
+        }
+        return $listOfMyFriendHtml;
+    }
+
+    /**
+     * @param $idUser
+     * @param $idUserToSend
+     */
+    public function sendInvitation($idUser, $idUserToSend)
+    {
+        $myInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUser));
+        $userInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUserToSend));
+        $UserFriend = new UserFriend();
+        $UserFriend->setUser($myInformations);
+        $UserFriend->setFriend($userInformations);
+        $UserFriend->setApprovedFriend(false);
+        $this->em->persist($UserFriend);
+        $this->em->flush();
+    }
+
+    /**
+     * @param $idUser
+     * @param $idUserToSend
+     */
+    public function setAcceptInvitation($idUser, $idUserToSend)
+    {
+        $myInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUser));
+        $userInformations = $this->em->getRepository("ISCUserBundle:User")->findOneBy(array('id' => $idUserToSend));
+        $myInvitation = $this->em->getRepository("ISCPlatformBundle:UserFriend")->findOneBy(array('user' => $idUserToSend, 'friend' => $idUser));
+        $myInvitation->setApprovedFriend(true);
+        $this->em->persist($myInvitation);
+        $UserFriend = new UserFriend();
+        $UserFriend->setUser($myInformations);
+        $UserFriend->setFriend($userInformations);
+        $UserFriend->setApprovedFriend(true);
+        $this->em->persist($UserFriend);
+        $this->em->flush();
+    }
+
+    /**
+     * @param $idUser
+     * @param $idUserToSend
+     */
+    public function setRefuseInvitation($idUser, $idUserToSend)
+    {
+        $myInvitation = $this->em->getRepository("ISCPlatformBundle:UserFriend")->findOneBy(array('user' => $idUserToSend, 'friend' => $idUser));
+        $this->em->remove($myInvitation);
+        $this->em->flush();
     }
 }

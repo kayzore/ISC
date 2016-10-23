@@ -110,4 +110,20 @@ class ActiviteRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getMyImages($idUser)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb
+            ->where('a.user = :idUser')
+            ->setParameter('idUser', $idUser)
+            ->andWhere('a.approved = true')
+            ->leftJoin('a.image', 'image')
+            ->addSelect('image')
+            ->andWhere('image.urlImage IS NOT NULL')
+            ->orderBy('a.datetimeActivity', 'DESC');
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
 }

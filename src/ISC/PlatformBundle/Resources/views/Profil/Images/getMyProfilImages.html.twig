@@ -1,0 +1,97 @@
+<div class="row">
+    {{ include("ISCPlatformBundle:Profil:menu.html.twig") }}
+    <div class="col-lg-8">
+        <div class="row" id="links" style="padding:20px;margin-bottom:20px;">
+            {% if userActivites|length > 0 %}
+                {% for activite in userActivites %}
+                    <div class="col-lg-2" style="text-align: center;">
+                        <a href="{{ activite.image.urlImage }}" title="Image de {{ userInformation.username }}" style="text-decoration:none" data-gallery>
+                            <img src="{{ activite.image.urlImage }}" alt="Image de {{ userInformation.username }}" style="max-width: 120px;height:80px;">
+                        </a>
+                        <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete{{ activite.image.id }}">Supprimer</a>
+                        <a href="{{ path("isc_platform_homepage_pixie_actualite", { 'filename': activite.image.imageName, 'idActu': activite.id }) }}" class="btn btn-primary btn-xs disabled">Modifier</a>
+                        <a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#url{{ activite.image.id }}">Voir lien</a>
+                    </div>
+                    <div id="delete{{ activite.image.id }}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Confirmation de suppression</h4>
+                                </div>
+                                <div class="modal-body" style="text-align: center;">
+                                    <p>Vous êtes sur le point de supprimer cette image :</p>
+                                    <img src="{{ activite.image.urlImage }}" alt="Image de {{ userInformation.username }}" style="max-width: 120px;height:80px;">
+                                    <p>Cette action est irreversible, êtes-vous sûr de vouloir supprimer cette image ?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#" class="btn btn-danger disabled">Supprimer</a>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="url{{ activite.image.id }}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Url de votre image</h4>
+                                </div>
+                                <div class="modal-body" style="text-align: center;">
+                                    <p>Vous trouverez ci-dessous l'url de votre image accessible à tout public non inscrit sur ImageShareCommu.</p>
+                                    <p><strong>Url à partager : </strong><input type="text" class="form-control" value="{{ url('isc_platform_view_image_public', { 'username': userInformation.username, 'idActu': activite.id }) }}"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="row" style="margin-top:30px;">
+                    <div class="alert alert-warning"><strong>Information :</strong> Nous n'avons rien à afficher... Afin de remedier à cela, ajouter une actualité avec une image !</div>
+                </div>
+            {% endif %}
+        </div>
+        <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
+        <div id="blueimp-gallery" class="blueimp-gallery">
+            <!-- The container for the modal slides -->
+            <div class="slides"></div>
+            <!-- Controls for the borderless lightbox -->
+            <h3 class="title"></h3>
+            <a class="prev">‹</a>
+            <a class="next">›</a>
+            <a class="close">×</a>
+            <a class="play-pause"></a>
+            <ol class="indicator"></ol>
+            <!-- The modal dialog, which will be used to wrap the lightbox content -->
+            <div class="modal fade" style="overflow-y: auto;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body next"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left prev">
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                Previous
+                            </button>
+                            <button type="button" class="btn btn-primary next">
+                                Next
+                                <i class="glyphicon glyphicon-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

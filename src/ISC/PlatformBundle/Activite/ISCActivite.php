@@ -105,6 +105,12 @@ class ISCActivite extends \Twig_Extension
         return $listMyActivites;
     }
 
+    public function getMyImages($idUser)
+    {
+        $listMyImage = $this->em->getRepository("ISCPlatformBundle:Activite")->getMyImages($idUser);
+        return $listMyImage;
+    }
+
     /**
      * @param $idLastActu
      * @param $idUser
